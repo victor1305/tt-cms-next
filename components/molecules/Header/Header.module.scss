@@ -1,0 +1,90 @@
+@import '@/styles/principals/_colors.scss';
+
+.navbar {
+  height: 70px;
+  width: 100%;
+  background: $color-secondary-100;
+  color: $color-neutral-00;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid $color-secondary-80;
+  font-weight: bold;
+  font-size: 14px;
+
+  &__logo {
+    text-decoration: none;
+    margin-left: 100px;
+    font-family: var(--font-allura);
+    font-size: 44px;
+  }
+
+  &__links {
+    display: grid;
+    grid-template-columns: repeat(5, auto);
+    grid-gap: 20px;
+    list-style: none;
+    margin-right: 100px;
+  }
+
+  &__link {
+    text-decoration: none;
+    transition: 0.3s all;
+    font-weight: 600;
+
+    &--active {
+      color: $color-primary-100 !important;
+    }
+    :hover {
+      color: $color-primary-60;
+    }
+  }
+
+  &__icon {
+    display: none;
+    font-size: 2rem;
+    cursor: pointer;
+  }
+
+  @media only screen and (max-width: 500px) {
+    position: fixed;
+    z-index: 2;
+
+    &__logo {
+      margin-left: 25px;
+    }
+
+    &__links {
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      text-align: center;
+      width: 100%;
+      top: 80px;
+      left: -100%;
+      transition: 0.5s all;
+      padding-left: 0px;
+      margin: 0;
+      overflow-y: overlay;
+
+      &--active {
+        background: $color-secondary-100 !important;
+        left: 0;
+        z-index: 2;
+        top: 71px;
+        height: calc(100vh - 112px);
+        padding-top: 50px;
+      }
+    }
+
+    &__item {
+      padding: 20px 0;
+      font-size: 18px;
+    }
+
+    &__icon {
+      display: flex;
+      margin-right: 20px;
+    }
+  }
+}

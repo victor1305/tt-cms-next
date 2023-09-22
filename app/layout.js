@@ -1,5 +1,7 @@
 import { Krub, Allura } from "next/font/google";
 
+import { Header } from "@/components/molecules";
+
 import "@/styles/globals.scss";
 
 export const metadata = {
@@ -26,7 +28,10 @@ const allura = Allura({
 export default function RootLayout({ children }) {
   return (
     <html lang="es" className={`${krub.variable} ${allura.variable}`}>
-      <body>{children}</body>
+      <body>
+        <Header />
+        {children}
+      </body>
     </html>
   );
 }
