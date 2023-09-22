@@ -1,0 +1,46 @@
+@import "@/styles/principals/_colors.scss";
+
+.home-container {
+  &__login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 200px;
+    color: $color-neutral-00;
+
+    > h4 {
+      font-size: 45px;
+
+      > span {
+        font-family: var(--font-allura);
+        font-size: 55px;
+      }
+    }
+  }
+
+  &__buttons-container {
+    display: flex;
+    width: 880px;
+    margin: 0 auto;
+
+    div {
+      text-align: center;
+      margin-top: 150px;
+    }
+  }
+
+  @media screen and (max-width: 1024px) {
+    padding-top: 40px;
+    background-color: rgb(23, 23, 26) !important;
+    background: linear-gradient(rgb(34, 37, 49) 0%, rgba(34, 37, 49, 0) 460px);
+
+    &__buttons-container {
+      width: 370px;
+      flex-direction: column;
+
+      div {
+        margin-top: 10px;
+      }
+    }
+  }
+}
