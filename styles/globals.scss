@@ -16,6 +16,24 @@ body {
   background: linear-gradient(rgb(34, 37, 49) 0%, rgba(34, 37, 49, 0) 460px);
 }
 
+h1 {
+  text-align: center;
+  margin: 0;
+  padding-top: 25px;
+  color:#fff;
+  font-size: 26px;
+}
+
+h2 {
+  text-align: center;
+  margin: 0;
+  color: $color-primary-100;
+}
+
+p {
+  margin: 0;
+}
+
 a:link {
   text-decoration: none;
   color: inherit;

@@ -1,0 +1,22 @@
+@import '@/styles/principals/_colors.scss';
+
+.stats {
+  margin: 20px 40px 0;
+  border-radius: 5px;
+  border: 2px solid $color-secondary-80;
+  padding-bottom: 10px;
+  color: $color-neutral-00;
+
+  &__subtitle {
+    background-color: $color-secondary-100;
+    padding: 10px;
+    border-bottom: 1px solid $color-secondary-80;
+    text-align: center;
+
+    p {
+      font-weight: 700;
+      color: $color-neutral-00;
+    }
+  }
+
+}

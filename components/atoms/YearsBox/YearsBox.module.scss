@@ -1,0 +1,27 @@
+@import '@/styles/principals/_colors.scss';
+
+.years {
+  border: 2px solid $color-secondary-80;
+  width: 490px;
+  margin: 20px auto;
+  display: block;
+  padding: 16px 40px 8px;
+  display: flex;
+  align-items: baseline;
+
+  div {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+
+    a {
+      width: 35px;
+      margin: 0 15px 8px;
+      font-size: 14px;
+    }
+  }
+
+  &--active {
+    color: $color-primary-100 !important;
+  }
+}
