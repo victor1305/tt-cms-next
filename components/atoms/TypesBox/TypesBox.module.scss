@@ -1,0 +1,30 @@
+@import '@/styles/principals/_colors.scss';
+
+.types {
+  border: 2px solid $color-secondary-80;
+  width: 490px;
+  margin: 20px auto;
+  display: block;
+  padding: 16px 40px;
+  display: flex;
+  align-items: baseline;
+
+  div {
+    width: 456px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-evenly;
+
+    span {
+      text-align: center;
+      margin: 0 15px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+  }
+
+  &--active {
+    color: $color-primary-100 !important;
+  }
+}
