@@ -3,7 +3,12 @@ import React from 'react';
 import styles from './TypesBox.module.scss';
 
 const TypesBox = ({ type, setType }) => {
-  const typesArr = ['month', 'category', 'racecourse', 'stake'];
+  const typesArr = [
+    { type: 'month', name: 'Mes' },
+    { type: 'racecourse', name: 'Hipódromo' },
+    { type: 'stake', name: 'Stake' },
+    { type: 'category', name: 'Categoría' }
+  ];
 
   return (
     <div className={styles['types']}>
@@ -12,12 +17,14 @@ const TypesBox = ({ type, setType }) => {
         {typesArr.map((elm, index) => (
           <span
             key={index}
-            onClick={() => setType(elm)}
+            onClick={() => setType(elm.type)}
             className={`${
-              type === elm.toString() ? styles['types--active'] : ''
+              type === elm.type || (!type && elm.type === 'month')
+                ? styles['types--active']
+                : ''
             }`}
           >
-            {elm}
+            {elm.name}
           </span>
         ))}
       </div>

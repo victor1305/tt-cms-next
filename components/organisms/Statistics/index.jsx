@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Stats } from '@/components/molecules';
 import { YearsBox } from '@/components/atoms';
+import { Stats } from '@/components/molecules';
 
 import styles from './Statistics.module.scss';
 

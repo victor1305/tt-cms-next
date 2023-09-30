@@ -1,17 +1,91 @@
-"use client";
+'use client';
 
-import { useState } from "react";
+import { useState, useEffect } from 'react';
+import DotLoader from 'react-spinners/DotLoader';
 
-import { TypesBox } from "@/components/atoms";
+import { getStatsByType } from '@/lib/https';
 
-const Stats = ({statsRes, balancesRes, yearSelected}) => {
+import { StatsTable, TypesBox } from '@/components/atoms';
 
-  const [type, setType] = useState('month');
+import styles from './Stats.module.scss';
+
+const Stats = ({ statsRes, balancesRes, yearSelected }) => {
+  const [type, setType] = useState('');
+  const [bets, setBets] = useState(statsRes);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const typeTraduction =
+    !type || type === 'month'
+      ? 'Mes'
+      : type === 'category'
+      ? 'Categoría'
+      : type === 'stake'
+      ? 'Stake'
+      : 'Hipódromo';
+
+  const tableHeader = [
+    typeTraduction,
+    'Apuestas',
+    'Aciertos',
+    'Fallos',
+    'Nulos',
+    'Acierto',
+    'Stake Medio',
+    'Uds Jugadas',
+    'Yield',
+    'Profit'
+  ];
+
+  const arrKeys = [
+    !type ? 'month' : type,
+    'bets',
+    'wins',
+    'loss',
+    'voids',
+    'win_percent',
+    'medium_stake',
+    'units_staked',
+    'yield',
+    'profit'
+  ];
+
+  console.log(balancesRes);
+
+  useEffect(() => {
+    const getStats = async () => {
+      setIsLoading(true);
+      const res = await getStatsByType({ year: yearSelected, type });
+      setBets(res);
+      setIsLoading(false);
+    };
+
+    type && getStats();
+  }, [type, yearSelected]);
 
   return (
-  <div>
-    <TypesBox {...{ type, setType }} />
-  </div>
+    <div>
+      {isLoading ? (
+        <div className={styles['stats--spinner']}>
+          <DotLoader color={'#3860fb'} loading={isLoading} size={90} />
+        </div>
+      ) : (
+        <>
+          <h2>
+            Estadísticas por {typeTraduction}, Año {yearSelected}
+          </h2>
+          {yearSelected > 2020 && <TypesBox {...{ type, setType }} />}
+          <StatsTable
+            {...{
+              bets,
+              arrKeys,
+              tableHeader,
+              statsType: typeTraduction,
+              type: !type ? 'month' : type
+            }}
+          />
+        </>
+      )}
+    </div>
   );
 };
 

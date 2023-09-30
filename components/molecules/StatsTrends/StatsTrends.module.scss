@@ -1,0 +1,47 @@
+@import '@/styles/principals/_colors.scss';
+
+.trends {
+  margin: 20px 40px;
+  border-radius: 5px;
+  border: 1px solid $color-secondary-80;
+  padding-bottom: 15px;
+  width: 340px;
+
+  &__title-container {
+    margin-bottom: 10px;
+    background-color: $color-secondary-100;
+    padding: 10px;
+    border-bottom: 1px solid $color-secondary-80;
+    text-align: center;
+
+    > p {
+      font-weight: bold;
+      margin: 0;
+    }
+  }
+
+  &__input-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 300px;
+    margin: 10px auto;
+
+    &__date-input {
+      padding: 5px;
+      font-size: 15px;
+      background-color: $color-neutral-00;
+      border: 1px solid $color-secondary-80;
+      color: $color-secondary-80;
+      border-radius: 3px;
+      text-align: left;
+      width: 190px;
+      cursor: pointer;
+    }
+  }
+
+  @media screen and (max-width: 1024px) {
+    margin: 10px auto;
+    font-size: 14px;
+  }
+}

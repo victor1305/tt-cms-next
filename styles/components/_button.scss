@@ -6,7 +6,7 @@
   border: 0px;
   margin: 10px;
   width: 200px;
-  color: #fff;
+  color: $color-neutral-00;
 
   &:disabled {
     cursor: not-allowed;
@@ -21,4 +21,17 @@
       background-color: $color-primary-80;
     }
   }
+}
+
+.card-btn {
+  width: 75px;
+  cursor: pointer;
+  background-color: $color-secondary-60;
+  padding: 5px 10px;
+  border: 1px solid $color-secondary-60;
+  color: $color-neutral-00;
+  border-radius: 5px;
+}
+.card-btn:hover {
+  background-color: $color-primary-80;
 }

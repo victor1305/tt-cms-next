@@ -1,0 +1,18 @@
+@import '@/styles/principals/_colors.scss';
+
+.trend-box {
+  margin: 0;
+  padding: 8px 15px;
+
+  &--blue {
+    color: $color-void;
+  }
+
+  &--red {
+    color: $color-loss;
+  }
+
+  &--green {
+    color: $color-win;
+  }
+}

@@ -8,7 +8,6 @@ html {
 
 body {
   margin: 0;
-  /* padding-bottom: 30px; MIRAR*/
   font-family: var(--font-krub);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -26,6 +25,7 @@ h1 {
 
 h2 {
   text-align: center;
+  font-weight: 600;
   margin: 0;
   color: $color-primary-100;
 }
