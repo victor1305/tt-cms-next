@@ -81,4 +81,27 @@
       text-align: center;
     }
   }
+
+  @media screen and (max-width: 424px) {
+    tbody > tr {
+      td {
+        padding: 5px;
+        text-align: center;
+      }
+    }
+  }
+
+  @media screen and (max-width: 360px) {
+    th {
+      font-size: 14px;
+      padding: 5px;
+    }
+
+    tbody > tr {
+      td {
+        padding: 5px;
+        font-size: 14px;
+      }
+    }
+  }
 }

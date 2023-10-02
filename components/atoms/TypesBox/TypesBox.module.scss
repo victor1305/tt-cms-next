@@ -31,4 +31,24 @@
   &--active {
     color: $color-primary-100 !important;
   }
+
+  @media screen and (max-width: 1024px) {
+    width: auto;
+    padding: 16px 19px 8px;
+    margin: 20px;
+
+    div {
+      width: auto;
+      span {
+        width: 70px;
+        margin: 0 10px 8px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 450px) {
+    div > span {
+      text-align: left;
+    }
+  }
 }

@@ -41,7 +41,18 @@
   }
 
   @media screen and (max-width: 1024px) {
+    width: auto;
     margin: 10px auto;
     font-size: 14px;
+
+    &__input-container {
+      width: auto;
+      justify-content: space-evenly;
+  
+      &__date-input {
+        width: 150px;
+      }
+    }
   }
+
 }
