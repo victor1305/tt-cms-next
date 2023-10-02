@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
-import { FiMenu, FiX } from "react-icons/fi";
 import React, { useState } from "react";
+import { FiMenu, FiX } from "react-icons/fi";
 
 import { navbarPaths } from "@/lib/constants";
 

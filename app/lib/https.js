@@ -30,8 +30,9 @@ export const getStatsByMonth = async ({ year }) => {
 };
 
 export const getBalances = async () => {
-  // const url = `${apiBetsUrl}all-balances`
-  // const res = await fetch(url);
-  // return await res.json();
-  return 'SIUUUUU';
+  const url = `${apiBetsUrl}all-balances`;
+  const res = await fetch(url, { next: { revalidate: 0 } });
+  const { data } = await res.json();
+
+  return data;
 };

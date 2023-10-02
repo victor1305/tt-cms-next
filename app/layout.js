@@ -1,28 +1,28 @@
-import { Krub, Allura } from "next/font/google";
+import { Krub, Allura } from 'next/font/google';
 
-import { Header } from "@/components/molecules";
+import { Header } from '@/components/molecules';
 
-import "@/styles/globals.scss";
+import '@/styles/globals.scss';
 
 export const metadata = {
-  title: "CMS Turftiptster",
-  description: "Panel de gestión de Turftipster",
+  title: 'CMS Turftiptster',
+  description: 'Panel de gestión de Turftipster'
 };
 
 const krub = Krub({
-  weight: ["200", "300", "400", "500", "600", "700"],
-  style: ["normal", "italic"],
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-krub"
+  weight: ['200', '300', '400', '500', '600', '700'],
+  style: ['normal', 'italic'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-krub'
 });
 
 const allura = Allura({
-  weight: ["400"],
-  style: ["normal"],
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-allura"
+  weight: ['400'],
+  style: ['normal'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-allura'
 });
 
 export default function RootLayout({ children }) {
@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
     <html lang="es" className={`${krub.variable} ${allura.variable}`}>
       <body>
         <Header />
-        {children}
+        <div className="main">{children}</div>
       </body>
     </html>
   );

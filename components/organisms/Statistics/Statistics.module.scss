@@ -1,11 +1,12 @@
 @import '@/styles/principals/_colors.scss';
 
 .stats {
-  margin: 20px 40px 0;
+  margin: 20px 40px 40px;
   border-radius: 5px;
   border: 2px solid $color-secondary-80;
   padding-bottom: 10px;
   color: $color-neutral-00;
+  position: relative;
 
   &__subtitle {
     background-color: $color-secondary-100;
@@ -19,4 +20,9 @@
     }
   }
 
+  &__trends {
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+  }
 }

@@ -6,7 +6,9 @@ const TrendBox = ({ copy, balance, isLoading = false }) => (
   <p className={styles['trend-box']}>
     {copy}
     {isLoading ? (
-      <PulseLoader color={'#3860fb'} loading={isLoading} />
+      <span className={styles['trend-box--loader']}>
+        <PulseLoader color={'#3860fb'} loading={isLoading} />
+      </span>
     ) : (
       <span
         className={

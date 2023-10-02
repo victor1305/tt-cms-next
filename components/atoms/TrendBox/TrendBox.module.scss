@@ -3,16 +3,28 @@
 .trend-box {
   margin: 0;
   padding: 8px 15px;
+  display: flex;
 
+  > span {
+    padding-left: 5px;
+  }
+
+  &--loader {
+    padding-left: 30px;
+  }
+  
   &--blue {
+    font-weight: 600;
     color: $color-void;
   }
 
   &--red {
+    font-weight: 600;
     color: $color-loss;
   }
 
   &--green {
+    font-weight: 600;
     color: $color-win;
   }
 }

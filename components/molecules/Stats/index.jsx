@@ -9,7 +9,7 @@ import { StatsTable, TypesBox } from '@/components/atoms';
 
 import styles from './Stats.module.scss';
 
-const Stats = ({ statsRes, balancesRes, yearSelected }) => {
+const Stats = ({ statsRes, yearSelected }) => {
   const [type, setType] = useState('');
   const [bets, setBets] = useState(statsRes);
   const [isLoading, setIsLoading] = useState(false);
@@ -48,8 +48,6 @@ const Stats = ({ statsRes, balancesRes, yearSelected }) => {
     'yield',
     'profit'
   ];
-
-  console.log(balancesRes);
 
   useEffect(() => {
     const getStats = async () => {

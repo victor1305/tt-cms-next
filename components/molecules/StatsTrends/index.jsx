@@ -3,8 +3,11 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 
+import { getRangeBalance } from '@/lib/https';
+
 import { TrendBox } from '@/components/atoms';
 
+import 'react-datepicker/dist/react-datepicker.css';
 import styles from './StatsTrends.module.scss';
 
 const StatsTrends = ({ balances }) => {
@@ -14,23 +17,30 @@ const StatsTrends = ({ balances }) => {
   const [startDate, endDate] = dateRange;
   const { todayResume, yesterdayResume, lastSevenDaysResume } = balances;
 
-  const getRangeBalance = async () => {
+  const handleDateChange = (update) => {
+    setDateRange(update);
+  };
+
+  const getRange = async () => {
     if ((startDate || endDate) === null) {
       return;
     }
 
-    const startDateFormated = startDate.toISOString();
-    const endDateFormated = endDate.toISOString();
+    const startDateFormated = dateRange[0].toISOString();
+    const endDateFormated = dateRange[1].toISOString();
 
     try {
       setIsLoading(true);
       const res = await getRangeBalance({ startDateFormated, endDateFormated });
-      setDaysRange(res);
-      setIsLoading(false);
+      if (res.length) {
+        setDaysRange(res[0].balance.toFixed(2));
+      } else {
+        setDaysRange(0);
+      }
     } catch (error) {
       console.log(error);
-      setIsLoading(false);
     }
+    setIsLoading(false);
   };
 
   return (
@@ -40,16 +50,16 @@ const StatsTrends = ({ balances }) => {
       </div>
 
       <div>
-        <TrendBox {...{ copy: 'Hoy:', balance: todayResume }} />
-        <TrendBox {...{ copy: 'Ayer:', balance: yesterdayResume }} />
+        <TrendBox {...{ copy: 'Hoy: ', balance: todayResume }} />
+        <TrendBox {...{ copy: 'Ayer: ', balance: yesterdayResume }} />
         <TrendBox
           {...{
-            copy: 'Últimos 7 Días (Contando Hoy):',
+            copy: 'Últimos 7 Días (Contando Hoy): ',
             balance: lastSevenDaysResume
           }}
         />
         <TrendBox
-          {...{ copy: 'Rango Personalizado:', balance: daysRange, isLoading }}
+          {...{ copy: 'Rango Personalizado: ', balance: daysRange, isLoading }}
         />
 
         <div className={styles['trends__input-container']}>
@@ -59,16 +69,10 @@ const StatsTrends = ({ balances }) => {
             selectsRange={true}
             startDate={startDate}
             endDate={endDate}
-            onChange={(update) => {
-              setDateRange(update);
-            }}
+            onChange={(update) => handleDateChange(update)}
             isClearable={true}
           />
-          <button
-            className="card-btn"
-            disabled={isLoading}
-            onClick={getRangeBalance}
-          >
+          <button className="card-btn" disabled={isLoading} onClick={getRange}>
             Enviar
           </button>
         </div>
