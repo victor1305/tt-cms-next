@@ -1,9 +1,7 @@
-import React from "react";
+import React from 'react';
 
-import { Principal } from "@/components/organisms";
+import { Principal } from '@/components/organisms';
 
 export default function Home() {
-  return (
-    <Principal />
-  );
+  return <Principal />;
 }

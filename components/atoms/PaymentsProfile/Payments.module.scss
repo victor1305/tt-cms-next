@@ -1,0 +1,82 @@
+@import '@/styles/principals/_colors.scss';
+
+.payments-table {
+  border-collapse: collapse;
+  border: 1px solid $color-secondary-80;
+  width: 800px;
+  margin: 0 auto;
+
+  &--head-tr {
+    background-color: $color-secondary-100;
+    padding: 5px;
+    margin: 0;
+  }
+
+  &__pay-status {
+    width: 50px;
+    height: 8px;
+    border-radius: 5px;
+    border: 1px solid $color-secondary-80;
+    margin: 0 auto;
+  }
+  &--td-name {
+    text-align: left !important;
+    padding-left: 30px !important;
+  }
+
+  td {
+    border: 1px solid $color-secondary-80;
+  }
+
+  th {
+    border: 1px solid $color-secondary-80;
+    text-align: center;
+    padding: 8px;
+    font-weight: 600;
+  }
+
+  thead > tr {
+    background-color: $color-secondary-100;
+    padding: 5px;
+    margin: 0;
+  }
+
+  tbody > tr {
+    td {
+      padding: 5px 10px;
+      text-align: center;
+    }
+  }
+
+  @media screen and (max-width: 1024px) {
+    width: 340px;
+    font-size: 14px;
+
+    &--td-name {
+      padding-left: 10px !important;
+    }
+  }
+
+  @media screen and (max-width: 424px) {
+    tbody > tr {
+      td {
+        padding: 5px;
+        text-align: center;
+      }
+    }
+  }
+
+  @media screen and (max-width: 360px) {
+    th {
+      font-size: 14px;
+      padding: 5px;
+    }
+
+    tbody > tr {
+      td {
+        padding: 5px;
+        font-size: 14px;
+      }
+    }
+  }
+}

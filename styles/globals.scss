@@ -25,7 +25,7 @@ h1 {
   text-align: center;
   margin: 0;
   padding-top: 25px;
-  color: #fff;
+  color: $color-neutral-00;
   font-size: 26px;
 }
 
@@ -51,5 +51,64 @@ a:visited {
 }
 
 a:hover {
-  color: #476cf8;
+  color: $color-primary-80;
+}
+
+.date-input {
+  padding: 5px;
+  font-size: 15px;
+  background-color: $color-neutral-00;
+  border: 1px solid $color-secondary-80;
+  color: $color-secondary-80;
+  border-radius: 3px;
+  margin-left: 10px;
+  text-align: center;
+  width: 75px;
+  cursor: pointer;
+}
+
+.status-green {
+  background-color: $color-win;
+}
+
+.status-orange {
+  background-color: $color-void;
+}
+
+.status-red {
+  background-color: $color-loss;
+}
+
+.text-win {
+  color: $color-win;
+}
+
+.text-void {
+  color: $color-void;
+}
+
+.text-loss {
+  color: $color-loss;
+}
+
+.card-link {
+  width: 75px;
+  cursor: pointer;
+  background-color: $color-secondary-60;
+  padding: 5px 10px;
+  border: 1px solid $color-secondary-60;
+  color: #fff;
+  border-radius: 5px;
+  font-size: 14px;
+
+  &:hover {
+    background-color: $color-primary-80;
+  }
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
 }

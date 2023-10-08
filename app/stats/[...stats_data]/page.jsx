@@ -4,15 +4,14 @@ import { getStatsByMonth, getBalances } from '@/app/lib/https';
 
 import { Statistics } from '@/components/organisms';
 
-export default async function Stats({ params }) {
+export default async function Page({ params }) {
   const [year] = params.stats_data;
 
-  const [statsRes, balancesRes] = await Promise.all([
-    getStatsByMonth({
-      year
-    }),
-    getBalances()
-  ]);
+  const statsRes = await getStatsByMonth({
+    year
+  });
+
+  const balancesRes = await getBalances();
 
   const start = 2010;
   const end = new Date().getFullYear();

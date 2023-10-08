@@ -1,0 +1,25 @@
+@import '@/styles/principals/_colors.scss';
+
+.profile {
+
+  h1 {
+    padding-bottom: 40px;
+  }
+
+  h2 {
+    padding-bottom: 20px;
+  }
+  
+  &__payments {
+    
+    margin: 20px 40px 0;
+    border-radius: 5px;
+    border: 2px solid $color-secondary-80;
+    color: $color-neutral-00;
+
+    &--first {
+      margin-bottom: 50px;
+    }
+  }
+
+}

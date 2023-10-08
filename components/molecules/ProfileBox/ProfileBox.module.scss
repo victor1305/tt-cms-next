@@ -1,0 +1,13 @@
+@import '@/styles/principals/_colors.scss';
+
+.box {
+  margin-top: 0;
+  background-color: $color-secondary-100;
+  padding: 10px;
+  border-bottom: 1px solid $color-secondary-80;
+  text-align: center;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  font-weight: 600;
+}

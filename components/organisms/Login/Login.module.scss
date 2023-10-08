@@ -1,0 +1,123 @@
+@import '@/styles/principals/_colors.scss';
+
+.login {
+  &__title-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 200px;
+    color: $color-neutral-00;
+
+    > h4 {
+      font-size: 45px;
+
+      > span {
+        font-family: var(--font-allura);
+        font-size: 55px;
+      }
+    }
+  }
+
+  &__logo-container {
+    width: 140px;
+  }
+
+  &__form-container {
+    margin: 0 auto;
+    width: 400px;
+    border-radius: 5px;
+    border: 2px solid $color-secondary-80;
+    color: $color-neutral-00;
+
+    &__title {
+      margin: 0;
+      background-color: $color-secondary-100;
+      padding: 10px;
+      border-bottom: 1px solid $color-secondary-80;
+      text-align: center;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    &__form {
+      padding: 20px;
+      display: grid;
+
+      &--label1 {
+        grid-column: 1 / 2;
+        grid-row: 1;
+      }
+
+      &--label2 {
+        grid-column: 1 / 2;
+        grid-row: 2;
+      }
+
+      &--input1 {
+        grid-column: 2 / 2;
+        grid-row: 1;
+      }
+
+      &--input2 {
+        grid-column: 2 / 2;
+        grid-row: 2;
+      }
+
+      label {
+        padding: 5px;
+        margin: 5px 0;
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      input {
+        padding: 5px;
+        margin: 5px 0;
+        font-size: 18px;
+        background-color: $color-neutral-00;
+        border: 1px solid $color-secondary-60;
+        color: $color-secondary-60;
+        border-radius: 3px;
+        width: 200px;
+      }
+
+      &--error {
+        color: $color-loss;
+        padding: 10px;
+        font-weight: bold;
+        margin-top: 0;
+        text-align: center;
+      }
+
+      &--btn-container {
+        text-align: center;
+        margin: 10px auto 30px auto;
+      }
+    }
+  }
+
+  @media screen and (max-width: 1024px) {
+    &__title-container {
+      padding-top: 80px;
+      padding-bottom: 40px;
+      flex-direction: column;
+
+      > h4 {
+        margin: 30px auto;
+      }
+    }
+
+    &__form-container {
+      width: 350px;
+
+      label {
+        font-size: 16px;
+      }
+
+      input {
+        font-size: 16px;
+        width: 180px;
+      }
+    }
+  }
+}

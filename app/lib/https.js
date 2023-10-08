@@ -1,4 +1,4 @@
-import { apiBetsUrl } from '@/lib/constants';
+import { apiBetsUrl, apiClientsUrl } from '@/lib/constants';
 import stats2016 from '@/lib/historyStats/2016.json';
 import stats2017 from '@/lib/historyStats/2017.json';
 import stats2018 from '@/lib/historyStats/2018.json';
@@ -29,10 +29,25 @@ export const getStatsByMonth = async ({ year }) => {
   return data;
 };
 
+export const getBetsByMonth = async ({ month, year }) => {
+  const url = `${apiBetsUrl}lista-apuestas-mes?month=${month + 1}&year=${year}`;
+  const res = await fetch(url, { next: { revalidate: 0 } });
+  const { data } = await res.json();
+
+  return data;
+};
+
 export const getBalances = async () => {
   const url = `${apiBetsUrl}all-balances`;
   const res = await fetch(url, { next: { revalidate: 0 } });
   const { data } = await res.json();
 
+  return data;
+};
+
+export const getPaymentsByUser = async ({id, year, monthFormated}) => {
+  const url = `${apiClientsUrl}lista-apuestas-perfil/${id}/${year}/${monthFormated}`;
+  const res = await fetch(url, { next: { revalidate: 0 } });
+  const { data } = await res.json();
   return data;
 };
