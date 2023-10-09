@@ -9,7 +9,13 @@ import { weekDays } from '@/lib/constants';
 
 import styles from './MonthPlanning.module.scss';
 
-const MonthlyPlanner = ({ beginingDay, isLoading, monthDays, data }) => {
+const MonthlyPlanner = ({
+  isLoading,
+  monthDays,
+  data,
+  monthSelected,
+  yearSelected
+}) => {
   const getDayProfit = (index) =>
     index > 0 && data.length > 0
       ? data[index - 1].reduce((acc, elm) => acc + elm.profit, 0)
@@ -22,10 +28,13 @@ const MonthlyPlanner = ({ beginingDay, isLoading, monthDays, data }) => {
       const elm3 = document.querySelector('#planning-day-21');
       const elm4 = document.querySelector('#planning-day-28');
       const elm5 = document.querySelector('#planning-day-35');
-      const elm6 =
-        document.querySelectorAll('.planning-day')[
-          document.querySelectorAll('.planning-day').length - 1
-        ];
+      const elm6 = document.querySelectorAll(
+        '.MonthPlanning_monthly-planner__days__day__jx32s'
+      )[
+        document.querySelectorAll(
+          '.MonthPlanning_monthly-planner__days__day__jx32s'
+        ).length - 1
+      ];
       elm1.style.borderRight = '1px solid rgb(34, 37, 49)';
       elm2.style.borderRight = '1px solid rgb(34, 37, 49)';
       elm3.style.borderRight = '1px solid rgb(34, 37, 49)';
@@ -56,15 +65,15 @@ const MonthlyPlanner = ({ beginingDay, isLoading, monthDays, data }) => {
           </div>
           <div className={styles['monthly-planner__days']}>
             {monthDays.length &&
-              monthDays.map((index) => (
+              monthDays.map((dayNumber, index) => (
                 <div
                   className={styles['monthly-planner__days__day']}
-                  key={index}
-                  id={`planning-day-${index + beginingDay - 1}`}
+                  key={dayNumber}
+                  id={`planning-day-${index + 1}`}
                 >
-                  {index > 0 && (
+                  {dayNumber > 0 && (
                     <div>
-                      {data[index - 1] && data[index - 1].length > 0 ? (
+                      {data[dayNumber - 1] && data[dayNumber - 1].length > 0 ? (
                         <>
                           <p
                             className={
@@ -72,33 +81,32 @@ const MonthlyPlanner = ({ beginingDay, isLoading, monthDays, data }) => {
                             }
                           >
                             <span>
-                              {data[index - 1].length}{' '}
-                              {data[index - 1].length === 1
+                              {data[dayNumber - 1].length}{' '}
+                              {data[dayNumber - 1].length === 1
                                 ? 'Apuesta'
                                 : 'Apuestas'}
                             </span>
-                            {index > 0 && index}
+                            {dayNumber > 0 && dayNumber}
                           </p>
                           <div>
                             <p
                               className={classNames(
                                 styles['monthly-planner__days__day--profit'],
                                 {
-                                  'text-win': getDayProfit(index) > 0,
-                                  'text-loss': getDayProfit(index) < 0,
-                                  'text-void': getDayProfit(index) === 0
+                                  'text-win': getDayProfit(dayNumber) > 0,
+                                  'text-loss': getDayProfit(dayNumber) < 0,
+                                  'text-void': getDayProfit(dayNumber) === 0
                                 }
                               )}
                             >
-                              {getDayProfit(index).toFixed(2)} Uds
+                              {getDayProfit(dayNumber).toFixed(2)} Uds
                             </p>
                             <Link
                               href={{
-                                pathname: `/detalle-dia/${data[index - 1]._id}`
+                                pathname: `/detalle-dia/${yearSelected}-${monthSelected}-${dayNumber}`
                               }}
                             >
                               <span className="card-link">Detalle</span>
-                              
                             </Link>
                           </div>
                         </>
@@ -107,7 +115,7 @@ const MonthlyPlanner = ({ beginingDay, isLoading, monthDays, data }) => {
                           <p
                             className={`${styles['monthly-planner__days__day--date']} ${styles['monthly-planner__days__day--no-bets']}`}
                           >
-                            {index > 0 && index}
+                            {dayNumber > 0 && dayNumber}
                           </p>
                           <div>
                             <p

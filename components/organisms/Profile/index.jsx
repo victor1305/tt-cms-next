@@ -4,7 +4,11 @@ import React, { useState, useEffect } from 'react';
 
 import { dayPlannerMapping } from '@/lib/constants';
 import { getPaymentsByUser } from '@/lib/https';
-import { getMonthFormatted, numberToMonth } from '@/lib/utils';
+import {
+  getDateFormatted,
+  getMonthFormatted,
+  numberToMonth
+} from '@/lib/utils';
 
 import { MonthlyPlanner } from '@/components/atoms';
 import { ProfileBox, PaymentsBox } from '@/components/molecules';
@@ -30,18 +34,16 @@ const Profile = ({ userPays, name, id, betsByMonth }) => {
   const yearBets = startDateBets.getFullYear();
   const monthBets = numberToMonth(startDateBets.getMonth());
 
-  const dateFormated = `${yearBets}-${
-    startDateBets.getMonth() + 1 < 10
-      ? `0${startDateBets.getMonth() + 1}`
-      : startDateBets.getMonth() + 1
-  }-01 05:00:22`;
+  const dateFormated = `${yearBets}-${getMonthFormatted(
+    startDateBets.getMonth()
+  )}-01 05:00:22`;
   const beginingDay = new Date(dateFormated).getDay();
   const day = dayPlannerMapping[beginingDay];
 
   const calculateNumberDaysOnMonth = () => {
     const monthNumberDays = new Date(
       yearBets,
-      startDateBets.getMonth() + 1,
+      getMonthFormatted(startDateBets.getMonth()),
       0
     ).getDate();
     const months = [];
@@ -59,19 +61,19 @@ const Profile = ({ userPays, name, id, betsByMonth }) => {
         (elm) =>
           new Date(elm.date) >
             new Date(
-              `${yearBets}-${
-                startDateBets.getMonth() + 1 < 10
-                  ? `0${startDateBets.getMonth() + 1}`
-                  : startDateBets.getMonth() + 1
-              }-${i < 10 ? `0${i}` : i}T00:00:00.951+00:00`
+              `${getDateFormatted(
+                yearBets,
+                startDateBets.getMonth() + 1,
+                i
+              )}T00:00:00.951+00:00`
             ) &&
           new Date(elm.date) <
             new Date(
-              `${yearBets}-${
-                startDateBets.getMonth() + 1 < 10
-                  ? `0${startDateBets.getMonth() + 1}`
-                  : startDateBets.getMonth() + 1
-              }-${i < 10 ? `0${i}` : i}T23:59:59.951+00:00`
+              `${getDateFormatted(
+                yearBets,
+                startDateBets.getMonth() + 1,
+                i
+              )}T23:59:59.951+00:00`
             )
       );
       arrayDays.push(dayData);
@@ -144,9 +146,10 @@ const Profile = ({ userPays, name, id, betsByMonth }) => {
           {payments.length ? (
             <MonthlyPlanner
               isLoading={isBetsLoading}
-              beginingDay={beginingDay}
               monthDays={calculateNumberDaysOnMonth()}
               data={dataFormated()}
+              monthSelected={getMonthFormatted(startDateBets.getMonth())}
+              yearSelected={yearBets}
             />
           ) : (
             <p className={styles['profile__payments__no-payments']}>
