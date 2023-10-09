@@ -2,10 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 
-import { dayPlannerMapping } from '@/lib/constants';
-import { getPaymentsByUser } from '@/lib/https';
+import { getBetsByMonth, getPaymentsByUser } from '@/lib/https';
 import {
-  getDateFormatted,
+  getDataFormatted,
   getMonthFormatted,
   numberToMonth
 } from '@/lib/utils';
@@ -17,12 +16,12 @@ import 'react-datepicker/dist/react-datepicker.css';
 import styles from './Profile.module.scss';
 
 const Profile = ({ userPays, name, id, betsByMonth }) => {
-  const [payments, setPayments] = useState(userPays);
-  const [bets, setbets] = useState(betsByMonth);
-
   const [startDatePayments, setStartDatePayments] = useState(new Date());
   const [startDateBets, setStartDateBets] = useState(new Date());
-
+  const [payments, setPayments] = useState(userPays);
+  const [data, setData] = useState(
+    getDataFormatted(betsByMonth, startDateBets)
+  );
   const [isPaymentsLoading, setIsPaymentsLoading] = useState(false);
   const [isFirstPaymentsRender, setIsFirstPaymentsRender] = useState(true);
   const [isBetsLoading, setIsBetsLoading] = useState(false);
@@ -34,62 +33,15 @@ const Profile = ({ userPays, name, id, betsByMonth }) => {
   const yearBets = startDateBets.getFullYear();
   const monthBets = numberToMonth(startDateBets.getMonth());
 
-  const dateFormated = `${yearBets}-${getMonthFormatted(
-    startDateBets.getMonth()
-  )}-01 05:00:22`;
-  const beginingDay = new Date(dateFormated).getDay();
-  const day = dayPlannerMapping[beginingDay];
-
-  const calculateNumberDaysOnMonth = () => {
-    const monthNumberDays = new Date(
-      yearBets,
-      getMonthFormatted(startDateBets.getMonth()),
-      0
-    ).getDate();
-    const months = [];
-    for (let i = day; i <= monthNumberDays; i++) {
-      months.push(i);
-    }
-
-    return months;
-  };
-
-  const dataFormated = () => {
-    const arrayDays = [];
-    for (let i = 1; i <= calculateNumberDaysOnMonth().length; i++) {
-      const dayData = bets.filter(
-        (elm) =>
-          new Date(elm.date) >
-            new Date(
-              `${getDateFormatted(
-                yearBets,
-                startDateBets.getMonth() + 1,
-                i
-              )}T00:00:00.951+00:00`
-            ) &&
-          new Date(elm.date) <
-            new Date(
-              `${getDateFormatted(
-                yearBets,
-                startDateBets.getMonth() + 1,
-                i
-              )}T23:59:59.951+00:00`
-            )
-      );
-      arrayDays.push(dayData);
-    }
-    return arrayDays;
-  };
-
   useEffect(() => {
     const getNewBets = async () => {
       setIsBetsLoading(true);
-      const res = await getPaymentsByUser({
+      const res = await getBetsByMonth({
         id,
         year: startDateBets.getFullYear(),
-        monthFormated: getMonthFormatted(startDateBets.getMonth())
+        month: startDateBets.getMonth()
       });
-      setbets(res);
+      setData(getDataFormatted(res, startDateBets));
       setIsBetsLoading(false);
     };
 
@@ -146,8 +98,8 @@ const Profile = ({ userPays, name, id, betsByMonth }) => {
           {payments.length ? (
             <MonthlyPlanner
               isLoading={isBetsLoading}
-              monthDays={calculateNumberDaysOnMonth()}
-              data={dataFormated()}
+              monthDays={data.monthDays}
+              data={data.dataByDay}
               monthSelected={getMonthFormatted(startDateBets.getMonth())}
               yearSelected={yearBets}
             />
