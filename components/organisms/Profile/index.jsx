@@ -95,19 +95,13 @@ const Profile = ({ userPays, name, id, betsByMonth }) => {
           setIsFirstRender={setIsFirstBetsRender}
         />
         <>
-          {payments.length ? (
-            <MonthlyPlanner
-              isLoading={isBetsLoading}
-              monthDays={data.monthDays}
-              data={data.dataByDay}
-              monthSelected={getMonthFormatted(startDateBets.getMonth())}
-              yearSelected={yearBets}
-            />
-          ) : (
-            <p className={styles['profile__payments__no-payments']}>
-              No hay pagos que mostrar para {`${monthBets}-${yearBets}`}
-            </p>
-          )}
+          <MonthlyPlanner
+            isLoading={isBetsLoading}
+            monthDays={data.monthDays}
+            data={data.dataByDay}
+            monthSelected={getMonthFormatted(startDateBets.getMonth())}
+            yearSelected={yearBets}
+          />
         </>
       </div>
     </div>

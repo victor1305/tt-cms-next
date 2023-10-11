@@ -37,6 +37,14 @@ export const getBetsByMonth = async ({ month, year }) => {
   return data;
 };
 
+export const getPersonalBetsByMonth = async ({ month, year, id }) => {
+  const url = `${apiBetsUrl}lista-apuestas-personales-mes/${id}?month=${month + 1}&year=${year}`;
+  const res = await fetch(url, { next: { revalidate: 0 } });
+  const { data } = await res.json();
+
+  return data;
+};
+
 export const getBalances = async () => {
   const url = `${apiBetsUrl}all-balances`;
   const res = await fetch(url, { next: { revalidate: 0 } });

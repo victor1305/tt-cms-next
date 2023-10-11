@@ -1,0 +1,37 @@
+@import '@/styles/principals/_colors.scss';
+
+.basic-modal {
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(4px);
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  left: 0;
+  background-color: $color-neutral-100;
+
+  &--hidden {
+    display: none;
+  }
+
+  &--show {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__content {
+    background-color: $color-neutral-00;
+    padding: 10px;
+
+    @media only screen and (max-width: 1024px) {
+      width: 90% !important;
+    }
+  }
+
+  &__close-container {
+    line-height: 12px;
+    text-align: right;
+    border-radius: 12px;
+  }
+}
