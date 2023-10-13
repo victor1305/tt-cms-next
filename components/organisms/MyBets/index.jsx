@@ -10,13 +10,14 @@ import {
 } from '@/lib/utils';
 
 import { MonthlyPlanner } from '@/components/atoms';
-import { BtnsBox, ProfileBox } from '@/components/molecules';
+import { BtnsBox, PersonalBet, ProfileBox } from '@/components/molecules';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import styles from './MyBets.module.scss';
 
-const MyBets = ({ balances, id }) => {
+const MyBets = ({ balances, id, token }) => {
   const [startDate, setStartDate] = useState(new Date());
+  const [isModalBetOpen, setIsModalBetOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isFirstRender, setIsFirstRender] = useState(true);
   const [data, setData] = useState(getDataFormatted(balances, startDate));
@@ -25,7 +26,7 @@ const MyBets = ({ balances, id }) => {
   const month = numberToMonth(startDate.getMonth());
 
   const openModal = () => {
-    console.log('ABRO EL MODAL');
+    setIsModalBetOpen(true);
   };
 
   const btnsList = [
@@ -70,9 +71,17 @@ const MyBets = ({ balances, id }) => {
             data={data.dataByDay}
             monthSelected={getMonthFormatted(startDate.getMonth())}
             yearSelected={year}
+            type={'my-bets'}
           />
         </ProfileBox>
       </div>
+      <PersonalBet
+        formData={{}}
+        handleClose={() => setIsModalBetOpen(false)}
+        isEdit={false}
+        show={isModalBetOpen}
+        {...{ token, id }}
+      />
     </div>
   );
 };

@@ -23,6 +23,25 @@
   }
 }
 
+.form-btn {
+  width: 100px;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 5px 10px;
+  color: $color-neutral-00;
+  border: 0;
+  border-radius: 5px;
+
+  &--primary {
+    background-color: $color-primary-100;
+    color: $color-neutral-00;
+
+    &:hover {
+      background-color: $color-primary-80;
+    }
+  }
+}
+
 .card-btn {
   width: 75px;
   cursor: pointer;

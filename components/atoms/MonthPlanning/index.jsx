@@ -14,8 +14,11 @@ const MonthlyPlanner = ({
   monthDays,
   data,
   monthSelected,
-  yearSelected
+  yearSelected,
+  type
 }) => {
+  const typeContent = type === 'my-bets' ? 'Bookie' : 'Apuesta';
+  const path = type === 'my-bets' ? 'detalle-mis-apuestas' : 'detalle-apuesta';
   const getDayProfit = (index) =>
     index > 0 && data.length > 0
       ? data[index - 1].reduce((acc, elm) => acc + elm.profit, 0)
@@ -83,8 +86,8 @@ const MonthlyPlanner = ({
                             <span>
                               {data[dayNumber - 1].length}{' '}
                               {data[dayNumber - 1].length === 1
-                                ? 'Apuesta'
-                                : 'Apuestas'}
+                                ? typeContent
+                                : `${typeContent}s`}
                             </span>
                             {dayNumber > 0 && dayNumber}
                           </p>
@@ -99,11 +102,12 @@ const MonthlyPlanner = ({
                                 }
                               )}
                             >
-                              {getDayProfit(dayNumber).toFixed(2)} Uds
+                              {getDayProfit(dayNumber).toFixed(2)}{' '}
+                              {type === 'my-bets' ? '€' : 'Uds'}
                             </p>
                             <Link
                               href={{
-                                pathname: `/detalle-dia/${yearSelected}-${monthSelected}-${dayNumber}`
+                                pathname: `/${path}/${yearSelected}-${monthSelected}-${dayNumber}`
                               }}
                             >
                               <span className="card-link">Detalle</span>

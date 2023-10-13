@@ -13,7 +13,7 @@ const BasicModal = ({
   handleClose,
   children,
   hasXToClose,
-  closeWithClickOut
+  closeWithClickOut = false
 }) => {
   const ref = useOutsideClick(() => {
     if (closeWithClickOut) handleClose();
@@ -33,7 +33,7 @@ const BasicModal = ({
       >
         {hasXToClose && (
           <div className={styles['basic-modal__close-container']}>
-            <FaTimes />
+            <FaTimes onClick={handleClose} />
           </div>
         )}
         {children}

@@ -13,6 +13,7 @@ export const getUserData = async () => {
     if (tokenData) {
       response.status = 200;
       response.data = tokenData;
+      response.data.token = cookieStore.get('token')?.value;
     }
   }
   return response;
