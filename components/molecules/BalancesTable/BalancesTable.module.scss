@@ -1,0 +1,108 @@
+@import '@/styles/principals/_colors.scss';
+
+.table {
+  border-collapse: collapse;
+  border: 1px solid rgb(34, 37, 49);
+  max-width: 900px;
+  margin: 20px auto; 
+  color: $color-neutral-00;
+
+  &--align-left {
+    text-align: left !important;
+  }
+
+  &__bet {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin: 0 auto;
+
+    &--hide {
+      display: none !important;
+    }
+
+    &--hide-mobile {
+      display: table-cell;
+
+      @media screen and (max-width: 1024px) {
+        display: none;
+      }
+    }
+
+    &--win {
+      background-color: $color-win;
+    }
+
+    &--void {
+      background-color: $color-void;
+    }
+
+    &--loss {
+      background-color: $color-loss;
+    }
+  }
+
+  &__result {
+    font-weight: 700 !important;
+
+    &--win {
+      color: $color-win;
+    }
+
+    &--void {
+      color: $color-void;
+    }
+
+    &--loss {
+      color: $color-loss;
+    }
+  }
+
+  td {
+    border: 1px solid $color-secondary-80;
+  }
+
+  th {
+    border: 1px solid $color-secondary-80;
+    text-align: center;
+    padding: 8px;
+    font-weight: 600;
+  }
+
+  thead > tr {
+    background-color: $color-secondary-100;
+    padding: 5px;
+    margin: 0;
+  }
+
+  tbody > tr {
+    td {
+      height: 36px;
+      padding: 5px 10px;
+      text-align: center;
+    }
+  }
+
+  @media screen and (max-width: 424px) {
+    tbody > tr {
+      td {
+        padding: 5px;
+        text-align: center;
+      }
+    }
+  }
+
+  @media screen and (max-width: 360px) {
+    th {
+      font-size: 14px;
+      padding: 5px;
+    }
+
+    tbody > tr {
+      td {
+        padding: 5px;
+        font-size: 14px;
+      }
+    }
+  }
+}

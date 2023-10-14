@@ -20,6 +20,25 @@
     &--first {
       margin-bottom: 50px;
     }
+
+    &--last {
+      margin-bottom: 40px;
+    }
+
+    &__tables-container {
+      display: flex;
+      justify-content: space-evenly;
+    }
+
+    &__table-box {
+      max-width: 400px;
+      margin: 0 auto;
+      
+      h4 {
+        text-align: center;
+        color: $color-primary-100;
+      }
+    }
   }
 
 }

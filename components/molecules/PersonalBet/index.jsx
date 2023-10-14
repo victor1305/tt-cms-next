@@ -12,7 +12,15 @@ import { BasicModal } from '@/components/atoms';
 
 import styles from './PersonalBet.module.scss';
 
-const PersonalBet = ({ formData, handleClose, isEdit, show, token, id }) => {
+const PersonalBet = ({
+  formData,
+  handleClose,
+  isEdit,
+  show,
+  token,
+  id,
+  formSubmitted
+}) => {
   const [form, setForm] = useState(isEdit ? formData : defaultPersonalBetForm);
   const [formErrors, setFormErrors] = useState(false);
 
@@ -39,7 +47,8 @@ const PersonalBet = ({ formData, handleClose, isEdit, show, token, id }) => {
     } else {
       await createPersonalBet({ personalBet: form, isEdit, token, id });
     }
-    closeModal();
+    formSubmitted();
+    resetForm();
   };
 
   return (

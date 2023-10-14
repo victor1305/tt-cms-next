@@ -12,11 +12,12 @@ export default async function Page() {
   const year = new Date().getFullYear();
   const monthNumber = new Date().getMonth();
 
-  const balances = await getPersonalBetsByMonth({
+  const betsData = await getPersonalBetsByMonth({
     id,
     month: monthNumber,
     year,
     token
   });
-  return <MyBets {...{ id, balances, token }} />;
+
+  return <MyBets {...{ id, betsData, token }} />;
 }

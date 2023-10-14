@@ -48,7 +48,6 @@ export const getPersonalBetsByMonth = async ({ month, year, id, token }) => {
     }
   });
   const { data } = await res.json();
-
   return data;
 };
 

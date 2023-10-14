@@ -7,7 +7,7 @@ import styles from './ProfileBox.module.scss';
 
 const ProfileBox = ({
   text1,
-  text2,
+  text2 = '',
   startDate,
   setStartDate,
   setIsFirstRender,
@@ -16,20 +16,24 @@ const ProfileBox = ({
   <div>
     <h4 className={styles['box']}>
       {text1}
-      <span>
-        {text2}
-        <DatePicker
-          className="date-input"
-          dateFormat="MM/yyyy"
-          showMonthYearPicker
-          showFullMonthYearPicker
-          selected={startDate}
-          onChange={(date) => {
-            setStartDate(date), setIsFirstRender(false);
-          }}
-          showPopperArrow={false}
-        />
-      </span>
+      {(text2.length > 0 || startDate) && (
+        <span>
+          {text2.length > 0 && text2}
+          {startDate && setStartDate && (
+            <DatePicker
+              className="date-input"
+              dateFormat="MM/yyyy"
+              showMonthYearPicker
+              showFullMonthYearPicker
+              selected={startDate}
+              onChange={(date) => {
+                setStartDate(date), setIsFirstRender(false);
+              }}
+              showPopperArrow={false}
+            />
+          )}
+        </span>
+      )}
     </h4>
     {children}
   </div>

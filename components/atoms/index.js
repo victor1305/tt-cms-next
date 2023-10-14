@@ -1,3 +1,4 @@
+import BalancesTableRow from './BalancesTableRow';
 import BasicModal from './BasicModal';
 import MonthlyPlanner from './MonthPlanning';
 import PaymentsProfile from './PaymentsProfile';
@@ -9,6 +10,7 @@ import TypesBox from './TypesBox';
 import YearsBox from './YearsBox';
 
 export {
+  BalancesTableRow,
   BasicModal,
   MonthlyPlanner,
   PaymentsProfile,
