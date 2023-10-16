@@ -1,0 +1,36 @@
+@import '@/styles/principals/_colors.scss';
+
+.client-detail {
+  h1 {
+    padding-bottom: 40px;
+  }
+
+  &__content {
+    margin: 20px 40px 0;
+    border-radius: 5px;
+    border: 2px solid $color-secondary-80;
+    color: $color-neutral-00;
+
+    &__box {
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-start;
+
+      &--data {
+        margin: 0 auto;
+
+        p {
+          padding-bottom: 10px;
+
+          span {
+            font-weight: 600;
+          }
+        }
+      }
+    }
+
+    &--last {
+      margin-bottom: 40px;
+    }
+  }
+}

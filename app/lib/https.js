@@ -65,3 +65,22 @@ export const getPaymentsByUser = async ({ id, year, monthFormated }) => {
   const { data } = await res.json();
   return data;
 };
+
+export const getClientData = async ({ id }) => {
+  const url = `${apiClientsUrl}informacion-cliente/${id}`;
+  const res = await fetch(url, { next: { revalidate: 0 } });
+  const { data } = await res.json();
+  return data;
+};
+
+export const getPersonalBetsByDay = async ({ day, month, year, id, token }) => {
+  const url = `${apiBetsUrl}lista-apuestas-personales-dia/${id}?day=${day}&month=${month}&year=${year}`;
+  const res = await fetch(url, {
+    next: { revalidate: 0 },
+    headers: {
+      'auth-token': token
+    }
+  });
+  const { data } = await res.json();
+  return data;
+};

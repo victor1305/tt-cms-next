@@ -2,51 +2,27 @@
 
 import React, { useState, useEffect } from 'react';
 
-import { getBetsByMonth, getPaymentsByUser } from '@/lib/https';
+import { getPaymentsByUser } from '@/lib/https';
 import {
-  getDataFormatted,
   getMonthFormatted,
   numberToMonth
 } from '@/lib/utils';
 
-import { MonthlyPlanner } from '@/components/atoms';
 import { ProfileBox, PaymentsBox } from '@/components/molecules';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import styles from './Profile.module.scss';
 
-const Profile = ({ userPays, name, id, betsByMonth }) => {
+const Profile = ({ userPays, name, id }) => {
   const [startDatePayments, setStartDatePayments] = useState(new Date());
-  const [startDateBets, setStartDateBets] = useState(new Date());
   const [payments, setPayments] = useState(userPays);
-  const [data, setData] = useState(
-    getDataFormatted(betsByMonth, startDateBets)
-  );
+
   const [isPaymentsLoading, setIsPaymentsLoading] = useState(false);
   const [isFirstPaymentsRender, setIsFirstPaymentsRender] = useState(true);
-  const [isBetsLoading, setIsBetsLoading] = useState(false);
-  const [isFirstBetsRender, setIsFirstBetsRender] = useState(true);
+
 
   const yearPayments = startDatePayments.getFullYear();
   const monthPayments = numberToMonth(startDatePayments.getMonth());
-
-  const yearBets = startDateBets.getFullYear();
-  const monthBets = numberToMonth(startDateBets.getMonth());
-
-  useEffect(() => {
-    const getNewBets = async () => {
-      setIsBetsLoading(true);
-      const res = await getBetsByMonth({
-        id,
-        year: startDateBets.getFullYear(),
-        month: startDateBets.getMonth()
-      });
-      setData(getDataFormatted(res, startDateBets));
-      setIsBetsLoading(false);
-    };
-
-    !isFirstBetsRender && getNewBets();
-  }, [startDateBets, isFirstBetsRender, id]);
 
   useEffect(() => {
     const getNewPayments = async () => {
@@ -85,24 +61,6 @@ const Profile = ({ userPays, name, id, betsByMonth }) => {
             }}
           />
         </ProfileBox>
-      </div>
-      <div className={styles['profile__payments']}>
-        <ProfileBox
-          text1={`Resumen de apuestas de ${monthBets} ${yearBets}`}
-          text2="Puedes ver las de otros meses!"
-          startDate={startDateBets}
-          setStartDate={setStartDateBets}
-          setIsFirstRender={setIsFirstBetsRender}
-        />
-        <>
-          <MonthlyPlanner
-            isLoading={isBetsLoading}
-            monthDays={data.monthDays}
-            data={data.dataByDay}
-            monthSelected={getMonthFormatted(startDateBets.getMonth())}
-            yearSelected={yearBets}
-          />
-        </>
       </div>
     </div>
   );

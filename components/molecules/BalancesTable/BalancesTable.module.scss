@@ -77,10 +77,13 @@
 
   tbody > tr {
     td {
-      height: 36px;
       padding: 5px 10px;
       text-align: center;
     }
+  }
+
+  &__row-high {
+    height: 36px;
   }
 
   @media screen and (max-width: 424px) {

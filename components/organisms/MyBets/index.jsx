@@ -48,10 +48,6 @@ const MyBets = ({ betsData, id, token }) => {
     }
   ];
 
-  const handleClose = () => {
-    setIsModalBetOpen(false);
-  };
-
   const formSubmitted = () => {
     setIsModalBetOpen(false);
     reloadBets();
@@ -126,6 +122,7 @@ const MyBets = ({ betsData, id, token }) => {
               <BalancesTable
                 headerArr={headersBalanceTable}
                 bodyArr={dataByBookie}
+                hasTotal={true}
               />
             </div>
             <div className={styles['my-bets__payments__table-box']}>
@@ -133,6 +130,7 @@ const MyBets = ({ betsData, id, token }) => {
               <BalancesTable
                 headerArr={headersBalanceTable}
                 bodyArr={yearDataByBookie}
+                hasTotal={true}
               />
             </div>
           </div>
@@ -140,7 +138,7 @@ const MyBets = ({ betsData, id, token }) => {
       </div>
       <PersonalBet
         formData={{}}
-        handleClose={handleClose}
+        handleClose={() => setIsModalBetOpen(false)}
         isEdit={false}
         show={isModalBetOpen}
         {...{ token, id, formSubmitted }}

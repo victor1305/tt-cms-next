@@ -4,10 +4,10 @@ const BalancesTableRow = ({ data }) => {
   const profitColor =
     data.profit < 0 ? '#f72c40' : data.profit > 0 ? '#03f73c' : '#2e63f7';
   return (
-    <tr>
+    <tr style={{ height: '36px' }}>
       <td>
         <Image
-          style={{paddingTop: '5px'}}
+          style={{ paddingTop: '5px' }}
           src={`/${data._id}.png`}
           width={90}
           height={25}
