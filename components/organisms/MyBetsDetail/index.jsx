@@ -9,6 +9,8 @@ import { numberToMonth } from '@/lib/utils';
 import { CardMyBet } from '@/components/atoms';
 import { PersonalBet, ProfileBox } from '@/components/molecules';
 
+import styles from './MyBetsDetail.module.scss';
+
 const MyBetsDetail = ({ dayData, token, day, month, year, clientId }) => {
   const [dataByDay, setDataByDay] = useState(dayData);
   const [isModalBetOpen, setIsModalBetOpen] = useState(false);
@@ -21,7 +23,8 @@ const MyBetsDetail = ({ dayData, token, day, month, year, clientId }) => {
   };
 
   const openModal = (id) => {
-    setBetToEdit(dataByDay.filter((elm) => elm._id === id));
+    const bet = dataByDay.filter((elm) => elm._id === id)[0];
+    setBetToEdit(bet);
     setIsModalBetOpen(true);
   };
 
@@ -42,7 +45,7 @@ const MyBetsDetail = ({ dayData, token, day, month, year, clientId }) => {
     setIsLoading(false);
   };
   return (
-    <div>
+    <div className={styles['my-bets-profile']}>
       <h1>
         Detalle del {day} {numberToMonth(month - 1)} {year}
       </h1>
@@ -51,15 +54,19 @@ const MyBetsDetail = ({ dayData, token, day, month, year, clientId }) => {
           <DotLoader color={'#3860fb'} loading={isLoading} size={90} />
         </div>
       ) : (
-        <ProfileBox
-          text1={`Bookies utilizadas el ${day} ${numberToMonth(
-            month - 1
-          )} ${year}`}
-        >
-          {dataByDay.map((elm, index) => (
-            <CardMyBet key={index} bet={elm} editBet={openModal} />
-          ))}
-        </ProfileBox>
+        <div className={styles['my-bets-profile__bets']}>
+          <ProfileBox
+            text1={`Bookies utilizadas el ${day} ${numberToMonth(
+              month - 1
+            )} ${year}`}
+          >
+            <div className={styles['my-bets-profile__bets--box']}>
+              {dataByDay.map((elm, index) => (
+                <CardMyBet key={index} bet={elm} editBet={openModal} />
+              ))}
+            </div>
+          </ProfileBox>
+        </div>
       )}
       <PersonalBet
         formData={betToEdit}

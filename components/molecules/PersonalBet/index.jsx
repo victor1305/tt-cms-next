@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 
 import 'react-datepicker/dist/react-datepicker.css';
@@ -21,7 +21,7 @@ const PersonalBet = ({
   id,
   formSubmitted
 }) => {
-  const [form, setForm] = useState(isEdit ? formData : defaultPersonalBetForm);
+  const [form, setForm] = useState(defaultPersonalBetForm);
   const [formErrors, setFormErrors] = useState(false);
 
   const resetForm = () => {
@@ -51,6 +51,12 @@ const PersonalBet = ({
     resetForm();
   };
 
+  useEffect(() => {
+    if (isEdit) {
+      setForm(formData);
+    }
+  }, [isEdit, formData]);
+
   return (
     <BasicModal handleClose={closeModal} {...{ show, hasXToClose: true }}>
       <div className={styles['personal-bet']}>
@@ -59,7 +65,7 @@ const PersonalBet = ({
           <label>Bookie *:</label>
           <select
             onChange={(e) => setForm({ ...form, bookie: e.target.value })}
-            value={form.bookie}
+            value={form.bookie || ''}
           >
             <option>--- Selecciona una bookie ---</option>
             {bookiesNames.map((elm, index) => (
@@ -76,7 +82,7 @@ const PersonalBet = ({
           <label>Saldo Inicial:</label>
           <input
             type="number"
-            value={form.initialBalance}
+            value={form.initialBalance || 0}
             onChange={(e) =>
               setForm({ ...form, initialBalance: e.target.value })
             }
@@ -86,7 +92,7 @@ const PersonalBet = ({
           <label>Saldo Final:</label>
           <input
             type="number"
-            value={form.finalBalance}
+            value={form.finalBalance || 0}
             onChange={(e) => setForm({ ...form, finalBalance: e.target.value })}
           />
         </div>
@@ -94,7 +100,7 @@ const PersonalBet = ({
           <label>Depósitos:</label>
           <input
             type="number"
-            value={form.deposits}
+            value={form.deposits || 0}
             onChange={(e) => setForm({ ...form, deposits: e.target.value })}
           />
         </div>
@@ -102,7 +108,7 @@ const PersonalBet = ({
           <label>Reintegros:</label>
           <input
             type="number"
-            value={form.withdraws}
+            value={form.withdraws || 0}
             onChange={(e) => setForm({ ...form, withdraws: e.target.value })}
           />
         </div>
@@ -112,7 +118,7 @@ const PersonalBet = ({
             className="date-input"
             dateFormat="dd/MM/yyyy"
             selected={form.date}
-            onChange={(e) => setForm({ ...form, date: e })}
+            onChange={(e) => setForm({ ...form, date: e || new Date()})}
             showPopperArrow={false}
           />
         </div>

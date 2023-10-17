@@ -22,9 +22,16 @@ export default async function Page({ params }) {
 
   const dayData = await getPersonalBetsByDay({ id, year, month, day, token });
 
+  const dataFormatted = dayData.map((elm) => {
+    return {
+      ...elm,
+      date: new Date(elm.date)
+    };
+  });
+
   return (
     <MyBetsDetail
-      {...{ dayData, clientId: id, token, year, month, day }}
+      {...{ dayData: dataFormatted, clientId: id, token, year, month, day }}
     />
   );
 }
