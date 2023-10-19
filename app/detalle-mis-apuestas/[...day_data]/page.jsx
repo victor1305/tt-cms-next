@@ -1,3 +1,4 @@
+import { redirect } from 'next/navigation';
 import React from 'react';
 
 import { getDayFormatted, getMonthFormatted } from '@/lib/utils';
@@ -21,6 +22,8 @@ export default async function Page({ params }) {
   const token = data.data.token;
 
   const dayData = await getPersonalBetsByDay({ id, year, month, day, token });
+
+  if (!dayData.length) redirect('/mis-apuestas');
 
   const dataFormatted = dayData.map((elm) => {
     return {

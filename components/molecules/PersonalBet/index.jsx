@@ -43,16 +43,16 @@ const PersonalBet = ({
   const saveData = async () => {
     if (!validateForm()) return;
     if (isEdit) {
-      await editPersonalBet({ form, token });
+      await editPersonalBet({ personalBet: form, token, betId: form._id });
     } else {
-      await createPersonalBet({ personalBet: form, isEdit, token, id });
+      await createPersonalBet({ personalBet: form, token, id });
     }
     formSubmitted();
     resetForm();
   };
 
   useEffect(() => {
-    if (isEdit) {
+    if (isEdit && formData) {
       setForm(formData);
     }
   }, [isEdit, formData]);
@@ -118,7 +118,7 @@ const PersonalBet = ({
             className="date-input"
             dateFormat="dd/MM/yyyy"
             selected={form.date}
-            onChange={(e) => setForm({ ...form, date: e || new Date()})}
+            onChange={(e) => setForm({ ...form, date: e || new Date() })}
             showPopperArrow={false}
           />
         </div>

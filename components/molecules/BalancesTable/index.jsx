@@ -31,8 +31,8 @@ const BalancesTable = ({
         {hasTotal && (
           <tr className={styles['table__row-high']}>
             <td>Total</td>
-            <td>{bodyArr.reduce((acc, elm) => acc + elm.deposits, 0)}€</td>
-            <td>{bodyArr.reduce((acc, elm) => acc + elm.withdraws, 0)}€</td>
+            <td>{bodyArr.reduce((acc, elm) => acc + elm.deposits, 0).toFixed(2)}€</td>
+            <td>{bodyArr.reduce((acc, elm) => acc + elm.withdraws, 0).toFixed(2)}€</td>
             <td style={{ color: profitColor, fontWeight: 'bold' }}>
               {totalProfit.toFixed(2)}€
             </td>

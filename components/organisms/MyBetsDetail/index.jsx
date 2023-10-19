@@ -3,23 +3,25 @@
 import { useState } from 'react';
 import { DotLoader } from 'react-spinners';
 
-import { editPersonalBet, getPersonalBetsByDay } from '@/lib/https';
+import { deletePersonalBet, getPersonalBetsByDay } from '@/lib/https';
 import { numberToMonth } from '@/lib/utils';
 
 import { CardMyBet } from '@/components/atoms';
-import { PersonalBet, ProfileBox } from '@/components/molecules';
+import { ConfirmModal, PersonalBet, ProfileBox } from '@/components/molecules';
 
 import styles from './MyBetsDetail.module.scss';
 
 const MyBetsDetail = ({ dayData, token, day, month, year, clientId }) => {
   const [dataByDay, setDataByDay] = useState(dayData);
   const [isModalBetOpen, setIsModalBetOpen] = useState(false);
+  const [isModalConfirmOpen, setIsModalConfirmOpen] = useState(false);
   const [betToEdit, setBetToEdit] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [cardToDelete, setCardToDelete] = useState(null);
 
-  const formSubmitted = (bet) => {
+  const formSubmitted = () => {
     setIsModalBetOpen(false);
-    reloadBets(bet);
+    reloadBets();
   };
 
   const openModal = (id) => {
@@ -28,12 +30,15 @@ const MyBetsDetail = ({ dayData, token, day, month, year, clientId }) => {
     setIsModalBetOpen(true);
   };
 
-  const reloadBets = async (bet) => {
+  const deleteCard = async () => {
+    setIsModalConfirmOpen(false);
+    await deletePersonalBet({ id: cardToDelete, token });
+    setCardToDelete(null);
+    reloadBets();
+  };
+
+  const reloadBets = async () => {
     setIsLoading(true);
-    await editPersonalBet({
-      bet,
-      userId: token
-    });
     const res = await getPersonalBetsByDay({
       day,
       month,
@@ -60,11 +65,24 @@ const MyBetsDetail = ({ dayData, token, day, month, year, clientId }) => {
               month - 1
             )} ${year}`}
           >
-            <div className={styles['my-bets-profile__bets--box']}>
-              {dataByDay.map((elm, index) => (
-                <CardMyBet key={index} bet={elm} editBet={openModal} />
-              ))}
-            </div>
+            {dataByDay.length > 0 ? (
+              <div className={styles['my-bets-profile__bets--box']}>
+                {dataByDay.map((elm, index) => (
+                  <CardMyBet
+                    key={index}
+                    bet={elm}
+                    editBet={openModal}
+                    deleteCard={() => (
+                      setCardToDelete(elm._id), setIsModalConfirmOpen(true)
+                    )}
+                  />
+                ))}
+              </div>
+            ) : (
+              <p className={styles['my-bets-profile__bets--no-bets']}>
+                No hay apuestas en esta fecha
+              </p>
+            )}
           </ProfileBox>
         </div>
       )}
@@ -74,6 +92,16 @@ const MyBetsDetail = ({ dayData, token, day, month, year, clientId }) => {
         isEdit={true}
         show={isModalBetOpen}
         {...{ token, formSubmitted }}
+      />
+      <ConfirmModal
+        text={'¿Estás seguro de borrar esta tarjeta?'}
+        handleClose={() => setIsModalConfirmOpen(false)}
+        show={isModalConfirmOpen}
+        hasXToClose={true}
+        principalBtn={deleteCard}
+        secondaryBtn={() => setIsModalConfirmOpen(false)}
+        principalBtnCopy={'Borrar'}
+        secondaryBtnCopy={'Cancelar'}
       />
     </div>
   );
