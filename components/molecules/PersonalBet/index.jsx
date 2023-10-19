@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
-
 import 'react-datepicker/dist/react-datepicker.css';
 
 import { bookiesNames, defaultPersonalBetForm } from '@/lib/constants';
+import { configDatePicker } from '@/lib/datePickerConfig';
 import { createPersonalBet, editPersonalBet } from '@/lib/https';
 
 import { BasicModal } from '@/components/atoms';
@@ -115,8 +115,8 @@ const PersonalBet = ({
         <div className={styles['personal-bet__form-box']}>
           <label>Fecha:</label>
           <DatePicker
+            {... configDatePicker}
             className="date-input"
-            dateFormat="dd/MM/yyyy"
             selected={form.date}
             onChange={(e) => setForm({ ...form, date: e || new Date() })}
             showPopperArrow={false}

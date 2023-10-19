@@ -1,5 +1,6 @@
 'use client';
 
+import { es } from 'date-fns/locale';
 import DatePicker from 'react-datepicker';
 
 import 'react-datepicker/dist/react-datepicker.css';
@@ -23,6 +24,7 @@ const ProfileBox = ({
             <DatePicker
               className="date-input"
               dateFormat="MM/yyyy"
+              locale={es}
               showMonthYearPicker
               showFullMonthYearPicker
               selected={startDate}

@@ -67,6 +67,10 @@ a:hover {
   cursor: pointer;
 }
 
+.react-datepicker__month-text {
+  text-transform: capitalize;
+}
+
 .status-green {
   background-color: $color-win;
 }

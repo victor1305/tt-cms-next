@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 
+import { configDatePicker } from '@/lib/datePickerConfig';
 import { getRangeBalance } from '@/lib/https';
 
 import { TrendBox } from '@/components/atoms';
@@ -65,7 +66,7 @@ const StatsTrends = ({ balances }) => {
         <div className={styles['trends__input-container']}>
           <DatePicker
             className={styles['trends__input-container__date-input']}
-            dateFormat="dd/MM/yyyy"
+            {...configDatePicker}
             selectsRange={true}
             startDate={startDate}
             endDate={endDate}
