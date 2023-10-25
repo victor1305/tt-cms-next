@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 
 import { headersBalanceTable } from '@/lib/constants';
 import { getPersonalBetsByMonth } from '@/lib/https';
@@ -25,7 +25,6 @@ const MyBets = ({ betsData, id, token }) => {
   const [startDate, setStartDate] = useState(new Date());
   const [isModalBetOpen, setIsModalBetOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isFirstRender, setIsFirstRender] = useState(true);
   const [data, setData] = useState(
     getDataFormatted(betsData.personalBetsList, startDate)
   );
@@ -37,14 +36,12 @@ const MyBets = ({ betsData, id, token }) => {
   const year = startDate.getFullYear();
   const month = numberToMonth(startDate.getMonth());
 
-  const openModal = () => {
-    setIsModalBetOpen(true);
-  };
+  const isFirstRenderRef = useRef(true);
 
   const btnsList = [
     {
       copy: 'Agregar balance',
-      handleClick: openModal
+      handleClick: () => setIsModalBetOpen(true)
     }
   ];
 
@@ -53,38 +50,27 @@ const MyBets = ({ betsData, id, token }) => {
     reloadBets();
   };
 
-  const reloadBets = async () => {
+  const reloadBets = useCallback(async () => {
     setIsLoading(true);
     const res = await getPersonalBetsByMonth({
       id,
-      year: startDate.getFullYear(),
+      year,
       month: startDate.getMonth(),
       token
     });
-    const dataFormatted = getDataFormatted(res.personalBetsList, startDate);
-    setData(dataFormatted);
+    setData(getDataFormatted(res.personalBetsList, startDate));
     setDataByBookies(res.balances);
     setYearDataByBookies(res.yearBalances);
     setIsLoading(false);
-  };
+  }, [id, token, startDate, year]);
 
   useEffect(() => {
-    const getNewBets = async () => {
-      setIsLoading(true);
-      const res = await getPersonalBetsByMonth({
-        id,
-        year: startDate.getFullYear(),
-        month: startDate.getMonth(),
-        token
-      });
-      setData(getDataFormatted(res.personalBetsList, startDate));
-      setDataByBookies(res.balances);
-      setYearDataByBookies(res.yearBalances);
-      setIsLoading(false);
-    };
-
-    !isFirstRender && getNewBets();
-  }, [startDate, isFirstRender, id, token]);
+    if (!isFirstRenderRef.current) {
+      reloadBets();
+    } else {
+      isFirstRenderRef.current = false;
+    }
+  }, [startDate, reloadBets]);
 
   return (
     <div className={styles['my-bets']}>
@@ -98,7 +84,6 @@ const MyBets = ({ betsData, id, token }) => {
           text2="Puedes ver los de cualquier mes!"
           startDate={startDate}
           setStartDate={setStartDate}
-          setIsFirstRender={setIsFirstRender}
         >
           <MonthlyPlanner
             isLoading={isLoading}

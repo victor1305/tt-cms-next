@@ -1,17 +1,26 @@
 import classNames from 'classnames';
 import Link from 'next/link';
+import { BsTrash3 } from 'react-icons/bs';
+import { TbEdit } from 'react-icons/tb';
 
-import { paymentsProfileHeaders } from '@/lib/constants';
+import { paymentsHeaders } from '@/lib/constants';
 
 import styles from './Payments.module.scss';
 
-const PaymentsProfile = ({ payments }) => (
+const PaymentsTable = ({
+  payments,
+  isProfile = false,
+  editClient,
+  deleteClient
+}) => (
   <table className={styles['payments-table']}>
     <thead>
       <tr className={styles['payments-table--head-tr']}>
-        {paymentsProfileHeaders.map((elm, index) => (
-          <th key={index}>{elm}</th>
-        ))}
+        {paymentsHeaders.map((elm, index) => {
+          if (!isProfile || (isProfile && elm !== 'Recibe' && elm !== '')) {
+            return <th key={index}>{elm}</th>;
+          }
+        })}
       </tr>
     </thead>
     <tbody>
@@ -34,11 +43,22 @@ const PaymentsProfile = ({ payments }) => (
           </td>
           <td>{item.type === 'Paysafecard' ? 'PSC' : item.type}</td>
           <td>{item.price} €</td>
+          {!isProfile && <td>{item.beneficiary[0]}</td>}
           <td>{item.information}</td>
+          {!isProfile && (
+            <td onClick={() => editClient(item._id)}>
+              <TbEdit color="#ffc107" size={18} />
+            </td>
+          )}
+          {!isProfile && (
+            <td onClick={() => deleteClient(item._id, item.client[0])}>
+              <BsTrash3 color="#ff0000" />
+            </td>
+          )}
         </tr>
       ))}
     </tbody>
   </table>
 );
 
-export default PaymentsProfile;
+export default PaymentsTable;

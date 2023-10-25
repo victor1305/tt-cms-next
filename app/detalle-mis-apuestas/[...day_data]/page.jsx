@@ -25,16 +25,9 @@ export default async function Page({ params }) {
 
   if (!dayData.length) redirect('/mis-apuestas');
 
-  const dataFormatted = dayData.map((elm) => {
-    return {
-      ...elm,
-      date: new Date(elm.date)
-    };
-  });
-
   return (
     <MyBetsDetail
-      {...{ dayData: dataFormatted, clientId: id, token, year, month, day }}
+      {...{ dayData: dayData, clientId: id, token, year, month, day }}
     />
   );
 }

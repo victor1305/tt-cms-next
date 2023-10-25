@@ -49,6 +49,7 @@ const MyBetsDetail = ({ dayData, token, day, month, year, clientId }) => {
     setDataByDay(res);
     setIsLoading(false);
   };
+  
   return (
     <div className={styles['my-bets-profile']}>
       <h1>
@@ -89,6 +90,7 @@ const MyBetsDetail = ({ dayData, token, day, month, year, clientId }) => {
       <PersonalBet
         formData={betToEdit}
         handleClose={() => setIsModalBetOpen(false)}
+        resetBet={setBetToEdit}
         isEdit={true}
         show={isModalBetOpen}
         {...{ token, formSubmitted }}

@@ -3,7 +3,7 @@
 .payments-table {
   border-collapse: collapse;
   border: 1px solid $color-secondary-80;
-  width: 800px;
+  max-width: 950px;
   margin: 0 auto;
 
   &--head-tr {
@@ -43,8 +43,13 @@
 
   tbody > tr {
     td {
-      padding: 5px 10px;
+      padding: 5px;
       text-align: center;
+      line-height: 15px;
+
+      svg {
+        cursor: pointer;
+      }
     }
   }
 

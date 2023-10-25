@@ -3,8 +3,8 @@ import BasicModal from './BasicModal';
 import CardMyBet from './CardMyBet';
 import ClientTableRow from './ClientTableRow';
 import MonthlyPlanner from './MonthPlanning';
-import PaymentsProfile from './PaymentsProfile';
 import PaymentsResume from './PaymentsResume';
+import PaymentsTable from './PaymentsTable';
 import PrincipalBtn from './PrincipalBtn';
 import StatsTable from './StatsTable';
 import TrendBox from './TrendBox';
@@ -17,8 +17,8 @@ export {
   CardMyBet,
   ClientTableRow,
   MonthlyPlanner,
-  PaymentsProfile,
   PaymentsResume,
+  PaymentsTable,
   PrincipalBtn,
   StatsTable,
   TrendBox,

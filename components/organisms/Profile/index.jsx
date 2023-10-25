@@ -1,12 +1,9 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 import { getPaymentsByUser } from '@/lib/https';
-import {
-  getMonthFormatted,
-  numberToMonth
-} from '@/lib/utils';
+import { getMonthFormatted, numberToMonth } from '@/lib/utils';
 
 import { ProfileBox, PaymentsBox } from '@/components/molecules';
 
@@ -18,25 +15,30 @@ const Profile = ({ userPays, name, id }) => {
   const [payments, setPayments] = useState(userPays);
 
   const [isPaymentsLoading, setIsPaymentsLoading] = useState(false);
-  const [isFirstPaymentsRender, setIsFirstPaymentsRender] = useState(true);
 
+  const isFirstRenderRef = useRef(true);
 
   const yearPayments = startDatePayments.getFullYear();
   const monthPayments = numberToMonth(startDatePayments.getMonth());
 
+  const getNewPayments = useCallback(async () => {
+    setIsPaymentsLoading(true);
+    const res = await getPaymentsByUser({
+      id,
+      year: startDatePayments.getFullYear(),
+      monthFormated: getMonthFormatted(startDatePayments.getMonth())
+    });
+    setPayments(res);
+    setIsPaymentsLoading(false);
+  }, [id, startDatePayments]);
+
   useEffect(() => {
-    const getNewPayments = async () => {
-      setIsPaymentsLoading(true);
-      const res = await getPaymentsByUser({
-        id,
-        year: startDatePayments.getFullYear(),
-        monthFormated: getMonthFormatted(startDatePayments.getMonth())
-      });
-      setPayments(res);
-      setIsPaymentsLoading(false);
-    };
-    !isFirstPaymentsRender && getNewPayments();
-  }, [startDatePayments, isFirstPaymentsRender, id]);
+    if (!isFirstRenderRef.current) {
+      getNewPayments();
+    } else {
+      isFirstRenderRef.current = false;
+    }
+  }, [startDatePayments, getNewPayments]);
 
   return (
     <div className={styles['profile']}>
@@ -50,7 +52,6 @@ const Profile = ({ userPays, name, id }) => {
           text2="Si quieres ver los de otro mes, dale sin miedo!"
           startDate={startDatePayments}
           setStartDate={setStartDatePayments}
-          setIsFirstRender={setIsFirstPaymentsRender}
         >
           <PaymentsBox
             {...{

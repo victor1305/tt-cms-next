@@ -73,6 +73,13 @@ export const getClientData = async ({ id }) => {
   return data;
 };
 
+export const getClientsList = async () => {
+  const url = `${apiClientsUrl}lista-clientes`;
+  const res = await fetch(url, { next: { revalidate: 0 } });
+  const { data } = await res.json();
+  return data;
+};
+
 export const getPersonalBetsByDay = async ({ day, month, year, id, token }) => {
   const url = `${apiBetsUrl}lista-apuestas-personales-dia/${id}?day=${day}&month=${month}&year=${year}`;
   const res = await fetch(url, {
@@ -82,5 +89,19 @@ export const getPersonalBetsByDay = async ({ day, month, year, id, token }) => {
     }
   });
   const { data } = await res.json();
+  return data;
+};
+
+export const getPaymentsListByMonth = async ({ year, month }) => {
+  const url = `${apiClientsUrl}lista-pagos/${year}/${month}`;
+  const res = await fetch(url, { next: { revalidate: 0 } });
+  const data = await res.json();
+  return data;
+};
+
+export const getPaymentsListByYear = async ({ year }) => {
+  const url = `${apiClientsUrl}lista-anual/${year}`;
+  const res = await fetch(url, { next: { revalidate: 0 } });
+  const data = await res.json();
   return data;
 };

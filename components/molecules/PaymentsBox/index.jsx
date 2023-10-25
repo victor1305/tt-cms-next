@@ -1,6 +1,6 @@
 import DotLoader from 'react-spinners/DotLoader';
 
-import { PaymentsProfile, PaymentsResume } from '@/components/atoms';
+import { PaymentsTable, PaymentsResume } from '@/components/atoms';
 
 import styles from './PaymentsBox.module.scss';
 
@@ -14,7 +14,7 @@ const PaymentsBox = ({ payments, monthPayments, yearPayments, isLoading }) => (
       <div>
         {payments.length ? (
           <div className={styles['payments-box__payments']}>
-            <PaymentsProfile payments={payments} />
+            <PaymentsTable payments={payments} isProfile={true} />
             <PaymentsResume payments={payments} />
           </div>
         ) : (

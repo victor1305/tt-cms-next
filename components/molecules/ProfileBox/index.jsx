@@ -11,7 +11,6 @@ const ProfileBox = ({
   text2 = '',
   startDate,
   setStartDate,
-  setIsFirstRender,
   children
 }) => (
   <div>
@@ -28,9 +27,7 @@ const ProfileBox = ({
               showMonthYearPicker
               showFullMonthYearPicker
               selected={startDate}
-              onChange={(date) => {
-                setStartDate(date), setIsFirstRender(false);
-              }}
+              onChange={(date) => setStartDate(date)}
               showPopperArrow={false}
             />
           )}

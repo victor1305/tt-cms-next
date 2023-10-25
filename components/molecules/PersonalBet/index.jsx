@@ -19,6 +19,7 @@ const PersonalBet = ({
   show,
   token,
   id,
+  resetBet,
   formSubmitted
 }) => {
   const [form, setForm] = useState(defaultPersonalBetForm);
@@ -26,6 +27,7 @@ const PersonalBet = ({
 
   const resetForm = () => {
     setForm(defaultPersonalBetForm);
+    resetBet(defaultPersonalBetForm);
     setFormErrors(false);
   };
 
@@ -115,9 +117,9 @@ const PersonalBet = ({
         <div className={styles['personal-bet__form-box']}>
           <label>Fecha:</label>
           <DatePicker
-            {... configDatePicker}
+            {...configDatePicker}
             className="date-input"
-            selected={form.date}
+            selected={Date.parse(form.date)}
             onChange={(e) => setForm({ ...form, date: e || new Date() })}
             showPopperArrow={false}
           />
