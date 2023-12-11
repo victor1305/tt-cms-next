@@ -51,7 +51,7 @@ const PaymentsTable = ({
             </td>
           )}
           {!isProfile && (
-            <td onClick={() => deleteClient(item._id, item.client[0])}>
+            <td onClick={() => deleteClient(item._id, item.client[0], item.beneficiaryId[0], item.clientId[0])}>
               <BsTrash3 color="#ff0000" />
             </td>
           )}

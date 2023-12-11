@@ -19,5 +19,5 @@ export default async function Page() {
   const payments = await getPaymentsListByMonth({ year, month: monthFormated });
   const clients = await getClientsList();
 
-  return <Clients {...{ token, id, payments: payments, clients }} />;
+  return <Clients {...{ token, id, payments: payments.data, clients }} />;
 }

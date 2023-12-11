@@ -26,11 +26,11 @@ const MyBets = ({ betsData, id, token }) => {
   const [isModalBetOpen, setIsModalBetOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState(
-    getDataFormatted(betsData.personalBetsList, startDate)
+    getDataFormatted(betsData?.personalBetsList, startDate)
   );
-  const [dataByBookie, setDataByBookies] = useState(betsData.balances);
+  const [dataByBookie, setDataByBookies] = useState(betsData?.balances);
   const [yearDataByBookie, setYearDataByBookies] = useState(
-    betsData.yearBalances
+    betsData?.yearBalances
   );
 
   const year = startDate.getFullYear();
@@ -58,9 +58,11 @@ const MyBets = ({ betsData, id, token }) => {
       month: startDate.getMonth(),
       token
     });
-    setData(getDataFormatted(res.personalBetsList, startDate));
-    setDataByBookies(res.balances);
-    setYearDataByBookies(res.yearBalances);
+    if (res.balances && res.personalBetsList && res.yearBalances) {
+      setData(getDataFormatted(res.personalBetsList, startDate));
+      setDataByBookies(res.balances);
+      setYearDataByBookies(res.yearBalances);
+    }
     setIsLoading(false);
   }, [id, token, startDate, year]);
 

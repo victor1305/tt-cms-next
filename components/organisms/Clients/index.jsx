@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { DotLoader } from 'react-spinners';
 
-import { getPaymentsListByMonth } from '@/lib/https';
+import { deletePayment, getClientsList, getPaymentsListByMonth } from '@/lib/https';
 import { getMonthFormatted, numberToMonth } from '@/lib/utils';
 
 import { PaymentsTable } from '@/components/atoms';
@@ -24,7 +24,7 @@ const Clients = ({ token, payments, id, clients }) => {
   const [isModalPaymentOpen, setIsModalPaymentOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditModal, setIsEditModal] = useState(false);
-  const [paymentToEdit, setPaymentToEdit] = useState({})
+  const [paymentToEdit, setPaymentToEdit] = useState({});
   const [paymentsList, setPaymentsList] = useState(payments);
   const [paymentToDelete, setPaymentToDelete] = useState({ id: '', name: '' });
   const [clientsList, setClientsList] = useState(clients);
@@ -47,9 +47,12 @@ const Clients = ({ token, payments, id, clients }) => {
     }
   ];
 
-  const formSubmittedClient = () => {
+  const formSubmittedClient = async () => {
     setIsModalClientOpen(false);
-    reloadPayments();
+    setIsLoading(true);
+    const res = await getClientsList();
+    setClientsList(res);
+    setIsLoading(false);
   };
 
   const formSubmittedPayment = () => {
@@ -57,21 +60,30 @@ const Clients = ({ token, payments, id, clients }) => {
     reloadPayments();
   };
 
-  const editClient = (id) => {
+  const editClientPayment = (id) => {
     setIsEditModal(true);
-    setPaymentToEdit(paymentsList.filter(elm => elm._id === id)[0]);
+    setPaymentToEdit(paymentsList.filter((elm) => elm._id === id)[0]);
     setIsModalPaymentOpen(true);
-    console.log('EDITO EL CLIENTE', id);
   };
 
-  const deleteClient = () => {
-    console.log('BORRO EL CLIENTE', paymentToDelete);
+  const deleteClientPayment = async () => {
+    setIsDeleteModalOpen(false);
+    setIsLoading(true);
+    await deletePayment({
+      paymentId: paymentToDelete.id,
+      clientId: paymentToDelete.clientId,
+      beneficiaryId: paymentToDelete.beneficiary,
+      token
+    });
+    reloadPayments();
   };
 
-  const handleClickDeleteClient = (id, name) => {
+  const handleClickDeleteClient = (id, name, beneficiary, clientId) => {
     setPaymentToDelete({
       id,
-      name
+      name,
+      beneficiary: beneficiary,
+      clientId
     });
     setIsDeleteModalOpen(true);
   };
@@ -114,7 +126,7 @@ const Clients = ({ token, payments, id, clients }) => {
               <PaymentsTable
                 {...{
                   payments: paymentsList,
-                  editClient,
+                  editClient: editClientPayment,
                   deleteClient: handleClickDeleteClient
                 }}
               />
@@ -146,7 +158,7 @@ const Clients = ({ token, payments, id, clients }) => {
         handleClose={() => setIsDeleteModalOpen(false)}
         show={isDeleteModalOpen}
         hasXToClose={true}
-        principalBtn={deleteClient}
+        principalBtn={deleteClientPayment}
         secondaryBtn={() => setIsDeleteModalOpen(false)}
         principalBtnCopy={'Borrar'}
         secondaryBtnCopy={'Cancelar'}

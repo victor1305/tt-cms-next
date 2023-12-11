@@ -1,5 +1,7 @@
 import Image from 'next/image';
 
+import { bookiesImages } from '@/lib/constants';
+
 const BalancesTableRow = ({ data }) => {
   const profitColor =
     data.profit < 0 ? '#f72c40' : data.profit > 0 ? '#03f73c' : '#2e63f7';
@@ -8,7 +10,7 @@ const BalancesTableRow = ({ data }) => {
       <td>
         <Image
           style={{ paddingTop: '5px' }}
-          src={`/${data._id}.png`}
+          src={bookiesImages[data._id]}
           width={90}
           height={25}
           alt="Logo"

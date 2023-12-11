@@ -11,7 +11,7 @@ import {
   statusPayments
 } from '@/lib/constants';
 import { configDatePicker } from '@/lib/datePickerConfig';
-//import { createPayment, editPayment } from '@/lib/https';
+import { createPayment, editPayment } from '@/lib/https';
 
 import { BasicModal } from '@/components/atoms';
 
@@ -62,9 +62,9 @@ const PaymentModal = ({
   const saveData = async () => {
     if (validateForm()) return;
     if (isEdit) {
-      //await editPayment({ payment: form, token });
+      await editPayment({ payment: form, token, paymentId: form._id, beneficiaryId: form.beneficiaryId[0] });
     } else {
-      //await createPayment({ payment: form, token });
+      await createPayment({ payment: form, token });
     }
     formSubmitted();
     resetForm();
@@ -153,8 +153,8 @@ const PaymentModal = ({
         <div className={styles['payment-modal__form-box']}>
           <label>Asignación de pago*:</label>
           <select
-            onChange={(e) => setForm({ ...form, beneficiaryId: e.target.value })}
-            value={form.beneficiaryId.length === 1 ? form.beneficiaryId[0] : form.beneficiaryId || ''}
+            onChange={(e) => setForm({ ...form, beneficiary: e.target.value })}
+            value={form.beneficiary.length > 1 ? form.beneficiary : form.beneficiaryId?.length === 1 ? form.beneficiaryId[0] : form.beneficiary || ''}
           >
             <option>--- Asigna el pago ---</option>
             {beneficiarysList.map((elm) => (

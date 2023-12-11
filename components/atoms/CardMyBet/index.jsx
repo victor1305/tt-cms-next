@@ -1,12 +1,13 @@
 import Image from 'next/image';
 import { FaTimes } from 'react-icons/fa';
 
+import { bookiesImages } from '@/lib/constants';
+
 import styles from './CardMyBet.module.scss';
 
 const CardMyBet = ({ bet, editBet, deleteCard }) => {
   const border = bet.profit > 0 ? 'win' : bet.profit < 0 ? 'loss' : 'void';
   const color = bet.profit > 0 ? 'win' : bet.profit < 0 ? 'loss' : 'void';
-
   return (
     <div
       className={`${styles['card-my-bet']} ${styles[`card-my-bet--${border}`]}`}
@@ -15,7 +16,7 @@ const CardMyBet = ({ bet, editBet, deleteCard }) => {
         <FaTimes onClick={() => deleteCard(bet._id)} />
       </div>
       <div className={styles['card-my-bet__image-box']}>
-        <Image src={`/${bet.bookie}.png`} width={103} height={32} alt="Logo" />
+        <Image src={bookiesImages[bet.bookie]} width={103} height={32} alt="Logo" />
       </div>
       <p>
         Depósitos: <span>{bet.deposits}€</span>

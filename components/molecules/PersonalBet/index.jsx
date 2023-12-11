@@ -27,7 +27,7 @@ const PersonalBet = ({
 
   const resetForm = () => {
     setForm(defaultPersonalBetForm);
-    resetBet(defaultPersonalBetForm);
+    if (isEdit) resetBet(defaultPersonalBetForm);
     setFormErrors(false);
   };
 
