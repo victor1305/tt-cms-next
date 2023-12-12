@@ -109,6 +109,7 @@ const MonthlyPlanner = ({
                               href={{
                                 pathname: `/${path}/${yearSelected}-${monthSelected}-${dayNumber}`
                               }}
+                              prefetch={false}
                             >
                               <span className="card-link">Detalle</span>
                             </Link>

@@ -28,7 +28,7 @@ const PaymentsTable = ({
         <tr key={item._id}>
           <td>{index + 1}</td>
           <td className={styles['payments-table--td-name']}>
-            <Link href={`/detalle-cliente/${item.clientId}`}>
+            <Link href={`/detalle-cliente/${item.clientId}`} prefetch={false}>
               {item.client[0]}
             </Link>
           </td>

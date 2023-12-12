@@ -24,7 +24,7 @@ const Principal = () => (
     <div className={styles["home-container__buttons-container"]}>
       {sections.map((elm, index) => (
         <div key={index}>
-          <Link href={elm.to}>
+          <Link href={elm.to} prefetch={false}>
             <button className="btn btn--primary">{elm.copy}</button>
           </Link>
         </div>
