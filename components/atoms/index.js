@@ -3,6 +3,7 @@ import BasicModal from './BasicModal';
 import CardMyBet from './CardMyBet';
 import ClientTableRow from './ClientTableRow';
 import MonthlyPlanner from './MonthPlanning';
+import PaymentsMonthResume from './PaymentsMonthResume';
 import PaymentsResume from './PaymentsResume';
 import PaymentsTable from './PaymentsTable';
 import PrincipalBtn from './PrincipalBtn';
@@ -17,6 +18,7 @@ export {
   CardMyBet,
   ClientTableRow,
   MonthlyPlanner,
+  PaymentsMonthResume,
   PaymentsResume,
   PaymentsTable,
   PrincipalBtn,

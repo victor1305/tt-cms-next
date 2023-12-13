@@ -107,9 +107,9 @@ const MonthlyPlanner = ({
                             </p>
                             <Link
                               href={{
-                                pathname: `/${path}/${yearSelected}-${monthSelected}-${dayNumber}`
+                                pathname: `/${path}/${yearSelected}-${monthSelected}-${dayNumber}`,
+                                query: { numb: Math.random() * 100}
                               }}
-                              prefetch={false}
                             >
                               <span className="card-link">Detalle</span>
                             </Link>

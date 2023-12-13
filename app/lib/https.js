@@ -100,7 +100,7 @@ export const getPaymentsListByMonth = async ({ year, month }) => {
 };
 
 export const getPaymentsListByYear = async ({ year }) => {
-  const url = `${apiClientsUrl}lista-anual/${year}`;
+  const url = `${apiClientsUrl}lista-pagos-anual/${year}`;
   const res = await fetch(url, { next: { revalidate: 0 } });
   const data = await res.json();
   return data;

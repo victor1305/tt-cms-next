@@ -1,12 +1,29 @@
 'use client';
 
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { Line } from 'react-chartjs-2';
 import { DotLoader } from 'react-spinners';
 
-import { deletePayment, getClientsList, getPaymentsListByMonth } from '@/lib/https';
+import { chartMonths } from '@/lib/constants';
+import {
+  deletePayment,
+  getClientsList,
+  getPaymentsListByMonth,
+  getPaymentsListByYear
+} from '@/lib/https';
 import { getMonthFormatted, numberToMonth } from '@/lib/utils';
 
-import { PaymentsTable } from '@/components/atoms';
+import { PaymentsMonthResume, PaymentsTable } from '@/components/atoms';
 import {
   BtnsBox,
   ClientModal,
@@ -17,7 +34,21 @@ import {
 
 import styles from './Clients.module.scss';
 
-const Clients = ({ token, payments, id, clients }) => {
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+
+ChartJS.defaults.color = '#fff';
+ChartJS.defaults.scale.grid.color = 'rgb(34, 37, 49)';
+
+const Clients = ({ token, payments, id, clients, yearPayments }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const [isModalClientOpen, setIsModalClientOpen] = useState(false);
@@ -26,13 +57,53 @@ const Clients = ({ token, payments, id, clients }) => {
   const [isEditModal, setIsEditModal] = useState(false);
   const [paymentToEdit, setPaymentToEdit] = useState({});
   const [paymentsList, setPaymentsList] = useState(payments);
+  const [paymentsListByYear, setPaymentsListByYear] = useState(yearPayments);
   const [paymentToDelete, setPaymentToDelete] = useState({ id: '', name: '' });
   const [clientsList, setClientsList] = useState(clients);
+  const [chartData, setChartData] = useState({});
+  const [chartPaymentsData, setChartPaymentsData] = useState({});
+  const [showClientsChart, setShowClientsChart] = useState(false);
+  const [showPaymentsChart, setShowPaymentsChart] = useState(false);
 
   const year = startDate.getFullYear();
   const month = numberToMonth(startDate.getMonth());
 
   const isFirstRenderRef = useRef(true);
+
+  const listClientsChart = [];
+  const listPaymentsChart = [];
+  const totalPayments =
+    paymentsList.length > 0 &&
+    paymentsList.reduce((acc, elm) => {
+      return acc + elm.price;
+    }, 0);
+
+  const paymentsAntonioArr =
+    paymentsList.length > 0 &&
+    paymentsList.filter((elm) => elm.beneficiary[0] === 'Antonio');
+  const paymentsAntonio =
+    paymentsAntonioArr.length > 0 &&
+    paymentsAntonioArr.reduce((acc, elm) => {
+      return acc + elm.price;
+    }, 0);
+
+  const paymentsEduArr =
+    paymentsList.length > 0 &&
+    paymentsList.filter((elm) => elm.beneficiary[0] === 'Eduardo');
+  const paymentsEdu =
+    paymentsEduArr.length > 0 &&
+    paymentsEduArr.reduce((acc, elm) => {
+      return acc + elm.price;
+    }, 0);
+
+  const paymentsVictorArr =
+    paymentsList.length > 0 &&
+    paymentsList.filter((elm) => elm.beneficiary[0] === 'Víctor');
+  const paymentsVictor =
+    paymentsVictorArr.length > 0 &&
+    paymentsVictorArr.reduce((acc, elm) => {
+      return acc + elm.price;
+    }, 0);
 
   const btnsList = [
     {
@@ -88,13 +159,111 @@ const Clients = ({ token, payments, id, clients }) => {
     setIsDeleteModalOpen(true);
   };
 
+  const calculateDataForMonth = (paymentsByYear, year, month) => {
+    const startOfMonth = new Date(
+      `${year}-${month > 9 ? month : `0${month}`}-01T00:00:00.000Z`
+    );
+    const endOfMonth = new Date(
+      `${month > 11 ? year + 1 : year}-${
+        month + 1 > 9 && month < 12
+          ? month + 1
+          : month > 11
+          ? '01'
+          : `0${month + 1}`
+      }-01T00:00:00.000Z`
+    );
+
+    const clientsCount = paymentsByYear.filter(
+      (elm) =>
+        elm.date >= startOfMonth.toISOString() &&
+        elm.date < endOfMonth.toISOString() &&
+        elm.price >= 0
+    ).length;
+
+    const paymentsTotal = paymentsByYear
+      .filter(
+        (elm) =>
+          elm.date >= startOfMonth.toISOString() &&
+          elm.date < endOfMonth.toISOString()
+      )
+      .reduce((acc, elm) => acc + elm.price, 0);
+
+    return { clientsCount, paymentsTotal };
+  };
+
+  const formatChartInfo = () => {
+    chartMonths.forEach((month, index) => {
+      const { clientsCount, paymentsTotal } = calculateDataForMonth(
+        paymentsListByYear,
+        year,
+        index + 1
+      );
+      listClientsChart.push(clientsCount);
+      listPaymentsChart.push(paymentsTotal);
+    });
+
+    // Lógica especial para el año 2021
+    if (year === 2021) {
+      listClientsChart[0] = 57;
+      listPaymentsChart[0] = 0;
+      listClientsChart[1] = 57;
+      listPaymentsChart[1] = 0;
+      listClientsChart[2] = 48;
+      listPaymentsChart[2] = 0;
+      listClientsChart[3] = 48;
+      listPaymentsChart[3] = 0;
+      listClientsChart[4] = 44;
+      listPaymentsChart[4] = 0;
+    }
+
+    setChart();
+  };
+
+  const setChart = () => {
+    setChartData({
+      labels: chartMonths,
+      datasets: [
+        {
+          label: 'Número Clientes',
+          data: listClientsChart,
+          backgroundColor: '#fff',
+          borderColor: '#3860fb',
+          borderWidth: 2
+        }
+      ]
+    });
+
+    setChartPaymentsData({
+      labels: chartMonths,
+      datasets: [
+        {
+          label: 'Ingresos Mensuales',
+          data: listPaymentsChart,
+          backgroundColor: '#fff',
+          borderColor: '#3860fb',
+          borderWidth: 2,
+        }
+      ]
+    });
+    if (listClientsChart.length) {
+      setShowClientsChart(true);
+    }
+    if (listPaymentsChart.length) {
+      setShowPaymentsChart(true);
+    }
+  };
+
   const reloadPayments = useCallback(async () => {
     setIsLoading(true);
+    setShowClientsChart(false);
+    setShowPaymentsChart(false);
     const res = await getPaymentsListByMonth({
       year,
       month: getMonthFormatted(startDate.getMonth())
     });
+    const resYear = await getPaymentsListByYear({ year });
     setPaymentsList(res.data);
+    setPaymentsListByYear(resYear.data);
     setIsLoading(false);
   }, [startDate, year]);
 
@@ -104,6 +273,7 @@ const Clients = ({ token, payments, id, clients }) => {
     } else {
       isFirstRenderRef.current = false;
     }
+    formatChartInfo();
   }, [startDate, reloadPayments]);
 
   return (
@@ -123,15 +293,43 @@ const Clients = ({ token, payments, id, clients }) => {
             setStartDate={setStartDate}
           >
             {paymentsList.length ? (
-              <PaymentsTable
-                {...{
-                  payments: paymentsList,
-                  editClient: editClientPayment,
-                  deleteClient: handleClickDeleteClient
-                }}
-              />
+              <div className={styles['clients__content--data']}>
+                <PaymentsTable
+                  {...{
+                    payments: paymentsList,
+                    editClient: editClientPayment,
+                    deleteClient: handleClickDeleteClient
+                  }}
+                />
+                <div className={styles['clients__content--charts']}>
+                  <PaymentsMonthResume
+                    {...{
+                      totalPayments,
+                      year,
+                      month,
+                      paymentsAntonio,
+                      paymentsEdu,
+                      paymentsVictor
+                    }}
+                  />
+                  {showClientsChart && (
+                    <div className={styles['clients__content--chart']}>
+                      <p>Resúmen Clientes Año</p>
+                      <Line data={chartData} />
+                    </div>
+                  )}
+                  {showPaymentsChart && (
+                    <div className={styles['clients__content--chart']}>
+                      <p>Resúmen Ingresos Año</p>
+                      <Line data={chartPaymentsData} />
+                    </div>
+                  )}
+                </div>
+              </div>
             ) : (
-              <p>No hay datos para este mes</p>
+              <p className={styles['clients__content--no-pays']}>
+                No hay datos para este mes
+              </p>
             )}
           </ProfileBox>
         </div>

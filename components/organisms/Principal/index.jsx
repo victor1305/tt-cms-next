@@ -24,7 +24,7 @@ const Principal = () => (
     <div className={styles["home-container__buttons-container"]}>
       {sections.map((elm, index) => (
         <div key={index}>
-          <Link href={elm.to} prefetch={false}>
+          <Link href={`${elm.to}?numb=${Math.random() * 100}`}>
             <button className="btn btn--primary">{elm.copy}</button>
           </Link>
         </div>

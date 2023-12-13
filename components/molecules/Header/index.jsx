@@ -36,7 +36,6 @@ const Header = () => {
         <nav className={styles['navbar']}>
           <Link
             href={'/'}
-            prefetch={false}
             className={`${styles['navbar__logo']} ${
               pathname === '/' ? styles['navbar__link--active'] : ''
             }`}
@@ -52,8 +51,7 @@ const Header = () => {
             {navbarPaths.map((elm, index) => (
               <li key={index} className={styles['navbar__item']}>
                 <Link
-                  href={elm.to}
-                  prefetch={false}
+                  href={`${elm.to}?numb=${Math.random() * 100}`}
                   className={`${styles['navbar__link']} ${
                     pathname.includes(elm.to) && elm.to !== '/'
                       ? styles['navbar__link--active']

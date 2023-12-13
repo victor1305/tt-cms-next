@@ -11,7 +11,6 @@ const YearsBox = ({ yearsArr, yearSelected }) => (
         <Link
           key={index}
           href={`/stats/${elm}`}
-          prefetch={false}
           className={`${
             yearSelected === elm.toString() ? styles['years--active'] : ''
           }`}

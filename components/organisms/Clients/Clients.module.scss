@@ -20,6 +20,31 @@
     &--first {
       margin-bottom: 50px;
     }
+
+    &--no-pays {
+      text-align: center;
+      font-weight: 500;
+    }
+
+    &--data {
+      display: flex;
+      justify-content: space-evenly;
+    }
+
+    &--charts {
+      width: 500px;
+      margin: 0 auto;
+    }
+
+    &--chart {
+      padding-top: 70px;
+
+      p {
+        text-align: center;
+        font-weight: 600;
+        padding-bottom: 16px;
+      }
+    }
   }
 
 }

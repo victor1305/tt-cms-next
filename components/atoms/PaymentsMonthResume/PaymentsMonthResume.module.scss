@@ -1,0 +1,32 @@
+@import '@/styles/principals/_colors.scss';
+
+.table-admins {
+  width: 500px;
+  margin: 0 auto;
+
+  &__title {
+    text-align: center;
+    margin: 0;
+    padding-top: 25px;
+    padding-bottom: 15px;
+    font-size: 16px;
+  }
+
+  &__table {
+    border-collapse: collapse;
+    border: 1px solid $color-secondary-80;
+    width: 100%;
+    text-align: center;
+
+    &--tr {
+      background-color: $color-secondary-100;
+      margin: 0;
+    }
+
+    th, td {
+      padding: 5px;
+      border: 1px solid $color-secondary-80;
+    }
+  }
+
+}
