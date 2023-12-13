@@ -8,9 +8,14 @@ import {
   LineElement,
   Title,
   Tooltip,
-  Legend,
+  Legend
 } from 'chart.js';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState
+} from 'react';
 import { Line } from 'react-chartjs-2';
 import { DotLoader } from 'react-spinners';
 
@@ -44,7 +49,6 @@ ChartJS.register(
   Legend
 );
 
-
 ChartJS.defaults.color = '#fff';
 ChartJS.defaults.scale.grid.color = 'rgb(34, 37, 49)';
 
@@ -62,16 +66,12 @@ const Clients = ({ token, payments, id, clients, yearPayments }) => {
   const [clientsList, setClientsList] = useState(clients);
   const [chartData, setChartData] = useState({});
   const [chartPaymentsData, setChartPaymentsData] = useState({});
-  const [showClientsChart, setShowClientsChart] = useState(false);
-  const [showPaymentsChart, setShowPaymentsChart] = useState(false);
 
   const year = startDate.getFullYear();
   const month = numberToMonth(startDate.getMonth());
 
   const isFirstRenderRef = useRef(true);
 
-  const listClientsChart = [];
-  const listPaymentsChart = [];
   const totalPayments =
     paymentsList.length > 0 &&
     paymentsList.reduce((acc, elm) => {
@@ -191,10 +191,12 @@ const Clients = ({ token, payments, id, clients, yearPayments }) => {
     return { clientsCount, paymentsTotal };
   };
 
-  const formatChartInfo = () => {
+  const formatChartInfo = useCallback((paymentByYear) => {
+    const listClientsChart = [];
+    const listPaymentsChart = [];
     chartMonths.forEach((month, index) => {
       const { clientsCount, paymentsTotal } = calculateDataForMonth(
-        paymentsListByYear,
+        paymentByYear,
         year,
         index + 1
       );
@@ -216,10 +218,6 @@ const Clients = ({ token, payments, id, clients, yearPayments }) => {
       listPaymentsChart[4] = 0;
     }
 
-    setChart();
-  };
-
-  const setChart = () => {
     setChartData({
       labels: chartMonths,
       datasets: [
@@ -241,22 +239,14 @@ const Clients = ({ token, payments, id, clients, yearPayments }) => {
           data: listPaymentsChart,
           backgroundColor: '#fff',
           borderColor: '#3860fb',
-          borderWidth: 2,
+          borderWidth: 2
         }
       ]
     });
-    if (listClientsChart.length) {
-      setShowClientsChart(true);
-    }
-    if (listPaymentsChart.length) {
-      setShowPaymentsChart(true);
-    }
-  };
+  }, [year]);
 
   const reloadPayments = useCallback(async () => {
     setIsLoading(true);
-    setShowClientsChart(false);
-    setShowPaymentsChart(false);
     const res = await getPaymentsListByMonth({
       year,
       month: getMonthFormatted(startDate.getMonth())
@@ -264,7 +254,9 @@ const Clients = ({ token, payments, id, clients, yearPayments }) => {
     const resYear = await getPaymentsListByYear({ year });
     setPaymentsList(res.data);
     setPaymentsListByYear(resYear.data);
+    formatChartInfo(resYear.data);
     setIsLoading(false);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startDate, year]);
 
   useEffect(() => {
@@ -272,8 +264,9 @@ const Clients = ({ token, payments, id, clients, yearPayments }) => {
       reloadPayments();
     } else {
       isFirstRenderRef.current = false;
+      formatChartInfo(paymentsListByYear);
     }
-    formatChartInfo();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startDate, reloadPayments]);
 
   return (
@@ -312,13 +305,13 @@ const Clients = ({ token, payments, id, clients, yearPayments }) => {
                       paymentsVictor
                     }}
                   />
-                  {showClientsChart && (
+                  {chartData.datasets && (
                     <div className={styles['clients__content--chart']}>
                       <p>Resúmen Clientes Año</p>
                       <Line data={chartData} />
                     </div>
                   )}
-                  {showPaymentsChart && (
+                  {chartPaymentsData.datasets && (
                     <div className={styles['clients__content--chart']}>
                       <p>Resúmen Ingresos Año</p>
                       <Line data={chartPaymentsData} />
