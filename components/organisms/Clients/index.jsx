@@ -256,6 +256,7 @@ const Clients = ({ token, payments, id, clients, yearPayments }) => {
     setPaymentsListByYear(resYear.data);
     formatChartInfo(resYear.data);
     setIsLoading(false);
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startDate, year]);
 
@@ -266,6 +267,7 @@ const Clients = ({ token, payments, id, clients, yearPayments }) => {
       isFirstRenderRef.current = false;
       formatChartInfo(paymentsListByYear);
     }
+    
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startDate, reloadPayments]);
 

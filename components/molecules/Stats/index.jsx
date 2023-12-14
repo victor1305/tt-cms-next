@@ -3,7 +3,14 @@
 import { useState, useEffect } from 'react';
 import DotLoader from 'react-spinners/DotLoader';
 
-import { getStatsByType } from '@/lib/https';
+import { typesArr, statsByMonthArr } from '@/lib/constants';
+import { getStatsByType, getStatsByMonthAndType } from '@/lib/https';
+import {
+  getArrKeys,
+  getTableHeader,
+  getTypeTraduction,
+  numberToMonth
+} from '@/lib/utils';
 
 import { StatsTable, TypesBox } from '@/components/atoms';
 
@@ -11,47 +18,32 @@ import styles from './Stats.module.scss';
 
 const Stats = ({ statsRes, yearSelected }) => {
   const [type, setType] = useState('');
+  const [month, setMonth] = useState('');
   const [bets, setBets] = useState(statsRes);
   const [isLoading, setIsLoading] = useState(false);
 
-  const typeTraduction =
-    !type || type === 'month'
-      ? 'Mes'
-      : type === 'category'
-      ? 'Categoría'
-      : type === 'stake'
-      ? 'Stake'
-      : 'Hipódromo';
+  const typeTraduction = getTypeTraduction(type);
+  const tableHeader = getTableHeader(typeTraduction);
+  const arrKeys = getArrKeys(type);
 
-  const tableHeader = [
-    typeTraduction,
-    'Apuestas',
-    'Aciertos',
-    'Fallos',
-    'Nulos',
-    'Acierto',
-    'Stake Medio',
-    'Uds Jugadas',
-    'Yield',
-    'Profit'
-  ];
-
-  const arrKeys = [
-    !type ? 'month' : type,
-    'bets',
-    'wins',
-    'loss',
-    'voids',
-    'win_percent',
-    'medium_stake',
-    'units_staked',
-    'yield',
-    'profit'
-  ];
+  useEffect(() => {
+    const getStatsByMonth = async () => {
+      setIsLoading(true);
+      const res = await getStatsByMonthAndType({
+        year: yearSelected,
+        month,
+        type
+      });
+      setBets(res);
+      setIsLoading(false);
+    };
+    month && getStatsByMonth();
+  }, [month, type, yearSelected]);
 
   useEffect(() => {
     const getStats = async () => {
       setIsLoading(true);
+      setMonth('');
       const res = await getStatsByType({ year: yearSelected, type });
       setBets(res);
       setIsLoading(false);
@@ -61,17 +53,42 @@ const Stats = ({ statsRes, yearSelected }) => {
   }, [type, yearSelected]);
 
   return (
-    <div>
+    <div className={styles['stats']}>
       {isLoading ? (
         <div className={styles['stats--spinner']}>
           <DotLoader color={'#3860fb'} loading={isLoading} size={90} />
         </div>
       ) : (
         <>
+          {yearSelected > 2020 && (
+            <TypesBox
+              {...{
+                type,
+                setType,
+                typesArr,
+                label: 'Tipos:',
+                defaultKey: 'month'
+              }}
+            />
+          )}
+          {yearSelected > 2020 && type && type !== 'month' && (
+            <TypesBox
+              {...{
+                type: month,
+                setType: setMonth,
+                typesArr: statsByMonthArr,
+                label: 'Mes:',
+                defaultKey: '00'
+              }}
+            />
+          )}
           <h2>
-            Estadísticas por {typeTraduction}, Año {yearSelected}
+            Estadísticas por {typeTraduction},{' '}
+            {month && month !== '00'
+              ? numberToMonth(parseInt(month) - 1)
+              : 'Año'}{' '}
+            {yearSelected}
           </h2>
-          {yearSelected > 2020 && <TypesBox {...{ type, setType }} />}
           <StatsTable
             {...{
               bets,

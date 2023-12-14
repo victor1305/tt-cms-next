@@ -27,14 +27,14 @@ const StatsTable = ({ bets, tableHeader, statsType, arrKeys, type }) => (
               <th
                 key={`header-${index}`}
                 className={classNames({
-                  [styles['table-stats__bet--hide']]:
-                    statsType === 'Stakes' && elm === 'Stake Medio',
                   [styles['table-stats__bet--hide-mobile']]: !(
                     elm === statsType ||
                     elm === 'Acierto' ||
                     elm === 'Yield' ||
                     elm === 'Profit'
-                  )
+                  ),
+                  [styles['table-stats__bet--hide']]:
+                    statsType === 'Stake' && elm === 'Stake Medio'
                 })}
               >
                 {elm}
@@ -54,7 +54,7 @@ const StatsTable = ({ bets, tableHeader, statsType, arrKeys, type }) => (
                 key={`body-${index}-${keyIndex}`}
                 className={classNames({
                   [styles['table-stats__bet--hide']]:
-                    statsType === 'Stakes' && itemKey === 'medium_stake',
+                    statsType === 'Stake' && itemKey === 'medium_stake',
                   [styles['table-stats__bet--hide-mobile']]: !(
                     itemKey === 'yield' ||
                     itemKey === 'profit' ||

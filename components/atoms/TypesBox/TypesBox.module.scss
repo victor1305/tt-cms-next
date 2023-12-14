@@ -9,18 +9,32 @@
   display: flex;
   align-items: baseline;
 
-  div {
+  &--months {
+    padding-bottom: 11px;
+  }
+
+  &__container {
     width: 456px;
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
     justify-content: space-evenly;
 
-    span {
+    &--months {
+      justify-content: flex-start;
+    }
+
+    &__label {
       text-align: center;
       margin: 0 15px;
       font-size: 14px;
       cursor: pointer;
+
+      &--months {
+        width: 75px;
+        text-align: left;
+        padding-bottom: 5px;
+      }
 
       &:hover {
         color: #476cf8;
@@ -37,9 +51,9 @@
     padding: 16px 19px 8px;
     margin: 20px;
 
-    div {
+    &__container {
       width: auto;
-      span {
+      &__label {
         width: 70px;
         margin: 0 10px 8px;
       }
@@ -47,7 +61,7 @@
   }
 
   @media screen and (max-width: 450px) {
-    div > span {
+    &__container__label {
       text-align: left;
     }
   }

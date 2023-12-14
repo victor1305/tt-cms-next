@@ -55,8 +55,8 @@ const PaymentModal = ({
   };
 
   const closeModal = () => {
-    resetForm();
     handleClose();
+    resetForm();
   };
 
   const saveData = async () => {

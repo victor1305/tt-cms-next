@@ -13,7 +13,7 @@ export default async function Page({ params }) {
 
   const balancesRes = await getBalances();
 
-  const start = 2010;
+  const start = 2016;
   const end = new Date().getFullYear();
   const yearSelected = year;
 
