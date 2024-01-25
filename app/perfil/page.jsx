@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { getUserData } from '@/app/api/user';
-import { getBetsByMonth, getPaymentsByUser } from '@/app/lib/https';
+import { getPaymentsByUser } from '@/app/lib/https';
 
 import { Profile } from '@/components/organisms';
 
@@ -14,7 +14,6 @@ export default async function Page() {
 
   if (monthFormated < 10) monthFormated = `0${monthFormated}`;
   const userPays = await getPaymentsByUser({ id, year, monthFormated });
-  const betsByMonth = await getBetsByMonth({ month: monthNumber, year });
   const name = data.data.name;
-  return <Profile {...{ userPays, name, id, betsByMonth }} />;
+  return <Profile {...{ userPays, name, id }} />;
 }
