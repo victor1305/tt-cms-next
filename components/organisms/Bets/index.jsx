@@ -10,22 +10,19 @@ import {
 } from '@/lib/utils';
 
 import { MonthlyPlanner } from '@/components/atoms';
-import {
-  BtnsBox,
-  PersonalBet,
-  ProfileBox
-} from '@/components/molecules';
+import { BetModal, BtnsBox, ProfileBox } from '@/components/molecules';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import styles from './Bets.module.scss';
 
-const Bets = ({ betsData }) => {
+const Bets = ({ betsData, racecoursesList, stakesList, codesList, token }) => {
   const [startDate, setStartDate] = useState(new Date());
   const [isModalBetOpen, setIsModalBetOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState(
-    getDataFormatted(betsData, startDate)
-  );
+  const [data, setData] = useState(getDataFormatted(betsData, startDate));
+  const [racecourses, setRacecourses] = useState(racecoursesList);
+  const [stakes, setStakes] = useState(stakesList);
+  const [codes, setCodes] = useState(codesList);
 
   const year = startDate.getFullYear();
   const month = numberToMonth(startDate.getMonth());
@@ -56,7 +53,7 @@ const Bets = ({ betsData }) => {
     setIsLoading(true);
     const res = await getBetsByMonth({
       year,
-      month: startDate.getMonth(),
+      month: startDate.getMonth()
     });
     if (res) {
       setData(getDataFormatted(res, startDate));
@@ -95,13 +92,13 @@ const Bets = ({ betsData }) => {
           />
         </ProfileBox>
       </div>
-      {/* <PersonalBet
+      <BetModal
         formData={{}}
         handleClose={() => setIsModalBetOpen(false)}
         isEdit={false}
         show={isModalBetOpen}
-        {...{ token, id, formSubmitted }}
-      /> */}
+        {...{ token, racecourses, stakes, codes, formSubmitted }}
+      />
     </div>
   );
 };

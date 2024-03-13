@@ -105,3 +105,24 @@ export const getPaymentsListByYear = async ({ year }) => {
   const data = await res.json();
   return data;
 };
+
+export const getStakesList = async () => {
+  const url = `${apiBetsUrl}lista-stakes`;
+  const res = await fetch(url, { next: { revalidate: 0 } });
+  const { data } = await res.json();
+  return data;
+};
+
+export const getRacecoursesList = async () => {
+  const url = `${apiBetsUrl}lista-hipodromos`;
+  const res = await fetch(url, { next: { revalidate: 0 } });
+  const { data } = await res.json();
+  return data;
+};
+
+export const getCodesList = async () => {
+  const url = `${apiBetsUrl}lista-codigos`;
+  const res = await fetch(url, { next: { revalidate: 0 } });
+  const { data } = await res.json();
+  return data;
+};

@@ -14,6 +14,11 @@ export function middleware(request) {
       returnProps.props.userData = tokenData;
       returnProps.props.isLoggedIn = true;
     }
+
+    const now = Date.now().valueOf() / 1000;
+    if (tokenData.exp < now) {
+      returnProps.props.isLoggedIn = false;
+    }
   }
 
   if (

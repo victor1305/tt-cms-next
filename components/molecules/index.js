@@ -1,4 +1,5 @@
 import BalancesTable from './BalancesTable';
+import BetModal from './BetModal';
 import BtnsBox from './BtnsBox';
 import ClientModal from './ClientModal';
 import ConfirmModal from './ConfirmModal';
@@ -12,6 +13,7 @@ import StatsTrends from './StatsTrends';
 
 export {
   BalancesTable,
+  BetModal,
   BtnsBox,
   ClientModal,
   ConfirmModal,
