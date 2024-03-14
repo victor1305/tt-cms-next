@@ -4,6 +4,7 @@ import BtnsBox from './BtnsBox';
 import ClientModal from './ClientModal';
 import ConfirmModal from './ConfirmModal';
 import Header from './Header';
+import ParameterModal from './ParameterModal';
 import PaymentModal from './PaymentModal';
 import PaymentsBox from './PaymentsBox';
 import PersonalBet from './PersonalBet';
@@ -18,6 +19,7 @@ export {
   ClientModal,
   ConfirmModal,
   Header,
+  ParameterModal,
   PaymentModal,
   PaymentsBox,
   PersonalBet,

@@ -117,6 +117,7 @@ const BetModal = ({
           <label>Carrera: *</label>
           <input
             type="text"
+            name="race"
             value={form.race || ''}
             onChange={(e) => setForm({ ...form, race: e.target.value })}
           />
@@ -130,6 +131,7 @@ const BetModal = ({
           <label>Apuesta: *</label>
           <input
             type="text"
+            name="betName"
             value={form.betName || ''}
             onChange={(e) => setForm({ ...form, betName: e.target.value })}
           />
@@ -200,6 +202,7 @@ const BetModal = ({
           <label>Posición:</label>
           <input
             type="text"
+            name="position"
             value={form.position || ''}
             onChange={(e) => setForm({ ...form, position: e.target.value })}
           />

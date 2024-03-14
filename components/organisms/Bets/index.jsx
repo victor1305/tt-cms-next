@@ -9,8 +9,19 @@ import {
   numberToMonth
 } from '@/lib/utils';
 
+import {
+  getCodesList,
+  getRacecoursesList,
+  getStakesList
+} from '@/app/lib/https';
+
 import { MonthlyPlanner } from '@/components/atoms';
-import { BetModal, BtnsBox, ProfileBox } from '@/components/molecules';
+import {
+  ParameterModal,
+  BetModal,
+  BtnsBox,
+  ProfileBox
+} from '@/components/molecules';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import styles from './Bets.module.scss';
@@ -18,6 +29,7 @@ import styles from './Bets.module.scss';
 const Bets = ({ betsData, racecoursesList, stakesList, codesList, token }) => {
   const [startDate, setStartDate] = useState(new Date());
   const [isModalBetOpen, setIsModalBetOpen] = useState(false);
+  const [isModalParameterOpen, setIsModalParameterOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState(getDataFormatted(betsData, startDate));
   const [racecourses, setRacecourses] = useState(racecoursesList);
@@ -32,11 +44,7 @@ const Bets = ({ betsData, racecoursesList, stakesList, codesList, token }) => {
   const btnsList = [
     {
       copy: 'Añadir Parámetro',
-      handleClick: () => setIsModalBetOpen(true)
-    },
-    {
-      copy: 'Ver Apuestas',
-      handleClick: () => setIsModalBetOpen(true)
+      handleClick: () => setIsModalParameterOpen(true)
     },
     {
       copy: 'Añadir Apuesta',
@@ -47,6 +55,22 @@ const Bets = ({ betsData, racecoursesList, stakesList, codesList, token }) => {
   const formSubmitted = () => {
     setIsModalBetOpen(false);
     reloadBets();
+  };
+
+  const parameterSubmitted = () => {
+    setIsModalParameterOpen(false);
+    reloadParameters();
+  };
+
+  const reloadParameters = async () => {
+    setIsLoading(true);
+    const resRacecourses = await getRacecoursesList();
+    const resCodes = await getCodesList();
+    const resStakes = await getStakesList();
+    setRacecourses(resRacecourses);
+    setCodes(resCodes);
+    setStakes(resStakes);
+    setIsLoading(false);
   };
 
   const reloadBets = useCallback(async () => {
@@ -98,6 +122,12 @@ const Bets = ({ betsData, racecoursesList, stakesList, codesList, token }) => {
         isEdit={false}
         show={isModalBetOpen}
         {...{ token, racecourses, stakes, codes, formSubmitted }}
+      />
+      <ParameterModal
+        handleClose={() => setIsModalParameterOpen(false)}
+        show={isModalParameterOpen}
+        formSubmitted={parameterSubmitted}
+        {...{ token }}
       />
     </div>
   );
