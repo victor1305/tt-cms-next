@@ -1,5 +1,6 @@
 import BalancesTableRow from './BalancesTableRow';
 import BasicModal from './BasicModal';
+import CardBet from './CardBet';
 import CardMyBet from './CardMyBet';
 import ClientTableRow from './ClientTableRow';
 import MonthlyPlanner from './MonthPlanning';
@@ -15,6 +16,7 @@ import YearsBox from './YearsBox';
 export {
   BalancesTableRow,
   BasicModal,
+  CardBet,
   CardMyBet,
   ClientTableRow,
   MonthlyPlanner,

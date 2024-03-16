@@ -1,4 +1,5 @@
 import Bets from './Bets';
+import BetsDetail from './BetsDetail';
 import ClientDetail from './ClientDetail';
 import Clients from './Clients';
 import MyBets from './MyBets';
@@ -9,6 +10,7 @@ import Statistics from './Statistics';
 
 export {
   Bets,
+  BetsDetail,
   ClientDetail,
   Clients,
   MyBets,

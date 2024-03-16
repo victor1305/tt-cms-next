@@ -49,8 +49,8 @@ const BetModal = ({
       racecourse: !form.racecourse.length,
       race: !form.race.length,
       betName: !form.betName.length,
-      stake: !form.stake.length,
-      price: !form.price.length,
+      stake: !(form.stake).toString().length,
+      price: !(form.price).toString().length,
       betCode: !form.betCode.length
     };
 
