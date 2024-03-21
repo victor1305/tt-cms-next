@@ -9,6 +9,7 @@ import PaymentsResume from './PaymentsResume';
 import PaymentsTable from './PaymentsTable';
 import PrincipalBtn from './PrincipalBtn';
 import StatsTable from './StatsTable';
+import TablesMonthPlanning from './TablesMonthPlanning';
 import TrendBox from './TrendBox';
 import TypesBox from './TypesBox';
 import YearsBox from './YearsBox';
@@ -25,6 +26,7 @@ export {
   PaymentsTable,
   PrincipalBtn,
   StatsTable,
+  TablesMonthPlanning,
   TrendBox,
   TypesBox,
   YearsBox
