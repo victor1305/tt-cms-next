@@ -49,7 +49,7 @@ const Tables = ({ numberOfRacesByMonth, token }) => {
     });
     if (res) {
       setData(res);
-      console.log(token)
+      console.log(token);
       setMonthDays(calculateNumberDaysOnMonthForTable(startDate));
     }
     setIsLoading(false);
