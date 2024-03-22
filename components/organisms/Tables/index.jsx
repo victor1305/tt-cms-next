@@ -32,7 +32,7 @@ const Tables = ({ numberOfRacesByMonth, token }) => {
   const btnsList = [
     {
       copy: 'Crear Cuadrante',
-      //handleClick: () => setIsModalQuadrantOpen(true)
+      handleClick: () => console.log('CREAR CUADRANTE')
     }
   ];
 

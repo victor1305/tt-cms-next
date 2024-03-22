@@ -15,7 +15,7 @@ const TablesDetail = ({ tablesData, date }) => {
   const btnsList = [
     {
       copy: 'Corregir',
-      //handleClick: () => setIsModalQuadrantOpen(true)
+      handleClick: () => console.log('CORREGIR CUADRANTE')
     }
   ];
 
