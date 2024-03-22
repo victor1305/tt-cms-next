@@ -17,7 +17,7 @@ import styles from './Tables.module.scss';
 
 const Tables = ({ numberOfRacesByMonth, token }) => {
   const [startDate, setStartDate] = useState(new Date());
-  const [isModalQuadrantOpen, setIsModalQuadrantOpen] = useState(false);
+  // const [isModalQuadrantOpen, setIsModalQuadrantOpen] = useState(false);
   const [data, setData] = useState(numberOfRacesByMonth);
   const [monthDays, setMonthDays] = useState(
     calculateNumberDaysOnMonthForTable(startDate)
@@ -32,14 +32,14 @@ const Tables = ({ numberOfRacesByMonth, token }) => {
   const btnsList = [
     {
       copy: 'Crear Cuadrante',
-      handleClick: () => setIsModalQuadrantOpen(true)
+      //handleClick: () => setIsModalQuadrantOpen(true)
     }
   ];
 
-  const formSubmitted = () => {
-    setIsModalQuadrantOpen(false);
-    reloadBets();
-  };
+  // const formSubmitted = () => {
+  //   setIsModalQuadrantOpen(false);
+  //   reloadBets();
+  // };
 
   const reloadBets = useCallback(async () => {
     setIsLoading(true);
@@ -49,6 +49,7 @@ const Tables = ({ numberOfRacesByMonth, token }) => {
     });
     if (res) {
       setData(res);
+      console.log(token)
       setMonthDays(calculateNumberDaysOnMonthForTable(startDate));
     }
     setIsLoading(false);
