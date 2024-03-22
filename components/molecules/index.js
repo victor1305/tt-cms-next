@@ -9,6 +9,7 @@ import PaymentModal from './PaymentModal';
 import PaymentsBox from './PaymentsBox';
 import PersonalBet from './PersonalBet';
 import ProfileBox from './ProfileBox';
+import QuadrantTable from './QuadrantTable';
 import Stats from './Stats';
 import StatsTrends from './StatsTrends';
 
@@ -24,6 +25,7 @@ export {
   PaymentsBox,
   PersonalBet,
   ProfileBox,
+  QuadrantTable,
   Stats,
   StatsTrends
 };

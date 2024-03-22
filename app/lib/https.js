@@ -1,4 +1,4 @@
-import { apiBetsUrl, apiClientsUrl } from '@/lib/constants';
+import { apiBetsUrl, apiClientsUrl, apiRacesUrl } from '@/lib/constants';
 import stats2016 from '@/lib/historyStats/2016.json';
 import stats2017 from '@/lib/historyStats/2017.json';
 import stats2018 from '@/lib/historyStats/2018.json';
@@ -101,6 +101,14 @@ export const getPersonalBetsByDay = async ({ day, month, year, id, token }) => {
     }
   });
   const { data } = await res.json();
+  return data;
+};
+
+export const getTablesByDay = async ({ month, year, day }) => {
+  const url = `${apiRacesUrl}cargar-cuadrantes-por-dia/${year}-${month}-${day}`;
+  const res = await fetch(url, { next: { revalidate: 0 } });
+  const data  = await res.json();
+
   return data;
 };
 

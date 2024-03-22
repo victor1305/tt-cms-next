@@ -8,6 +8,7 @@ import Principal from './Principal';
 import Profile from './Profile';
 import Statistics from './Statistics';
 import Tables from './Tables';
+import TablesDetail from './TablesDetail';
 
 export {
   Bets,
@@ -19,5 +20,6 @@ export {
   Principal,
   Profile,
   Statistics,
-  Tables
+  Tables,
+  TablesDetail
 };

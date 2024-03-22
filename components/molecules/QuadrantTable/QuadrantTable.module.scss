@@ -1,0 +1,117 @@
+@import '@/styles/principals/_colors.scss';
+
+.quadrant-table {
+  border-collapse: collapse;
+  border: 1px solid $color-secondary-80;
+  //width: 1550px;
+  margin: 0 auto 60px;
+
+  &--head-tr {
+    background-color: $color-secondary-100;
+    padding: 5px;
+    margin: 0;
+  }
+
+
+  &--td-name {
+    text-align: left !important;
+    padding-left: 20px !important;
+  }
+
+  &--suppl {
+    padding-left: 8px;
+    color: $color-loss;
+  }
+
+  &--psf {
+    background-color: $color-gold;
+  }
+
+  &--grass {
+    background-color: $color-success;
+  }
+
+  &--number {
+    width: 20px;
+  }
+  &--horse {
+    width: 180px;
+  }
+  &--e {
+    width: 30px;
+  }
+  &--jockey {
+    width: 150px;
+  }
+  &--values {
+    width: 750px;
+  }
+  &--rest {
+    width: 50px;
+  }
+
+
+  td {
+    border: 1px solid $color-secondary-80;
+  }
+
+  th {
+    border: 1px solid $color-secondary-80;
+    text-align: center;
+    padding: 8px;
+    font-weight: 600;
+  }
+
+  thead > tr {
+    background-color: $color-primary-100;
+    color: $color-neutral-00;
+    font-size: 14px;
+    padding: 10px;
+    margin: 0;
+  }
+
+  tbody > tr {
+    td {
+      padding: 8px;
+      text-align: center;
+      color: $color-neutral-00;
+      font-size: 12px;
+
+      svg {
+        cursor: pointer;
+      }
+    }
+  }
+
+  @media screen and (max-width: 1024px) {
+    width: 340px;
+    font-size: 14px;
+
+    &--td-name {
+      padding-left: 10px !important;
+    }
+  }
+
+  @media screen and (max-width: 424px) {
+    tbody > tr {
+      td {
+        padding: 5px;
+        text-align: center;
+      }
+    }
+  }
+
+  @media screen and (max-width: 360px) {
+    th {
+      font-size: 14px;
+      padding: 5px;
+    }
+
+    tbody > tr {
+      td {
+        padding: 5px;
+        font-size: 14px;
+      }
+    }
+  }
+}
