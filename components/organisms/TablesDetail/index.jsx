@@ -10,7 +10,7 @@ const TablesDetail = ({ tablesData, date }) => {
   // const [data, setData] = useState(tablesData);
   // const [isModalQuadrantOpen, setIsModalQuadrantOpen] = useState(false);
 
-  const racecoursesCodes = Object.keys(tablesData);
+  const racecoursesCodes = Object.keys(tablesData).sort((a, b) => new Date(tablesData[a][0].date) - new Date(tablesData[b][0].date));
 
   const btnsList = [
     {
