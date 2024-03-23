@@ -10,7 +10,7 @@ const QuadrantTable = ({ data }) => {
     return '';
   };
 
-  const getSecondValue = (value) => {
+  const getFirstValue = (value) => {
     // Primero eliminamos los números entre paréntesis para evitar confusiones
     if (value) {
       const sinParentesis = value.replace(/\([^)]+\)/g, '');
@@ -19,16 +19,16 @@ const QuadrantTable = ({ data }) => {
       const numeros = sinParentesis.match(/[\d,.]+/g);
 
       if (numeros) {
-        let numeroRelevanteStr;
+        let numeroRelevanteStr = numeros[0];
 
-        // Verificamos la presencia de 'am' o 'ap' para decidir qué número tomar
-        if (sinParentesis.includes('am') || sinParentesis.includes('ap')) {
-          // Si hay 'am' o 'ap', se intenta tomar el segundo número si existe
-          numeroRelevanteStr = numeros.length > 1 ? numeros[1] : numeros[0];
-        } else {
-          // De lo contrario, tomamos el primer número
-          numeroRelevanteStr = numeros[0];
-        }
+        // // Verificamos la presencia de 'am' o 'ap' para decidir qué número tomar
+        // if (sinParentesis.includes('am') || sinParentesis.includes('ap')) {
+        //   // Si hay 'am' o 'ap', se intenta tomar el segundo número si existe
+        //   numeroRelevanteStr = numeros.length > 1 ? numeros[0] : numeros[0];
+        // } else {
+        //   // De lo contrario, tomamos el primer número
+        //   numeroRelevanteStr = numeros[0];
+        // }
 
         // Reemplazamos la coma por el punto solo si parece ser un separador decimal
         const numeroRelevante = parseFloat(
@@ -38,14 +38,15 @@ const QuadrantTable = ({ data }) => {
         // Convertimos el número relevante a entero si es necesario
         return numeroRelevante;
       }
+      return 0;
     }
-    return null;
+    return 0;
   };
 
   const getMediumValue = (datos) => {
     const ultimosCincoValores = datos
       .slice(-5) // Toma los últimos 5 elementos.
-      .map((obj) => getSecondValue(obj.value)) // Extrae y convierte los valores relevantes.
+      .map((obj) => getFirstValue(obj.value)) // Extrae y convierte los valores relevantes.
       .filter((val) => val !== null); // Filtra los valores no válidos o no encontrados.
 
     // Calcula la mediana de esos valores.
@@ -71,19 +72,23 @@ const QuadrantTable = ({ data }) => {
       .replace(/(^\w)|([-\s]\w)/g, (match) => match.toUpperCase())
       .replace(/(^|\. *)([a-z])/g, (match) => match.toUpperCase());
 
-  const getBestValue = (values) => {
-    const bestValue = values.reduce((max, obj) => {
-      const valorActual = getSecondValue(obj.value);
-      const maxValor = max ? getSecondValue(max.value) : null;
+  const getBestValue = (values, preferredSurface) => {
+    // Filtra los valores que coinciden con la superficie preferida.
+    const matchingSurfaceValues = values.filter(
+      (val) => val.surface === preferredSurface
+    );
 
-      // Comprueba si el actual es mayor que el máximo registrado y actualiza max si es necesario
-      // También asegúrate de que valorActual no sea null
-      if (valorActual !== null && (max === null || valorActual > maxValor)) {
-        return obj;
-      }
-      return max;
-    }, null);
-    return bestValue;
+    // Usa los valores que coinciden si están disponibles; de lo contrario, usa todos los valores.
+    const relevantValues =
+      matchingSurfaceValues.length > 0 ? matchingSurfaceValues : values;
+
+    // Encuentra el mejor valor de los relevantes.
+    return relevantValues.reduce((max, obj) => {
+      const valorActual = getFirstValue(obj.value);
+      const maxValor = max ? getFirstValue(max.value) : 0; // Cambia null por 0 para la comparación.
+
+      return valorActual > maxValor ? obj : max;
+    }, null); // Empieza sin un valor máximo.
   };
 
   return (
@@ -125,11 +130,11 @@ const QuadrantTable = ({ data }) => {
           <th className={styles['quadrant-table--e']}>Desc</th>
           <th className={styles['quadrant-table--jockey']}>Jockey</th>
           <th className={styles['quadrant-table--values']}>Valores</th>
-          <th className={styles['quadrant-table--rest']}>R. Med</th>
-          <th className={styles['quadrant-table--rest']}>R. Abs</th>
-          <th className={styles['quadrant-table--rest']}>R. 10</th>
-          <th className={styles['quadrant-table--rest']}>R. 5</th>
-          <th className={styles['quadrant-table--rest']}>R. Ult</th>
+          <th className={styles['quadrant-table--rest']}>R.Med</th>
+          <th className={styles['quadrant-table--rest']}>R.Abs</th>
+          <th className={styles['quadrant-table--rest']}>R.10</th>
+          <th className={styles['quadrant-table--rest']}>R.5</th>
+          <th className={styles['quadrant-table--rest']}>R.Ult</th>
           <th>Anotaciones</th>
           {/* {data.horses.thisRaceData.some((elm) => elm === 'position') && <th>Pos</th>} */}
         </tr>
@@ -197,16 +202,22 @@ const QuadrantTable = ({ data }) => {
                   <span
                     style={{
                       color:
-                        getBestValue(elm.values).surface === 'PSF'
+                        (getBestValue(elm.values, data.surface) || {})
+                          .surface === 'PSF'
                           ? '#ff9900'
                           : '#34a853',
-                      textDecoration: getBestValue(elm.values).mud
+                      textDecoration: (
+                        getBestValue(elm.values, data.surface) || {}
+                      ).mud
                         ? 'underline'
                         : 'none'
                     }}
                   >
                     {elm.thisRaceData.weight -
-                      getSecondValue(getBestValue(elm.values).value)}
+                      getFirstValue(
+                        (getBestValue(elm.values, data.surface) || {}).value ||
+                          ''
+                      )}
                   </span>
                 )}
               </td>
@@ -217,16 +228,26 @@ const QuadrantTable = ({ data }) => {
                   <span
                     style={{
                       color:
-                        getBestValue(elm.values).surface === 'PSF'
+                        (
+                          getBestValue(elm.values.slice(-10), data.surface) ||
+                          {}
+                        ).surface === 'PSF'
                           ? '#ff9900'
                           : '#34a853',
-                      textDecoration: getBestValue(elm.values.slice(-10)).mud
+                      textDecoration: (
+                        getBestValue(elm.values.slice(-10), data.surface) || {}
+                      ).mud
                         ? 'underline'
                         : 'none'
                     }}
                   >
                     {elm.thisRaceData.weight -
-                      getSecondValue(getBestValue(elm.values.slice(-10)).value)}
+                      getFirstValue(
+                        (
+                          getBestValue(elm.values.slice(-10), data.surface) ||
+                          {}
+                        ).value || ''
+                      )}
                   </span>
                 )}
               </td>
@@ -237,16 +258,22 @@ const QuadrantTable = ({ data }) => {
                   <span
                     style={{
                       color:
-                        getBestValue(elm.values).surface === 'PSF'
+                        (getBestValue(elm.values.slice(-5), data.surface) || {})
+                          .surface === 'PSF'
                           ? '#ff9900'
                           : '#34a853',
-                      textDecoration: getBestValue(elm.values.slice(-5)).mud
+                      textDecoration: (
+                        getBestValue(elm.values.slice(-5), data.surface) || {}
+                      ).mud
                         ? 'underline'
                         : 'none'
                     }}
                   >
                     {elm.thisRaceData.weight -
-                      getSecondValue(getBestValue(elm.values.slice(-5)).value)}
+                      getFirstValue(
+                        (getBestValue(elm.values.slice(-5), data.surface) || {})
+                          .value || ''
+                      )}
                   </span>
                 )}
               </td>
@@ -266,7 +293,7 @@ const QuadrantTable = ({ data }) => {
                     }}
                   >
                     {elm.thisRaceData.weight -
-                      getSecondValue(elm.values[elm.values.length - 1].value)}
+                      getFirstValue(elm.values[elm.values.length - 1].value)}
                   </span>
                 )}
               </td>
