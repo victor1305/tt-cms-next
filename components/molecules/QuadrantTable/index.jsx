@@ -133,6 +133,7 @@ const QuadrantTable = ({ data }) => {
           <th></th>
           <th>{data.time}</th>
           <th></th>
+          <th></th>
           {/* {data.horses.thisRaceData.some((elm) => elm === 'position') && <th></th>} */}
         </tr>
         <tr>
@@ -150,6 +151,7 @@ const QuadrantTable = ({ data }) => {
           <th className={styles['quadrant-table--rest']}>R.10</th>
           <th className={styles['quadrant-table--rest']}>R.5</th>
           <th className={styles['quadrant-table--rest']}>R.Ult</th>
+          <th className={styles['quadrant-table--rest']}>R.Edu</th>
           <th>Anotaciones</th>
           {/* {data.horses.thisRaceData.some((elm) => elm === 'position') && <th>Pos</th>} */}
         </tr>
@@ -317,6 +319,7 @@ const QuadrantTable = ({ data }) => {
                   </span>
                 )}
               </td>
+              <td>{elm.thisRaceData.driveRest || ''}</td>
               <td></td>
               {/* {data.horses.thisRaceData.some((elm) => elm === 'position') && <td>Pos</td>} */}
             </tr>
