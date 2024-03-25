@@ -3,13 +3,15 @@ import React from 'react';
 
 import { getDayFormatted, getMonthFormatted } from '@/lib/utils';
 
+import { getUserData } from '@/app/api/user';
 import { getTablesByDay } from '@/app/lib/https';
 
 import { TablesDetail } from '@/components/organisms';
 
 export default async function Page({ params }) {
   const [day_data] = params.day_data;
-
+  const data = await getUserData();
+  const token = data.data.token;
   const isoDate = new Date(day_data);
 
   const year = isoDate.getFullYear();
@@ -21,5 +23,5 @@ export default async function Page({ params }) {
 
   if (!tablesData) redirect('/cuadrantes');
 
-  return <TablesDetail {...{ tablesData, date: day_data }} />;
+  return <TablesDetail {...{ tablesData, date: day_data, token }} />;
 }

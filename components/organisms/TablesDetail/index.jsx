@@ -6,7 +6,7 @@ import { BtnsBox, QuadrantTable } from '@/components/molecules';
 
 import styles from './TablesDetail.module.scss';
 
-const TablesDetail = ({ tablesData, date }) => {
+const TablesDetail = ({ tablesData, date, token }) => {
   // const [data, setData] = useState(tablesData);
   // const [isModalQuadrantOpen, setIsModalQuadrantOpen] = useState(false);
 
@@ -28,7 +28,7 @@ const TablesDetail = ({ tablesData, date }) => {
           tablesData[elm]
             .sort((a, b) => a.number - b.number)
             .map((table, index) => (
-              <QuadrantTable key={index} {...{ data: table }} />
+              <QuadrantTable key={index} {...{ dataRaces: table, token }} />
             ))
         )}
       </div>

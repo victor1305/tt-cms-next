@@ -5,6 +5,7 @@ import ClientModal from './ClientModal';
 import ConfirmModal from './ConfirmModal';
 import CreateQuadrantModal from './CreateQuadrantModal';
 import Header from './Header';
+import HorseModal from './HorseModal';
 import ParameterModal from './ParameterModal';
 import PaymentModal from './PaymentModal';
 import PaymentsBox from './PaymentsBox';
@@ -13,6 +14,7 @@ import ProfileBox from './ProfileBox';
 import QuadrantTable from './QuadrantTable';
 import Stats from './Stats';
 import StatsTrends from './StatsTrends';
+import ValueDetailModal from './ValueDetailModal';
 
 export {
   BalancesTable,
@@ -22,6 +24,7 @@ export {
   ConfirmModal,
   CreateQuadrantModal,
   Header,
+  HorseModal,
   ParameterModal,
   PaymentModal,
   PaymentsBox,
@@ -29,5 +32,6 @@ export {
   ProfileBox,
   QuadrantTable,
   Stats,
-  StatsTrends
+  StatsTrends,
+  ValueDetailModal
 };

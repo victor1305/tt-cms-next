@@ -1,6 +1,6 @@
 @import '@/styles/principals/_colors.scss';
 
-.create-quadrant-modal {
+.value-detail-modal {
   padding: 10px;
 
   h4 {
@@ -11,6 +11,17 @@
     margin-bottom: 20px;
     margin-top: 0;
     color: $color-primary-100;
+  }
+
+  p {
+    color: $color-primary-80;
+    padding-bottom: 16px;
+    font-size: 16px;
+    font-weight: 500;
+
+    span {
+      color: $color-secondary-60;
+    }
   }
 
   label {
@@ -29,10 +40,25 @@
     border-radius: 3px;
   }
 
+  &--value {
+    display: flex;
+    align-items: flex-start;
+    span {
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+
+    button {
+      cursor: pointer;
+      background-color: transparent;
+      border: none;
+    }
+  }
+
   &__form-error {
     font-size: 12px;
+    padding-bottom: 20px;
     color: $color-loss;
-    padding-bottom: 18px;
   }
 
   &__form-box {
