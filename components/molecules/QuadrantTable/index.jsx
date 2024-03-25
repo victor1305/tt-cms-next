@@ -106,12 +106,26 @@ const QuadrantTable = ({ data }) => {
     return 0;
   };
 
+  const showPositionNotes = data.horses.some(
+    (horse) =>
+      horse.thisRaceData.notes && horse.thisRaceData.notes.length > 0
+  );
+  const showPositionColumn = data.horses.some(
+    (horse) =>
+      horse.thisRaceData.position && horse.thisRaceData.position.length > 0
+  );
+  const showCorrectionColumn = data.horses.some(
+    (horse) => horse.thisRaceData.value && horse.thisRaceData.value.length > 0
+  );
+
   return (
     <table className={styles['quadrant-table']}>
       <thead>
         <tr>
           <th></th>
-          <th>{data.racecourse}</th>
+          <th className={styles['quadrant-table--sticky']}>
+            {data.racecourse}
+          </th>
           <th></th>
           <th></th>
           <th></th>
@@ -134,11 +148,17 @@ const QuadrantTable = ({ data }) => {
           <th>{data.time}</th>
           <th></th>
           <th></th>
-          {/* {data.horses.thisRaceData.some((elm) => elm === 'position') && <th></th>} */}
+          {showPositionNotes && <th></th>}
+          {showCorrectionColumn && <th></th>}
+          {showPositionColumn && <th></th>}
         </tr>
         <tr>
           <th className={styles['quadrant-table--number']}>Nº</th>
-          <th className={styles['quadrant-table--horse']}>Caballo</th>
+          <th
+            className={`${styles['quadrant-table--horse']} ${styles['quadrant-table--sticky']}`}
+          >
+            Caballo
+          </th>
           <th className={styles['quadrant-table--e']}>E</th>
           <th className={styles['quadrant-table--e']}>Box</th>
           <th className={styles['quadrant-table--e']}>Edad</th>
@@ -152,8 +172,9 @@ const QuadrantTable = ({ data }) => {
           <th className={styles['quadrant-table--rest']}>R.5</th>
           <th className={styles['quadrant-table--rest']}>R.Ult</th>
           <th className={styles['quadrant-table--rest']}>R.Edu</th>
-          <th>Anotaciones</th>
-          {/* {data.horses.thisRaceData.some((elm) => elm === 'position') && <th>Pos</th>} */}
+          {showPositionNotes &&<th>Anotaciones</th>}
+          {showCorrectionColumn && <th>Corrección</th>}
+          {showPositionColumn && <th>Posición</th>}
         </tr>
       </thead>
       <tbody>
@@ -162,7 +183,9 @@ const QuadrantTable = ({ data }) => {
           .map((elm, index) => (
             <tr key={`${elm.name}-${index}`}>
               <td>{elm.thisRaceData.number}</td>
-              <td className={styles['quadrant-table--td-name']}>
+              <td
+                className={`${styles['quadrant-table--td-name']} ${styles['quadrant-table--sticky']}`}
+              >
                 {formatName(elm.name)}
                 {elm.thisRaceData.supplement && (
                   <span className={styles['quadrant-table--suppl']}>Suppl</span>
@@ -320,8 +343,9 @@ const QuadrantTable = ({ data }) => {
                 )}
               </td>
               <td>{elm.thisRaceData.driveRest || ''}</td>
-              <td></td>
-              {/* {data.horses.thisRaceData.some((elm) => elm === 'position') && <td>Pos</td>} */}
+              {showPositionNotes && <td>{elm.thisRaceData.notes}</td>}
+              {showCorrectionColumn && <td>{elm.thisRaceData.value}</td>}
+              {showPositionColumn && <td>{elm.thisRaceData.position}</td>}
             </tr>
           ))}
       </tbody>

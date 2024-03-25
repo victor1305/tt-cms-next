@@ -3,7 +3,7 @@
 .quadrant-table {
   border-collapse: collapse;
   border: 1px solid $color-secondary-80;
-  //width: 1550px;
+  width: 1550px;
   margin: 0 auto 60px;
 
   &--head-tr {
@@ -12,6 +12,9 @@
     margin: 0;
   }
 
+  &--sticky {
+    position: sticky;
+  }
 
   &--td-name {
     text-align: left !important;

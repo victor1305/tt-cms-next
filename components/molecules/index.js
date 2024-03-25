@@ -3,6 +3,7 @@ import BetModal from './BetModal';
 import BtnsBox from './BtnsBox';
 import ClientModal from './ClientModal';
 import ConfirmModal from './ConfirmModal';
+import CreateQuadrantModal from './CreateQuadrantModal';
 import Header from './Header';
 import ParameterModal from './ParameterModal';
 import PaymentModal from './PaymentModal';
@@ -19,6 +20,7 @@ export {
   BtnsBox,
   ClientModal,
   ConfirmModal,
+  CreateQuadrantModal,
   Header,
   ParameterModal,
   PaymentModal,

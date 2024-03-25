@@ -19,5 +19,5 @@ export default async function Page() {
     month: monthNumber
   });
 
-  return <Tables {...{ token, numberOfRacesByMonth }} />;
+  return <Tables {...{  numberOfRacesByMonth, token }} />;
 }
