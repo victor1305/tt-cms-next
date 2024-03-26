@@ -8,7 +8,13 @@ import { BasicModal } from '@/components/atoms';
 
 import styles from './CreateQuadrantModal.module.scss';
 
-const CreateQuadrantModal = ({ handleClose, show, formSubmitted, token }) => {
+const CreateQuadrantModal = ({
+  handleClose,
+  show,
+  formSubmitted,
+  token,
+  setIsLoading
+}) => {
   const [date, setDate] = useState('');
   const [formErrors, setFormErrors] = useState(false);
 
@@ -31,6 +37,7 @@ const CreateQuadrantModal = ({ handleClose, show, formSubmitted, token }) => {
 
   const saveData = async () => {
     if (validateForm()) return;
+    setIsLoading(true);
     await createQuadrantDay({ date, token });
     formSubmitted();
     resetForm();

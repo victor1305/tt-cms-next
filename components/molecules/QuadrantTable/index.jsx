@@ -61,8 +61,14 @@ const QuadrantTable = ({ dataRaces, token }) => {
     return 0;
   };
 
-  const getMediumValue = (datos) => {
-    const last5Values = datos
+  const getMediumValue = (datos, preferredSurface) => {
+    const valuesWithPreferredSurface = datos.filter(
+      (val) => val.surface === preferredSurface
+    );
+    const valuesFiltered = valuesWithPreferredSurface.length
+      ? valuesWithPreferredSurface
+      : datos;
+    const last5Values = valuesFiltered
       .slice(-5)
       .map((obj) => getFirstValue(obj.value))
       .filter((val) => val !== null);
@@ -288,7 +294,8 @@ const QuadrantTable = ({ dataRaces, token }) => {
                   ) : (
                     <span>
                       {(
-                        elm.thisRaceData.weight - getMediumValue(elm.values)
+                        elm.thisRaceData.weight -
+                        getMediumValue(elm.values, data.surface)
                       ).toFixed(1)}
                     </span>
                   )}
@@ -421,7 +428,11 @@ const QuadrantTable = ({ dataRaces, token }) => {
                     </span>
                   )}
                 </td>
-                <td>{elm.thisRaceData.driveRest || ''}</td>
+                <td>
+                  {elm.thisRaceData.driveRest?.toLowerCase().includes('deb')
+                    ? 'Deb'
+                    : elm.thisRaceData.driveRest || ''}
+                </td>
                 {showPositionNotes && <td>{elm.thisRaceData.notes}</td>}
                 {showCorrectionColumn && <td>{elm.thisRaceData.value}</td>}
                 {showPositionColumn && <td>{elm.thisRaceData.position}</td>}

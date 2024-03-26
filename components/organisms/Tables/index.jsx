@@ -93,7 +93,7 @@ const Tables = ({ numberOfRacesByMonth, token }) => {
       <CreateQuadrantModal
         handleClose={() => setIsModalQuadrantOpen(false)}
         show={isModalQuadrantOpen}
-        {...{ formSubmitted, token }}
+        {...{ formSubmitted, token, setIsLoading }}
       />
     </div>
   );
