@@ -41,7 +41,6 @@ const Tables = ({ numberOfRacesByMonth, token }) => {
   ];
 
   const formSubmitted = () => {
-    setIsModalQuadrantOpen(false);
     reloadBets();
   };
 

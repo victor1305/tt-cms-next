@@ -3,6 +3,8 @@ import BasicModal from './BasicModal';
 import CardBet from './CardBet';
 import CardMyBet from './CardMyBet';
 import ClientTableRow from './ClientTableRow';
+import HorseModalData from './HorseModalData';
+import HorseModalForm from './HorseModalForm';
 import MonthlyPlanner from './MonthPlanning';
 import PaymentsMonthResume from './PaymentsMonthResume';
 import PaymentsResume from './PaymentsResume';
@@ -20,6 +22,8 @@ export {
   CardBet,
   CardMyBet,
   ClientTableRow,
+  HorseModalData,
+  HorseModalForm,
   MonthlyPlanner,
   PaymentsMonthResume,
   PaymentsResume,

@@ -154,6 +154,17 @@ const QuadrantTable = ({ dataRaces, token }) => {
     return 0;
   };
 
+  const getDifferenceData = (dayRace, dayLastRace) => {
+    const dayRaceFormatted = new Date(dayRace);
+    const dayLastRaceFormatted = new Date(dayLastRace);
+
+    if (dayLastRaceFormatted.getFullYear() < 2000) return '';
+    const diffInMs = dayRaceFormatted - dayLastRaceFormatted;
+    const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
+
+    return Math.round(diffInDays);
+  };
+
   const openValueDetail = (value) => {
     setValueDetailData(value);
     setValueDetailModalOppened(true);
@@ -205,6 +216,7 @@ const QuadrantTable = ({ dataRaces, token }) => {
             <th></th>
             <th>{data.time}</th>
             <th></th>
+            <th></th>
             {showPositionNotes && <th></th>}
             {showCorrectionColumn && <th></th>}
             {showPositionColumn && <th></th>}
@@ -229,6 +241,7 @@ const QuadrantTable = ({ dataRaces, token }) => {
             <th className={styles['quadrant-table--rest']}>R.5</th>
             <th className={styles['quadrant-table--rest']}>R.Ult</th>
             <th className={styles['quadrant-table--rest']}>R.Edu</th>
+            <th className={styles['quadrant-table--rest']}>U.C.</th>
             {showPositionNotes && <th>Anotaciones</th>}
             {showCorrectionColumn && <th>Corrección</th>}
             {showPositionColumn && <th>Posición</th>}
@@ -264,7 +277,7 @@ const QuadrantTable = ({ dataRaces, token }) => {
                 <td>
                   {!elm.values.length
                     ? setValues(elm)
-                    : elm.values.slice(-10).map((race, index) => (
+                    : elm.values.slice(-6).map((race, index) => (
                         <React.Fragment key={race._id}>
                           <span
                             onClick={() => openValueDetail(race)}
@@ -280,7 +293,7 @@ const QuadrantTable = ({ dataRaces, token }) => {
                           >
                             {race.value}
                           </span>
-                          {index < elm.values.slice(-10).length - 1 ? (
+                          {index < elm.values.slice(-6).length - 1 ? (
                             <span style={{ color: '#fff' }}> - </span>
                           ) : (
                             ''
@@ -433,6 +446,14 @@ const QuadrantTable = ({ dataRaces, token }) => {
                     ? 'Deb'
                     : elm.thisRaceData.driveRest || ''}
                 </td>
+                <td>
+                  {elm.values.length
+                    ? getDifferenceData(
+                        elm.thisRaceData.date,
+                        elm.values[elm.values.length - 1].date
+                      )
+                    : ''}
+                </td>
                 {showPositionNotes && <td>{elm.thisRaceData.notes}</td>}
                 {showCorrectionColumn && <td>{elm.thisRaceData.value}</td>}
                 {showPositionColumn && <td>{elm.thisRaceData.position}</td>}
@@ -441,25 +462,30 @@ const QuadrantTable = ({ dataRaces, token }) => {
         </tbody>
       </table>
 
-      <ValueDetailModal
-        handleClose={() => setValueDetailModalOppened(false)}
-        {...{
-          token,
-          show: valueDetailModalOppened,
-          data: valueDetailData,
-          formSubmitted
-        }}
-      />
+      {valueDetailData && (
+        <ValueDetailModal
+          handleClose={() => setValueDetailModalOppened(false)}
+          {...{
+            token,
+            show: valueDetailModalOppened,
+            data: valueDetailData,
+            formSubmitted
+          }}
+        />
+      )}
 
-      <HorseModal
-        handleClose={() => setNewRaceModalOppened(false)}
-        {...{
-          token,
-          show: newRaceModalOppened,
-          id: horseData._id,
-          horseSubmitted
-        }}
-      />
+      {horseData.name && (
+        <HorseModal
+          handleClose={() => setNewRaceModalOppened(false)}
+          {...{
+            token,
+            show: newRaceModalOppened,
+            id: horseData._id,
+            horseSubmitted,
+            horseData
+          }}
+        />
+      )}
     </div>
   );
 };

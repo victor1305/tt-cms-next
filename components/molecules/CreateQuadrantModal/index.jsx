@@ -38,6 +38,7 @@ const CreateQuadrantModal = ({
   const saveData = async () => {
     if (validateForm()) return;
     setIsLoading(true);
+    handleClose();
     await createQuadrantDay({ date, token });
     formSubmitted();
     resetForm();

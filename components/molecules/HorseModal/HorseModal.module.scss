@@ -2,68 +2,31 @@
 
 .horse-modal {
   padding: 10px;
-  height: 600px;
-  overflow-y: scroll;
+  height: 900px;
+  overflow-y: auto;
 
   h4 {
     font-size: 20px;
     font-weight: 700;
-    padding-bottom: 20px;
-    border-bottom: 1px solid $color-secondary-60;
-    margin-bottom: 20px;
     margin-top: 0;
     color: $color-primary-100;
   }
 
-  label {
-    font-weight: 400;
-    font-size: 15px;
-  }
-
-  input,
-  select {
-    padding: 5px;
-    margin: 5px 0;
-    font-size: 15px;
-    background-color: $color-neutral-00;
-    border: 1px solid $color-secondary-60;
+  h6 {
+    font-size: 14px;
+    font-weight: 500;
     color: $color-secondary-60;
-    border-radius: 3px;
-  }
+   }
 
-  &__form-error {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 12px;
-    color: $color-loss;
-  }
-
-  &__multi-group {
+  &__title {
     display: flex;
     justify-content: space-between;
-  }
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid $color-primary-100;
 
-  &__form-box {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 15px;
-
-    > label {
-      color: $color-primary-80;
-      font-weight: 500;
+    button {
+      min-width: 150px;
     }
-
-    &--radio {
-      margin-left: 8px;
-    }
-
-    &--pointer {
-      cursor: pointer;
-    }
-  }
-
-  &__btn-box {
-    display: flex;
-    justify-content: center;
   }
 }
