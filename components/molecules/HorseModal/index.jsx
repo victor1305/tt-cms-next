@@ -29,6 +29,7 @@ const HorseModal = ({
   const resetForm = () => {
     setRaceData(defaultHorseRace);
     setIsInvalidForm(false);
+    setIsForm(false);
   };
 
   const validateForm = () => {

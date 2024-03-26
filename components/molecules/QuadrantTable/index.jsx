@@ -98,7 +98,6 @@ const QuadrantTable = ({ dataRaces, token }) => {
   };
 
   const horseSubmitted = (newRace) => {
-    setNewRaceModalOppened(false);
     const updatedHorses = data.horses.map((horse) => {
       if (horse._id === horseData._id) {
         const updatedValues = [...horse.values, newRace];
@@ -111,7 +110,12 @@ const QuadrantTable = ({ dataRaces, token }) => {
       }
       return horse;
     });
-
+    setHorseData({
+      ...horseData,
+      values: [...horseData.values, newRace].sort(
+        (a, b) => new Date(a.date) - new Date(b.date)
+      )
+    });
     setData({
       ...data,
       horses: updatedHorses
@@ -277,29 +281,34 @@ const QuadrantTable = ({ dataRaces, token }) => {
                 <td>
                   {!elm.values.length
                     ? setValues(elm)
-                    : elm.values.slice(-6).map((race, index) => (
-                        <React.Fragment key={race._id}>
-                          <span
-                            onClick={() => openValueDetail(race)}
-                            key={race._id}
-                            id={race._id}
-                            style={{
-                              color:
-                                race.surface === 'PSF' ? '#ff9900' : '#34a853',
-                              textDecoration: race.mud ? 'underline' : 'none',
-                              fontSize: '11px',
-                              cursor: 'pointer'
-                            }}
-                          >
-                            {race.value}
-                          </span>
-                          {index < elm.values.slice(-6).length - 1 ? (
-                            <span style={{ color: '#fff' }}> - </span>
-                          ) : (
-                            ''
-                          )}
-                        </React.Fragment>
-                      ))}
+                    : elm.values
+                        .sort((a, b) => new Date(a.date) - new Date(b.date))
+                        .slice(-6)
+                        .map((race, index) => (
+                          <React.Fragment key={race._id}>
+                            <span
+                              onClick={() => openValueDetail(race)}
+                              key={race._id}
+                              id={race._id}
+                              style={{
+                                color:
+                                  race.surface === 'PSF'
+                                    ? '#ff9900'
+                                    : '#34a853',
+                                textDecoration: race.mud ? 'underline' : 'none',
+                                fontSize: '11px',
+                                cursor: 'pointer'
+                              }}
+                            >
+                              {race.value}
+                            </span>
+                            {index < elm.values.slice(-6).length - 1 ? (
+                              <span style={{ color: '#fff' }}> - </span>
+                            ) : (
+                              ''
+                            )}
+                          </React.Fragment>
+                        ))}
                 </td>
                 <td>
                   {!elm.values.length ? (
