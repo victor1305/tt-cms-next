@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
+import { BiSolidDownArrow, BiSolidUpArrow } from 'react-icons/bi';
 
 import { HorseModal, ValueDetailModal } from '@/components/molecules';
 
@@ -8,7 +9,10 @@ import styles from './QuadrantTable.module.scss';
 
 const QuadrantTable = ({ dataRaces, token }) => {
   const [data, setData] = useState(dataRaces);
-  const [sortConfig, setSortConfig] = useState({ key: 'position', direction: 'ascending' });
+  const [sortConfig, setSortConfig] = useState({
+    key: 'number',
+    direction: 'ascending'
+  });
   const [valueDetailModalOppened, setValueDetailModalOppened] = useState(false);
   const [valueDetailData, setValueDetailData] = useState({});
   const [horseData, setHorseData] = useState({});
@@ -192,12 +196,78 @@ const QuadrantTable = ({ dataRaces, token }) => {
     (horse) => horse.thisRaceData.notes && horse.thisRaceData.notes.length > 0
   );
   const showPositionColumn = data.horses.some(
-    (horse) =>
-      horse.thisRaceData.position
+    (horse) => horse.thisRaceData.position
   );
   const showCorrectionColumn = data.horses.some(
     (horse) => horse.thisRaceData.value && horse.thisRaceData.value.length > 0
   );
+
+  const sortedHorses = useMemo(() => {
+    let sortableItems = [...data.horses];
+
+    const getSortableValue = (horse, key) => {
+      if (key === 'R.Med')
+        return (
+          horse.thisRaceData.weight - getMediumValue(horse.values, data.surface)
+        );
+      if (key === 'R.Abs')
+        return (
+          horse.thisRaceData.weight -
+          getFirstValue(getBestValue(horse.values, data.surface).value)
+        );
+      if (key === 'R.10')
+        return (
+          horse.thisRaceData.weight -
+          getFirstValue(
+            getBestValue(horse.values.slice(-10), data.surface).value
+          )
+        );
+      if (key === 'R.5')
+        return (
+          horse.thisRaceData.weight -
+          getFirstValue(
+            getBestValue(horse.values.slice(-5), data.surface).value
+          )
+        );
+      if (key === 'R.Ult')
+        return (
+          horse.thisRaceData.weight -
+          getFirstValue(horse.values[horse.values.length - 1].value)
+        );
+      if (key === 'R.Edu') return getFirstValue(horse.thisRaceData.driveRest);
+    };
+
+    if (sortConfig.key === 'position' || sortConfig.key === 'number') {
+      sortableItems.sort((a, b) => {
+        const aValue = a.thisRaceData[sortConfig.key] ?? a[sortConfig.key];
+        const bValue = b.thisRaceData[sortConfig.key] ?? b[sortConfig.key];
+
+        if (aValue < bValue) {
+          return sortConfig.direction === 'ascending' ? -1 : 1;
+        }
+        if (aValue > bValue) {
+          return sortConfig.direction === 'ascending' ? 1 : -1;
+        }
+        return 0;
+      });
+    }
+    if (sortConfig.key.includes('R.')) {
+      sortableItems.sort((a, b) => {
+        const aValue = getSortableValue(a, sortConfig.key);
+        const bValue = getSortableValue(b, sortConfig.key);
+
+        if (aValue < bValue) {
+          return sortConfig.direction === 'ascending' ? -1 : 1;
+        }
+        if (aValue > bValue) {
+          return sortConfig.direction === 'ascending' ? 1 : -1;
+        }
+        return 0;
+      });
+    }
+    return sortableItems;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data.horses, sortConfig]);
 
   return (
     <div className={styles['quadrant-table-container']}>
@@ -235,7 +305,20 @@ const QuadrantTable = ({ dataRaces, token }) => {
             {showPositionColumn && <th></th>}
           </tr>
           <tr>
-            <th className={styles['quadrant-table--number']}>Nº</th>
+            <th
+              className={styles['quadrant-table--number']}
+              onClick={() => requestSort('number')}
+            >
+              <p>
+                Nº
+                {sortConfig.key === 'number' &&
+                  (sortConfig.direction === 'ascending' ? (
+                    <BiSolidDownArrow />
+                  ) : (
+                    <BiSolidUpArrow />
+                  ))}
+              </p>
+            </th>
             <th
               className={`${styles['quadrant-table--horse']} ${styles['quadrant-table--sticky']}`}
             >
@@ -248,235 +331,319 @@ const QuadrantTable = ({ dataRaces, token }) => {
             <th className={styles['quadrant-table--e']}>Desc</th>
             <th className={styles['quadrant-table--jockey']}>Jockey</th>
             <th className={styles['quadrant-table--values']}>Valores</th>
-            <th className={styles['quadrant-table--rest']}>R.Med</th>
-            <th className={styles['quadrant-table--rest']}>R.Abs</th>
-            <th className={styles['quadrant-table--rest']}>R.10</th>
-            <th className={styles['quadrant-table--rest']}>R.5</th>
-            <th className={styles['quadrant-table--rest']}>R.Ult</th>
-            <th className={styles['quadrant-table--rest']}>R.Edu</th>
-            <th className={styles['quadrant-table--rest']}>S/C</th>
+            <th
+              className={styles['quadrant-table--rest']}
+              onClick={() => requestSort('R.Med')}
+            >
+              <p>
+                R.Med
+                {sortConfig.key === 'R.Med' &&
+                  (sortConfig.direction === 'ascending' ? (
+                    <BiSolidDownArrow />
+                  ) : (
+                    <BiSolidUpArrow />
+                  ))}
+              </p>
+            </th>
+            <th
+              className={styles['quadrant-table--rest']}
+              onClick={() => requestSort('R.Abs')}
+            >
+              <p>
+                R.Abs
+                {sortConfig.key === 'R.Abs' &&
+                  (sortConfig.direction === 'ascending' ? (
+                    <BiSolidDownArrow />
+                  ) : (
+                    <BiSolidUpArrow />
+                  ))}
+              </p>
+            </th>
+            <th
+              className={styles['quadrant-table--rest']}
+              onClick={() => requestSort('R.10')}
+            >
+              <p>
+                R.10
+                {sortConfig.key === 'R.10' &&
+                  (sortConfig.direction === 'ascending' ? (
+                    <BiSolidDownArrow />
+                  ) : (
+                    <BiSolidUpArrow />
+                  ))}
+              </p>
+            </th>
+            <th
+              className={styles['quadrant-table--rest']}
+              onClick={() => requestSort('R.5')}
+            >
+              <p>
+                R.5
+                {sortConfig.key === 'R.5' &&
+                  (sortConfig.direction === 'ascending' ? (
+                    <BiSolidDownArrow />
+                  ) : (
+                    <BiSolidUpArrow />
+                  ))}
+              </p>
+            </th>
+            <th
+              className={styles['quadrant-table--rest']}
+              onClick={() => requestSort('R.Ult')}
+            >
+              <p>
+                R.Ult
+                {sortConfig.key === 'R.Ult' &&
+                  (sortConfig.direction === 'ascending' ? (
+                    <BiSolidDownArrow />
+                  ) : (
+                    <BiSolidUpArrow />
+                  ))}
+              </p>
+            </th>
+            <th
+              className={styles['quadrant-table--rest']}
+              onClick={() => requestSort('R.Edu')}
+            >
+              <p>
+                R.Edu
+                {sortConfig.key === 'R.Edu' &&
+                  (sortConfig.direction === 'ascending' ? (
+                    <BiSolidDownArrow />
+                  ) : (
+                    <BiSolidUpArrow />
+                  ))}
+              </p>
+            </th>
+            <th>S/C</th>
             {showPositionNotes && <th>Anotaciones</th>}
             {showCorrectionColumn && <th>Corrección</th>}
-            {showPositionColumn && <th>Posición</th>}
+            {showPositionColumn && (
+              <th
+                className={styles['quadrant-table--rest']}
+                onClick={() => requestSort('position')}
+              >
+                <p>
+                  Pos
+                  {sortConfig.key === 'position' &&
+                    (sortConfig.direction === 'ascending' ? (
+                      <BiSolidDownArrow />
+                    ) : (
+                      <BiSolidUpArrow />
+                    ))}
+                </p>
+              </th>
+            )}
           </tr>
         </thead>
         <tbody>
-          {data.horses
-            .sort((a, b) => a.thisRaceData.number - b.thisRaceData.number)
-            .map((elm, index) => (
-              <tr key={`${elm.name}-${index}`}>
-                <td>{elm.thisRaceData.number}</td>
-                <td
-                  onClick={() => openCreateRace(elm)}
-                  className={`pointer ${styles['quadrant-table--td-name']} ${styles['quadrant-table--sticky']}`}
-                >
-                  {formatName(elm.name)}
-                  {elm.thisRaceData.supplement && (
-                    <span className={styles['quadrant-table--suppl']}>
-                      Suppl
-                    </span>
-                  )}
-                </td>
-                <td>{elm.thisRaceData.complements}</td>
-                <td>{elm.thisRaceData.box}</td>
-                <td>{new Date().getFullYear() - elm.year}</td>
-                <td>{elm.thisRaceData.weight}</td>
-                <td>
-                  {elm.thisRaceData.unload > 0 ? elm.thisRaceData.unload : ''}
-                </td>
-                <td className={styles['quadrant-table--td-name']}>
-                  {formatName(elm.thisRaceData.jockey)}
-                </td>
-                <td>
-                  {!elm.values.length
-                    ? setValues(elm)
-                    : elm.values
-                        .sort((a, b) => new Date(a.date) - new Date(b.date))
-                        .slice(-6)
-                        .map((race, index) => (
-                          <React.Fragment key={race._id}>
-                            <span
-                              onClick={() => openValueDetail(race)}
-                              key={race._id}
-                              id={race._id}
-                              style={{
-                                color:
-                                  race.surface === 'PSF'
-                                    ? '#ff9900'
-                                    : '#34a853',
-                                textDecoration: race.mud ? 'underline' : 'none',
-                                fontSize: '11px',
-                                cursor: 'pointer'
-                              }}
-                            >
-                              {race.value}
-                            </span>
-                            {index < elm.values.slice(-6).length - 1 ? (
-                              <span style={{ color: '#fff' }}> - </span>
-                            ) : (
-                              ''
-                            )}
-                          </React.Fragment>
-                        ))}
-                </td>
-                <td>
-                  {!elm.values.length ? (
-                    ''
-                  ) : (
-                    <span>
-                      {(
-                        elm.thisRaceData.weight -
-                        getMediumValue(elm.values, data.surface)
-                      ).toFixed(1)}
-                    </span>
-                  )}
-                </td>
-                <td>
-                  {!elm.values.length ? (
-                    ''
-                  ) : (
-                    <span
-                      onClick={() =>
-                        openValueDetail(getBestValue(elm.values, data.surface))
-                      }
-                      style={{
-                        color:
-                          (getBestValue(elm.values, data.surface) || {})
-                            .surface === 'PSF'
-                            ? '#ff9900'
-                            : '#34a853',
-                        textDecoration: (
-                          getBestValue(elm.values, data.surface) || {}
-                        ).mud
-                          ? 'underline'
-                          : 'none',
-                        cursor: 'pointer'
-                      }}
-                    >
-                      {calculateRest(
-                        getBestValue(elm.values, data.surface) || {}.value,
-                        elm.thisRaceData.weight,
-                        elm.thisRaceData.unload
-                      )}
-                    </span>
-                  )}
-                </td>
-                <td>
-                  {!elm.values.length ? (
-                    ''
-                  ) : (
-                    <span
-                      onClick={() =>
-                        openValueDetail(
-                          getBestValue(elm.values.slice(-10), data.surface)
-                        )
-                      }
-                      style={{
-                        color:
-                          (
-                            getBestValue(elm.values.slice(-10), data.surface) ||
-                            {}
-                          ).surface === 'PSF'
-                            ? '#ff9900'
-                            : '#34a853',
-                        textDecoration: (
+          {sortedHorses.map((elm, index) => (
+            <tr key={`${elm.name}-${index}`}>
+              <td>{elm.thisRaceData.number}</td>
+              <td
+                onClick={() => openCreateRace(elm)}
+                className={`pointer ${styles['quadrant-table--td-name']} ${styles['quadrant-table--sticky']}`}
+              >
+                {formatName(elm.name)}
+                {elm.thisRaceData.supplement && (
+                  <span className={styles['quadrant-table--suppl']}>Suppl</span>
+                )}
+              </td>
+              <td>{elm.thisRaceData.complements}</td>
+              <td>{elm.thisRaceData.box}</td>
+              <td>{new Date().getFullYear() - elm.year}</td>
+              <td>{elm.thisRaceData.weight}</td>
+              <td>
+                {elm.thisRaceData.unload > 0 ? elm.thisRaceData.unload : ''}
+              </td>
+              <td className={styles['quadrant-table--td-name']}>
+                {formatName(elm.thisRaceData.jockey)}
+              </td>
+              <td>
+                {!elm.values.length
+                  ? setValues(elm)
+                  : elm.values
+                      .sort((a, b) => new Date(a.date) - new Date(b.date))
+                      .slice(-6)
+                      .map((race, index) => (
+                        <React.Fragment key={race._id}>
+                          <span
+                            onClick={() => openValueDetail(race)}
+                            key={race._id}
+                            id={race._id}
+                            style={{
+                              color:
+                                race.surface === 'PSF' ? '#ff9900' : '#34a853',
+                              textDecoration: race.mud ? 'underline' : 'none',
+                              fontSize: '11px',
+                              cursor: 'pointer'
+                            }}
+                          >
+                            {race.value}
+                          </span>
+                          {index < elm.values.slice(-6).length - 1 ? (
+                            <span style={{ color: '#fff' }}> - </span>
+                          ) : (
+                            ''
+                          )}
+                        </React.Fragment>
+                      ))}
+              </td>
+              <td>
+                {!elm.values.length ? (
+                  ''
+                ) : (
+                  <span>
+                    {(
+                      elm.thisRaceData.weight -
+                      getMediumValue(elm.values, data.surface)
+                    ).toFixed(1)}
+                  </span>
+                )}
+              </td>
+              <td>
+                {!elm.values.length ? (
+                  ''
+                ) : (
+                  <span
+                    onClick={() =>
+                      openValueDetail(getBestValue(elm.values, data.surface))
+                    }
+                    style={{
+                      color:
+                        (getBestValue(elm.values, data.surface) || {})
+                          .surface === 'PSF'
+                          ? '#ff9900'
+                          : '#34a853',
+                      textDecoration: (
+                        getBestValue(elm.values, data.surface) || {}
+                      ).mud
+                        ? 'underline'
+                        : 'none',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    {calculateRest(
+                      getBestValue(elm.values, data.surface) || {}.value,
+                      elm.thisRaceData.weight,
+                      elm.thisRaceData.unload
+                    )}
+                  </span>
+                )}
+              </td>
+              <td>
+                {!elm.values.length ? (
+                  ''
+                ) : (
+                  <span
+                    onClick={() =>
+                      openValueDetail(
+                        getBestValue(elm.values.slice(-10), data.surface)
+                      )
+                    }
+                    style={{
+                      color:
+                        (
                           getBestValue(elm.values.slice(-10), data.surface) ||
                           {}
-                        ).mud
-                          ? 'underline'
-                          : 'none',
-                        cursor: 'pointer'
-                      }}
-                    >
-                      {calculateRest(
-                        getBestValue(elm.values.slice(-10), data.surface) ||
-                          {}.value,
-                        elm.thisRaceData.weight,
-                        elm.thisRaceData.unload
-                      )}
-                    </span>
-                  )}
-                </td>
-                <td>
-                  {!elm.values.length ? (
-                    ''
-                  ) : (
-                    <span
-                      onClick={() =>
-                        openValueDetail(
-                          getBestValue(elm.values.slice(-5), data.surface)
-                        )
-                      }
-                      style={{
-                        color:
-                          (
-                            getBestValue(elm.values.slice(-5), data.surface) ||
-                            {}
-                          ).surface === 'PSF'
-                            ? '#ff9900'
-                            : '#34a853',
-                        textDecoration: (
-                          getBestValue(elm.values.slice(-5), data.surface) || {}
-                        ).mud
-                          ? 'underline'
-                          : 'none',
-                        cursor: 'pointer'
-                      }}
-                    >
-                      {calculateRest(
-                        getBestValue(elm.values.slice(-5), data.surface) ||
-                          {}.value,
-                        elm.thisRaceData.weight,
-                        elm.thisRaceData.unload
-                      )}
-                    </span>
-                  )}
-                </td>
-                <td>
-                  {!elm.values.length ? (
-                    ''
-                  ) : (
-                    <span
-                      onClick={() =>
-                        openValueDetail(elm.values[elm.values.length - 1])
-                      }
-                      style={{
-                        color:
-                          elm.values[elm.values.length - 1].surface === 'PSF'
-                            ? '#ff9900'
-                            : '#34a853',
-                        textDecoration: elm.values[elm.values.length - 1].mud
-                          ? 'underline'
-                          : 'none',
-                        cursor: 'pointer'
-                      }}
-                    >
-                      {calculateRest(
-                        elm.values[elm.values.length - 1],
-                        elm.thisRaceData.weight,
-                        elm.thisRaceData.unload
-                      )}
-                    </span>
-                  )}
-                </td>
-                <td>
-                  {elm.thisRaceData.driveRest?.toLowerCase().includes('deb')
-                    ? 'Deb'
-                    : elm.thisRaceData.driveRest || ''}
-                </td>
-                <td>
-                  {elm.values.length
-                    ? getDifferenceData(
-                        elm.thisRaceData.date,
-                        elm.values[elm.values.length - 1].date
+                        ).surface === 'PSF'
+                          ? '#ff9900'
+                          : '#34a853',
+                      textDecoration: (
+                        getBestValue(elm.values.slice(-10), data.surface) || {}
+                      ).mud
+                        ? 'underline'
+                        : 'none',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    {calculateRest(
+                      getBestValue(elm.values.slice(-10), data.surface) ||
+                        {}.value,
+                      elm.thisRaceData.weight,
+                      elm.thisRaceData.unload
+                    )}
+                  </span>
+                )}
+              </td>
+              <td>
+                {!elm.values.length ? (
+                  ''
+                ) : (
+                  <span
+                    onClick={() =>
+                      openValueDetail(
+                        getBestValue(elm.values.slice(-5), data.surface)
                       )
-                    : ''}
-                </td>
-                {showPositionNotes && <td>{elm.thisRaceData.notes}</td>}
-                {showCorrectionColumn && <td>{elm.thisRaceData.value}</td>}
-                {showPositionColumn && <td>{elm.thisRaceData.position}</td>}
-              </tr>
-            ))}
+                    }
+                    style={{
+                      color:
+                        (getBestValue(elm.values.slice(-5), data.surface) || {})
+                          .surface === 'PSF'
+                          ? '#ff9900'
+                          : '#34a853',
+                      textDecoration: (
+                        getBestValue(elm.values.slice(-5), data.surface) || {}
+                      ).mud
+                        ? 'underline'
+                        : 'none',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    {calculateRest(
+                      getBestValue(elm.values.slice(-5), data.surface) ||
+                        {}.value,
+                      elm.thisRaceData.weight,
+                      elm.thisRaceData.unload
+                    )}
+                  </span>
+                )}
+              </td>
+              <td>
+                {!elm.values.length ? (
+                  ''
+                ) : (
+                  <span
+                    onClick={() =>
+                      openValueDetail(elm.values[elm.values.length - 1])
+                    }
+                    style={{
+                      color:
+                        elm.values[elm.values.length - 1].surface === 'PSF'
+                          ? '#ff9900'
+                          : '#34a853',
+                      textDecoration: elm.values[elm.values.length - 1].mud
+                        ? 'underline'
+                        : 'none',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    {calculateRest(
+                      elm.values[elm.values.length - 1],
+                      elm.thisRaceData.weight,
+                      elm.thisRaceData.unload
+                    )}
+                  </span>
+                )}
+              </td>
+              <td>
+                {elm.thisRaceData.driveRest?.toLowerCase().includes('deb')
+                  ? 'Deb'
+                  : elm.thisRaceData.driveRest || ''}
+              </td>
+              <td>
+                {elm.values.length
+                  ? getDifferenceData(
+                      elm.thisRaceData.date,
+                      elm.values[elm.values.length - 1].date
+                    )
+                  : ''}
+              </td>
+              {showPositionNotes && <td>{elm.thisRaceData.notes}</td>}
+              {showCorrectionColumn && <td>{elm.thisRaceData.value}</td>}
+              {showPositionColumn && <td>{elm.thisRaceData.position}</td>}
+            </tr>
+          ))}
         </tbody>
       </table>
 

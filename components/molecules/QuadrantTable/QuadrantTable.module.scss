@@ -3,7 +3,7 @@
 .quadrant-table {
   border-collapse: collapse;
   border: 1px solid $color-secondary-80;
-  width: 1550px;
+  width: 1750px;
   margin: 0 auto 60px;
 
   &--head-tr {
@@ -35,10 +35,26 @@
   }
 
   &--number {
-    width: 20px;
+    min-width: 50px;
+    cursor: pointer;
+
+    p {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    svg {
+      margin-left: 10px;
+      color: $color-success;
+    }
+
+    &:hover {
+      color: $color-success;
+    }
   }
   &--horse {
-    width: 180px;
+    min-width: 180px;
   }
   &--e {
     width: 30px;
@@ -50,9 +66,24 @@
     width: 750px;
   }
   &--rest {
-    width: 50px;
-  }
+    min-width: 70px;
+    cursor: pointer;
 
+    p {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    svg {
+      margin-left: 10px;
+      color: $color-success;
+    }
+
+    &:hover {
+      color: $color-success;
+    }
+  }
 
   td {
     border: 1px solid $color-secondary-80;
