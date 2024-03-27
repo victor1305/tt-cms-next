@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 
 import { HorseModal, ValueDetailModal } from '@/components/molecules';
 
@@ -8,6 +8,7 @@ import styles from './QuadrantTable.module.scss';
 
 const QuadrantTable = ({ dataRaces, token }) => {
   const [data, setData] = useState(dataRaces);
+  const [sortConfig, setSortConfig] = useState({ key: 'position', direction: 'ascending' });
   const [valueDetailModalOppened, setValueDetailModalOppened] = useState(false);
   const [valueDetailData, setValueDetailData] = useState({});
   const [horseData, setHorseData] = useState({});
@@ -41,6 +42,14 @@ const QuadrantTable = ({ dataRaces, token }) => {
     }
 
     return 0;
+  };
+
+  const requestSort = (key) => {
+    let direction = 'ascending';
+    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
+    }
+    setSortConfig({ key, direction });
   };
 
   const getFirstValue = (value) => {
@@ -184,7 +193,7 @@ const QuadrantTable = ({ dataRaces, token }) => {
   );
   const showPositionColumn = data.horses.some(
     (horse) =>
-      horse.thisRaceData.position && horse.thisRaceData.position.length > 0
+      horse.thisRaceData.position
   );
   const showCorrectionColumn = data.horses.some(
     (horse) => horse.thisRaceData.value && horse.thisRaceData.value.length > 0
@@ -216,8 +225,8 @@ const QuadrantTable = ({ dataRaces, token }) => {
             >
               {data.surface}
             </th>
-            <th></th>
-            <th></th>
+            <th>{data.measurement && data.measurement}</th>
+            <th>{data.measurementValue && data.measurementValue}</th>
             <th>{data.time}</th>
             <th></th>
             <th></th>
@@ -245,7 +254,7 @@ const QuadrantTable = ({ dataRaces, token }) => {
             <th className={styles['quadrant-table--rest']}>R.5</th>
             <th className={styles['quadrant-table--rest']}>R.Ult</th>
             <th className={styles['quadrant-table--rest']}>R.Edu</th>
-            <th className={styles['quadrant-table--rest']}>U.C.</th>
+            <th className={styles['quadrant-table--rest']}>S/C</th>
             {showPositionNotes && <th>Anotaciones</th>}
             {showCorrectionColumn && <th>Corrección</th>}
             {showPositionColumn && <th>Posición</th>}

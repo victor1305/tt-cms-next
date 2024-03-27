@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import { defaultHorseRace } from '@/lib/constants';
 import { createHorseRace } from '@/lib/https';
-import { formatName } from '@/lib/utils';
+import { formatName, traductGenre } from '@/lib/utils';
 
 import { BasicModal, HorseModalData, HorseModalForm } from '@/components/atoms';
 
@@ -62,16 +62,20 @@ const HorseModal = ({
               Cajón {horseData.thisRaceData.box}
             </h4>
             <p className={styles['horse-modal__title--subtitle']}>
-              {horseData.genre && <span>{formatName(horseData.genre)}</span>}
+              {horseData.genre && <span>{traductGenre(horseData.genre)}</span>}
               <span>
-                {new Date().getFullYear() - (horseData.year || 0)} años
+                {`${new Date().getFullYear() - (horseData.year || 0)} años`}
               </span>
-              {horseData.father && horseData.mother && (
-                <span>
-                  por {formatName(horseData.father)} y{' '}
-                  {formatName(horseData.mother)}
-                </span>
-              )}
+              {horseData.father &&
+                horseData.mother &&
+                horseData.grandFather && (
+                  <span>
+                    {`por ${formatName(horseData.father)} y 
+                  ${formatName(horseData.mother)} (${formatName(
+                    horseData.grandFather
+                  )})`}
+                  </span>
+                )}
             </p>
             <p>
               Jockey: <span>{formatName(horseData.thisRaceData.jockey)}</span>
