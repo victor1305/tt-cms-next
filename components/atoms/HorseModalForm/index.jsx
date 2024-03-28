@@ -170,25 +170,7 @@ const HorseModalForm = ({ raceData, setRaceData, isInvalidForm, saveData }) => (
       />
     </div>
     <div className={styles['horse-modal-form__form-box']}>
-      <label>Peso: </label>
-      <input
-        type="number"
-        name="weight"
-        value={raceData.weight}
-        onChange={(e) => setRaceData({ ...raceData, weight: e.target.value })}
-      />
-    </div>
-    <div className={styles['horse-modal-form__form-box']}>
-      <label>Peso con descargo: </label>
-      <input
-        type="number"
-        name="unload"
-        value={raceData.unload}
-        onChange={(e) => setRaceData({ ...raceData, unload: e.target.value })}
-      />
-    </div>
-    <div className={styles['horse-modal-form__form-box']}>
-      <label>Cuerda: </label>
+      <label>Dirección: </label>
       <select
         onChange={(e) => setRaceData({ ...raceData, corde: e.target.value })}
       >

@@ -24,6 +24,7 @@ const HorseModal = ({
 
   const closeModal = () => {
     handleClose();
+    resetForm();
   };
 
   const resetForm = () => {
@@ -33,7 +34,8 @@ const HorseModal = ({
   };
 
   const validateForm = () => {
-    const isInValid = !raceData.value.length || !raceData.surface.length;
+
+    const isInValid = !raceData.value.length || !raceData.surface.length || !raceData.date;
     setIsInvalidForm(isInValid);
     return isInValid;
   };

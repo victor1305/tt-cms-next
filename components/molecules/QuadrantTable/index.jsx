@@ -275,7 +275,7 @@ const QuadrantTable = ({ dataRaces, token }) => {
         <thead>
           <tr>
             <th></th>
-            <th className={styles['quadrant-table--sticky']}>
+            <th className={styles['quadrant-table--sticky-th']}>
               {data.racecourse}
             </th>
             <th></th>
@@ -320,7 +320,7 @@ const QuadrantTable = ({ dataRaces, token }) => {
               </p>
             </th>
             <th
-              className={`${styles['quadrant-table--horse']} ${styles['quadrant-table--sticky']}`}
+              className={`${styles['quadrant-table--horse']} ${styles['quadrant-table--sticky-th']}`}
             >
               Caballo
             </th>
@@ -442,7 +442,7 @@ const QuadrantTable = ({ dataRaces, token }) => {
               <td>{elm.thisRaceData.number}</td>
               <td
                 onClick={() => openCreateRace(elm)}
-                className={`pointer ${styles['quadrant-table--td-name']} ${styles['quadrant-table--sticky']}`}
+                className={`pointer ${styles['quadrant-table--td-name']} ${styles['quadrant-table--sticky-td']}`}
               >
                 {formatName(elm.name)}
                 {elm.thisRaceData.supplement && (

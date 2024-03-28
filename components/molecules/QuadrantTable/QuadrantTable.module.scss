@@ -1,10 +1,33 @@
 @import '@/styles/principals/_colors.scss';
 
+.quadrant-table-container {
+  margin: 0 auto 60px;
+  align-items: center;
+  max-width: 1700px;
+  width:100vw;
+  padding-bottom: 15px;
+  overflow-x: auto;
+
+  &::-webkit-scrollbar {
+    height: 8px;
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $color-primary-60;
+    border-radius: 20px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: $color-primary-05;
+    border-radius: 20px;
+  }
+}
+
 .quadrant-table {
   border-collapse: collapse;
   border: 1px solid $color-secondary-80;
-  width: 1750px;
-  margin: 0 auto 60px;
+  width: max-content;
 
   &--head-tr {
     background-color: $color-secondary-100;
@@ -12,8 +35,16 @@
     margin: 0;
   }
 
-  &--sticky {
+  &--sticky-th {
     position: sticky;
+    left: 0;
+    background-color: $color-primary-100;
+  }
+
+  &--sticky-td {
+    position: sticky;
+    left: 0;
+    background-color: $color-secondary-100;
   }
 
   &--td-name {
@@ -60,13 +91,13 @@
     width: 30px;
   }
   &--jockey {
-    width: 150px;
+    width: 120px;
   }
   &--values {
-    width: 750px;
+    width: 400px;
   }
   &--rest {
-    min-width: 70px;
+    min-width: 60px;
     cursor: pointer;
 
     p {
@@ -110,6 +141,7 @@
       text-align: center;
       color: $color-neutral-00;
       font-size: 14px;
+      background-color: $color-secondary-100;
 
       svg {
         cursor: pointer;
