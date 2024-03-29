@@ -34,8 +34,8 @@ const HorseModal = ({
   };
 
   const validateForm = () => {
-
-    const isInValid = !raceData.value.length || !raceData.surface.length || !raceData.date;
+    const isInValid =
+      !raceData.value.length || !raceData.surface.length || !raceData.date;
     setIsInvalidForm(isInValid);
     return isInValid;
   };
@@ -66,7 +66,9 @@ const HorseModal = ({
             <p className={styles['horse-modal__title--subtitle']}>
               {horseData.genre && <span>{traductGenre(horseData.genre)}</span>}
               <span>
-                {`${new Date().getFullYear() - (horseData.year || 0)} años`}
+                {` ${
+                  new Date().getFullYear() - (horseData.year || 0)
+                } años `}
               </span>
               {horseData.father &&
                 horseData.mother &&
