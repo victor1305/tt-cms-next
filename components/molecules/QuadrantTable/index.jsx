@@ -208,31 +208,31 @@ const QuadrantTable = ({ dataRaces, token }) => {
     const getSortableValue = (horse, key) => {
       if (key === 'R.Med')
         return (
-          horse.thisRaceData.weight - getMediumValue(horse.values, data.surface)
+          horse.thisRaceData.weight - (getMediumValue(horse.values, data.surface))
         );
       if (key === 'R.Abs')
         return (
           horse.thisRaceData.weight -
-          getFirstValue(getBestValue(horse.values, data.surface).value)
+          getFirstValue(getBestValue(horse.values, data.surface)?.value)
         );
       if (key === 'R.10')
         return (
           horse.thisRaceData.weight -
           getFirstValue(
-            getBestValue(horse.values.slice(-10), data.surface).value
+            getBestValue(horse.values.slice(-10), data.surface)?.value
           )
         );
       if (key === 'R.5')
         return (
           horse.thisRaceData.weight -
           getFirstValue(
-            getBestValue(horse.values.slice(-5), data.surface).value
+            getBestValue(horse.values.slice(-5), data.surface)?.value
           )
         );
       if (key === 'R.Ult')
         return (
           horse.thisRaceData.weight -
-          getFirstValue(horse.values[horse.values.length - 1].value)
+          getFirstValue(horse.values[horse.values.length - 1]?.value)
         );
       if (key === 'R.Edu') return getFirstValue(horse.thisRaceData.driveRest);
     };
