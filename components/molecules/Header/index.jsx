@@ -17,13 +17,12 @@ const Header = () => {
   const closeSesion = () => {
     try {
       document.cookie = 'token=;Path=/;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+      router.push('/login');
     } catch (e) {
       console.log(
         'removeCookie: Error al borrar la cookie: ' + JSON.stringify(e)
       );
     }
-
-    router.push('/login');
   };
 
   useEffect(() => {
