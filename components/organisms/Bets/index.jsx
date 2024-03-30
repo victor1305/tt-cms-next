@@ -107,6 +107,7 @@ const Bets = ({ betsData, racecoursesList, stakesList, codesList, token }) => {
           setStartDate={setStartDate}
         >
           <MonthlyPlanner
+            setIsLoading={setIsLoading}
             isLoading={isLoading}
             monthDays={data.monthDays}
             data={data.dataByDay}

@@ -88,6 +88,7 @@ const MyBets = ({ betsData, id, token }) => {
           setStartDate={setStartDate}
         >
           <MonthlyPlanner
+            setIsLoading={setIsLoading}
             isLoading={isLoading}
             monthDays={data.monthDays}
             data={data.dataByDay}

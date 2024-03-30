@@ -12,6 +12,12 @@
   font-weight: bold;
   font-size: 14px;
 
+  &__spinner {
+    width: 200px;
+    display: flex;
+    justify-content: flex-start;
+  }
+
   &__logo {
     text-decoration: none;
     margin-left: 100px;

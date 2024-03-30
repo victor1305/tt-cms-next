@@ -11,6 +11,7 @@ import styles from './MonthPlanning.module.scss';
 
 const MonthlyPlanner = ({
   isLoading,
+  setIsLoading,
   monthDays,
   data,
   monthSelected,
@@ -108,8 +109,9 @@ const MonthlyPlanner = ({
                             <Link
                               href={{
                                 pathname: `/${path}/${yearSelected}-${monthSelected}-${dayNumber}`,
-                                query: { numb: Math.random() * 100}
+                                query: { numb: Math.random() * 100 }
                               }}
+                              onClick={() => setIsLoading(true)}
                             >
                               <span className="card-link">Detalle</span>
                             </Link>
