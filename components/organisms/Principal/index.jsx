@@ -33,11 +33,7 @@ const Principal = () => {
             <div key={index}>
               <Link
                 onClick={() => setIsLoading(true)}
-                href={`${elm.to}${
-                  !elm.to.includes('cuadrantes')
-                    ? `?numb=${Math.random() * 100}`
-                    : ''
-                }`}
+                href={`${elm.to}${`?numb=${Math.random() * 100}`}`}
               >
                 <button className="btn btn--primary">{elm.copy}</button>
               </Link>

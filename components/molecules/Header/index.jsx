@@ -68,11 +68,7 @@ const Header = () => {
               {navbarPaths.map((elm, index) => (
                 <li key={index} className={styles['navbar__item']}>
                   <Link
-                    href={`${elm.to}${
-                      !elm.to.includes('cuadrantes')
-                        ? `?numb=${Math.random() * 100}`
-                        : ''
-                    }`}
+                    href={`${elm.to}${`?numb=${Math.random() * 100}`}`}
                     className={`${styles['navbar__link']} ${
                       pathname.includes(elm.to) && elm.to !== '/'
                         ? styles['navbar__link--active']
