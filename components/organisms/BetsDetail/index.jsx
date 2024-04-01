@@ -6,14 +6,21 @@ import { DotLoader } from 'react-spinners';
 import { deleteBet } from '@/lib/https';
 import { numberToMonth } from '@/lib/utils';
 
-import { getBetsByDay } from '@/app/lib/https';
-
 import { CardBet } from '@/components/atoms';
 import { BetModal, ConfirmModal, ProfileBox } from '@/components/molecules';
 
 import styles from './BetsDetail.module.scss';
 
-const BetsDetail = ({ dayData, token, day, month, year, racecourses, stakes, codes }) => {
+const BetsDetail = ({
+  dayData,
+  token,
+  day,
+  month,
+  year,
+  racecourses,
+  stakes,
+  codes
+}) => {
   const [dataByDay, setDataByDay] = useState(dayData);
   const [isModalBetOpen, setIsModalBetOpen] = useState(false);
   const [isModalConfirmOpen, setIsModalConfirmOpen] = useState(false);
@@ -21,9 +28,19 @@ const BetsDetail = ({ dayData, token, day, month, year, racecourses, stakes, cod
   const [isLoading, setIsLoading] = useState(false);
   const [cardToDelete, setCardToDelete] = useState(null);
 
-  const formSubmitted = () => {
-    setIsModalBetOpen(false);
-    reloadBets();
+  const formSubmitted = (bet) => {
+    setDataByDay((currentDataByDay) => {
+      const index = currentDataByDay.findIndex((item) => item._id === bet._id);
+      if (index !== -1) {
+        return [
+          ...currentDataByDay.slice(0, index),
+          bet,
+          ...currentDataByDay.slice(index + 1)
+        ];
+      }
+      return currentDataByDay;
+    });
+    setIsLoading(false);
   };
 
   const openModal = (id) => {
@@ -34,20 +51,10 @@ const BetsDetail = ({ dayData, token, day, month, year, racecourses, stakes, cod
 
   const deleteCard = async () => {
     setIsModalConfirmOpen(false);
-    await deleteBet({ id: cardToDelete, token });
-    setCardToDelete(null);
-    reloadBets();
-  };
-
-  const reloadBets = async () => {
     setIsLoading(true);
-    const res = await getBetsByDay({
-      day,
-      month,
-      year,
-      token
-    });
-    setDataByDay(res);
+    await deleteBet({ id: cardToDelete, token });
+    setDataByDay(dataByDay.filter((elm) => elm._id !== cardToDelete));
+    setCardToDelete(null);
     setIsLoading(false);
   };
 
@@ -94,7 +101,7 @@ const BetsDetail = ({ dayData, token, day, month, year, racecourses, stakes, cod
         resetBet={setBetToEdit}
         isEdit={true}
         show={isModalBetOpen}
-        {...{ token, formSubmitted, racecourses, stakes, codes }}
+        {...{ token, formSubmitted, setIsLoading, racecourses, stakes, codes }}
       />
       <ConfirmModal
         text={'¿Estás seguro de borrar esta apuesta?'}

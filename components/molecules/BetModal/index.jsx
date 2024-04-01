@@ -21,6 +21,7 @@ const BetModal = ({
   formData,
   handleClose,
   isEdit,
+  setIsLoading,
   show,
   token,
   resetBet,
@@ -60,13 +61,15 @@ const BetModal = ({
 
   const saveData = async () => {
     if (validateForm()) return;
+    closeModal();
+    setIsLoading(true);
     if (isEdit) {
-      await editBet({ bet: form, token, betId: form._id });
+      const res = await editBet({ bet: form, token, betId: form._id });
+      formSubmitted(res);
     } else {
-      await createBet({ bet: form, token });
+      const res = await createBet({ bet: form, token });
+      formSubmitted(res);
     }
-    formSubmitted();
-    resetForm();
   };
 
   useEffect(() => {

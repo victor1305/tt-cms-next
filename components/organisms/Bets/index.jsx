@@ -52,9 +52,21 @@ const Bets = ({ betsData, racecoursesList, stakesList, codesList, token }) => {
     }
   ];
 
-  const formSubmitted = () => {
-    setIsModalBetOpen(false);
-    reloadBets();
+  const formSubmitted = (bet) => {
+    const newBetsData = [...betsData];
+    newBetsData.push(bet);
+
+    // if (isEdit) {
+    //   const index = newBetsData.findIndex((item) => item._id === bet._id);
+    //   if (index !== -1) {
+    //     newBetsData[index] = bet;
+    //   }
+    // } else {
+    //   newBetsData.push(bet);
+    // }
+
+    setData(getDataFormatted(newBetsData, startDate));
+    setIsLoading(false);
   };
 
   const parameterSubmitted = () => {
@@ -122,7 +134,7 @@ const Bets = ({ betsData, racecoursesList, stakesList, codesList, token }) => {
         handleClose={() => setIsModalBetOpen(false)}
         isEdit={false}
         show={isModalBetOpen}
-        {...{ token, racecourses, stakes, codes, formSubmitted }}
+        {...{ token, racecourses, stakes, codes, formSubmitted, setIsLoading }}
       />
       <ParameterModal
         handleClose={() => setIsModalParameterOpen(false)}
