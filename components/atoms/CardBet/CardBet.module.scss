@@ -3,8 +3,9 @@
 .card-bet {
   border-radius: 5px;
   padding: 10px 20px 20px;
-  width: 210px;
-  margin: 15px;
+  max-width: 240px;
+  // width: 210px;
+  // margin: 15px;
   background-color: rgb(23, 23, 26) !important;
   background: linear-gradient(rgb(34, 37, 49) 0%, rgba(34, 37, 49, 0) 200px);
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);

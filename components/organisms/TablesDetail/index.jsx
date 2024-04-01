@@ -19,10 +19,10 @@ const TablesDetail = ({ tablesData, date, token }) => {
 
   const validateIfPastDate = (dateStr) => {
     const date = new Date(
-      dateStr.substring(4, 8),
-      dateStr.substring(2, 4) - 1,
-      dateStr.substring(0, 2)
-    );
+      dateStr.substring(0, 4),
+      dateStr.substring(5, 7) - 1,
+      dateStr.substring(8)
+      );
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
     return date < yesterday;

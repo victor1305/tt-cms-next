@@ -10,6 +10,7 @@ import styles from './TablesMonthPlanning.module.scss';
 
 const TablesMonthPlanning = ({
   isLoading,
+  setIsLoading,
   monthSelected,
   yearSelected,
   data,
@@ -87,6 +88,7 @@ const TablesMonthPlanning = ({
                                 pathname: `/detalle-cuadrante/${yearSelected}-${monthSelected}-${dayNumber}`,
                                 query: { numb: Math.random() * 100 }
                               }}
+                              onClick={() =>  setIsLoading(true)}
                             >
                               <span className="card-link">Ver Tablas</span>
                             </Link>

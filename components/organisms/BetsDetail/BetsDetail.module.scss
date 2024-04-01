@@ -17,9 +17,14 @@
     color: $color-neutral-00;
 
     &--box {
-      display: flex;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: repeat(
+        auto-fit,
+        minmax(240px, 1fr)
+      );
+      gap: 20px;
       margin-bottom: 20px;
+      padding: 0 20px;
     }
 
     &--no-bets {

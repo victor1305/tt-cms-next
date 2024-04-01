@@ -82,6 +82,7 @@ const Tables = ({ numberOfRacesByMonth, token }) => {
             {...{
               data,
               monthDays,
+              setIsLoading,
               isLoading,
               monthSelected: getMonthFormatted(startDate.getMonth()),
               yearSelected: year
