@@ -56,15 +56,6 @@ const Bets = ({ betsData, racecoursesList, stakesList, codesList, token }) => {
     const newBetsData = [...betsData];
     newBetsData.push(bet);
 
-    // if (isEdit) {
-    //   const index = newBetsData.findIndex((item) => item._id === bet._id);
-    //   if (index !== -1) {
-    //     newBetsData[index] = bet;
-    //   }
-    // } else {
-    //   newBetsData.push(bet);
-    // }
-
     setData(getDataFormatted(newBetsData, startDate));
     setIsLoading(false);
   };

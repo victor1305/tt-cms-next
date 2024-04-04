@@ -85,7 +85,7 @@ const TablesMonthPlanning = ({
                             </p>
                             <Link
                               href={{
-                                pathname: `/detalle-cuadrante/${yearSelected}-${monthSelected}-${dayNumber}`,
+                                pathname: `/detalle-cuadrante/${yearSelected}-${monthSelected}-${dayNumber < 10 ? `0${dayNumber}` : dayNumber}`,
                                 query: { numb: Math.random() * 100 }
                               }}
                               onClick={() =>  setIsLoading(true)}

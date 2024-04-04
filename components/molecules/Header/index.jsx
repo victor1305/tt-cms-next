@@ -22,14 +22,13 @@ const Header = () => {
       router.push('/login');
     } catch (e) {
       console.log(
-        'removeCookie: Error al borrar la cookie: ' + JSON.stringify(e)
+        'removeCookie: Error al borrar la cookie o en la redirección: ' + JSON.stringify(e)
       );
     }
   };
 
   const clickLink = (copy) => {
     setIsLoading(true);
-
     if (copy === 'Cerrar Sesión') {
       closeSesion();
     } else {
@@ -74,7 +73,7 @@ const Header = () => {
                         ? styles['navbar__link--active']
                         : ''
                     }`}
-                    onClick={clickLink}
+                    onClick={() => clickLink(elm.copy)}
                   >
                     {elm.copy}
                   </Link>
