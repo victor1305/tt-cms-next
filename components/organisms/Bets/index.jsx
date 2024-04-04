@@ -31,6 +31,7 @@ const Bets = ({ betsData, racecoursesList, stakesList, codesList, token }) => {
   const [isModalBetOpen, setIsModalBetOpen] = useState(false);
   const [isModalParameterOpen, setIsModalParameterOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [bets, setBets] = useState(betsData);
   const [data, setData] = useState(getDataFormatted(betsData, startDate));
   const [racecourses, setRacecourses] = useState(racecoursesList);
   const [stakes, setStakes] = useState(stakesList);
@@ -53,9 +54,9 @@ const Bets = ({ betsData, racecoursesList, stakesList, codesList, token }) => {
   ];
 
   const formSubmitted = (bet) => {
-    const newBetsData = [...betsData];
+    const newBetsData = [...bets];
     newBetsData.push(bet);
-
+    setBets(currentBets => [...currentBets, bet]);
     setData(getDataFormatted(newBetsData, startDate));
     setIsLoading(false);
   };
