@@ -1,5 +1,9 @@
 import { Krub, Allura } from 'next/font/google';
 
+import { navbarPaths } from '@/lib/constants';
+
+import { getUserData } from '@/app/api/user';
+
 import { Header } from '@/components/molecules';
 
 import '@/styles/globals.scss';
@@ -25,11 +29,17 @@ const allura = Allura({
   variable: '--font-allura'
 });
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const user = await getUserData();
+  let paths = navbarPaths;
+  if (user && user.data.role !== 'admin') {
+    paths = paths.filter((elm) => !elm.to.toLowerCase().includes('client'));
+  }
+
   return (
     <html lang="es" className={`${krub.variable} ${allura.variable}`}>
       <body>
-        <Header />
+        {user && <Header navbarPaths={paths} />}
         <div className="main">{children}</div>
       </body>
     </html>

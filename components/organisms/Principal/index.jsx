@@ -5,11 +5,9 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import { DotLoader } from 'react-spinners';
 
-import { sections } from '@/lib/constants';
-
 import styles from './Principal.module.scss';
 
-const Principal = () => {
+const Principal = ({ menu }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   return (
@@ -29,7 +27,7 @@ const Principal = () => {
 
       {!isLoading ? (
         <div className={styles['home-container__buttons-container']}>
-          {sections.map((elm, index) => (
+          {menu.map((elm, index) => (
             <div key={index}>
               <Link
                 onClick={() => setIsLoading(true)}

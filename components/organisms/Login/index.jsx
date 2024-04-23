@@ -25,7 +25,6 @@ const Login = () => {
       const data = await loginUser(userState);
       document.cookie = `token=${data.token};path=/`; 
       router.push('/'); 
-      setIsLoading(false); 
     } catch (error) {
       console.log(error);
       updateErrorMsg(
@@ -33,7 +32,6 @@ const Login = () => {
           ? error.response.data.error
           : 'Hubo un error al conectar con la Base de Datos'
       );
-      setIsLoading(false);
     }
   };
 

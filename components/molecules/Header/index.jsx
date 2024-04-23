@@ -1,30 +1,23 @@
 'use client';
 
+import Cookies from 'js-cookie';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { FiMenu, FiX } from 'react-icons/fi';
 import { DotLoader } from 'react-spinners';
 
-import { navbarPaths } from '@/lib/constants';
-
 import styles from './Header.module.scss';
 
-const Header = () => {
+const Header = ({ navbarPaths }) => {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showNavBar, setShowNavBar] = useState(pathname);
   const router = useRouter();
   const closeSesion = () => {
-    try {
-      document.cookie = 'token=;Path=/;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-      router.push('/login');
-    } catch (e) {
-      console.log(
-        'removeCookie: Error al borrar la cookie o en la redirección: ' + JSON.stringify(e)
-      );
-    }
+    Cookies.remove('token');
+    router.push('/login');
   };
 
   const clickLink = (copy) => {

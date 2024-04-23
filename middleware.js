@@ -7,40 +7,45 @@ export function middleware(request) {
 
   if (url.pathname.startsWith('/login')) {
     if (token) {
+      url.pathname = '/';
+      return NextResponse.redirect(url);
+    }
+  } else {
+    if (token) {
       try {
         const tokenData = jwtDecode(token.value);
         if (tokenData.exp < Date.now() / 1000) {
-          // Token caducado, borra el token y sigue en login.
+          url.pathname = '/login';
           const response = NextResponse.redirect(url);
-          response.cookies.delete('token'); // Borra el token caducado.
+          response.cookies.delete('token');
           return response;
-        } else if (url.pathname === '/login') {
-          // Token válido, redirige a home.
+        }
+
+        if (
+          url.pathname.startsWith('/clientes') &&
+          tokenData.role !== 'admin'
+        ) {
           url.pathname = '/';
           return NextResponse.redirect(url);
         }
       } catch (error) {
-        console.error('Error decoding token:', error);
-        // En caso de error en la decodificación, considera borrar el token también.
+        url.pathname = '/login';
         const response = NextResponse.redirect(url);
-        response.cookies.delete('token'); // Borra el token potencialmente inválido.
+        response.cookies.delete('token');
         return response;
       }
-    }
-  } else {
-    if (!token) {
+    } else {
       url.pathname = '/login';
       return NextResponse.redirect(url);
     }
   }
-
   return NextResponse.next();
 }
 
 export const config = {
   matcher: [
     '/',
-    '/login', // Asegúrate de incluir login en el matcher.
+    '/login',
     '/apuestas',
     '/apuestas/(.*)',
     '/clientes',
