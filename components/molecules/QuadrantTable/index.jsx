@@ -479,7 +479,7 @@ const QuadrantTable = ({ dataRaces, token }) => {
                               cursor: 'pointer'
                             }}
                           >
-                            {race.value}
+                            {race.value ? race.value : 'sv'}
                           </span>
                           {index < elm.values.slice(-6).length - 1 ? (
                             <span style={{ color: '#fff' }}> - </span>
