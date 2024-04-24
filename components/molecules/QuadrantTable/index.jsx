@@ -208,7 +208,7 @@ const QuadrantTable = ({ dataRaces, token }) => {
     const getSortableValue = (horse, key) => {
       if (key === 'R.Med')
         return (
-          horse.thisRaceData.weight - (getMediumValue(horse.values, data.surface))
+          horse.thisRaceData.weight - getMediumValue(horse.values, data.surface)
         );
       if (key === 'R.Abs')
         return (
@@ -479,7 +479,11 @@ const QuadrantTable = ({ dataRaces, token }) => {
                               cursor: 'pointer'
                             }}
                           >
-                            {race.value ? race.value : 'sv'}
+                            {race.value
+                              ? race.value
+                              : !race.value && !race.position
+                              ? 'Ret'
+                              : 'sv'}
                           </span>
                           {index < elm.values.slice(-6).length - 1 ? (
                             <span style={{ color: '#fff' }}> - </span>
