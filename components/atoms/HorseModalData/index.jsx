@@ -5,7 +5,8 @@ import {
   getCorde,
   getRaceType,
   getTerrainType,
-  isoDatetoddmmyyyy
+  isoDatetoddmmyyyy,
+  setTerrainColor
 } from '@/lib/utils';
 
 import styles from './HorseModalData.module.scss';
@@ -21,6 +22,7 @@ const HorseModalData = ({ horseData }) => (
             <th className={styles['horse-data-table--td-name']}>Hipódromo</th>
             <th>Dist</th>
             <th>D</th>
+            <th>Jockey</th>
             <th>Terreno</th>
             <th>Tipo</th>
             <th>Pos</th>
@@ -40,12 +42,19 @@ const HorseModalData = ({ horseData }) => (
                 <td className={styles['horse-data-table--td-name']}>
                   {formatName(elm.racecourse)}
                 </td>
-                <td>{elm.distance}</td>
+                <td>{elm.distance}</td>{console.log(elm)}
                 <td>{getCorde(elm.corde)}</td>
-                <td>{getTerrainType(elm)}</td>
+                <td>{formatName(elm.jockey)}</td>
+                <td style={{color: setTerrainColor(getTerrainType(elm)), fontWeight: 'bold'}}>{getTerrainType(elm)}</td>
                 <td>{getRaceType(elm.raceType)}</td>
                 <td>{elm.position}</td>
-                <td>{elm.value}</td>
+                <td>
+                  {!elm.value && !elm.position
+                    ? 'Ret'
+                    : !elm.value
+                    ? 'sv'
+                    : elm.value}
+                </td>
               </tr>
             ))}
         </tbody>

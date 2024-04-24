@@ -3,7 +3,7 @@
 .horse-data-table {
   border-collapse: collapse;
   border: 1px solid $color-secondary-80;
-  width: 600px;
+  max-width: 80vw;
   margin: 0 auto;
 
   &--head-tr {
