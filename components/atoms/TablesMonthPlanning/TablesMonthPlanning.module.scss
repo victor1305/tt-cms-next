@@ -33,6 +33,19 @@
       border-bottom: 1px solid $color-secondary-80;
       min-height: 120px;
 
+      &__container {
+        display: flex;
+        align-items: center;
+
+        &--space {
+          justify-content: space-between;
+        }
+
+        &--right {
+          justify-content: flex-end;
+        }
+      }
+
       &--date {
         color: $color-neutral-00;
         text-align: right;

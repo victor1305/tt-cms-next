@@ -10,11 +10,13 @@ import styles from './TablesMonthPlanning.module.scss';
 
 const TablesMonthPlanning = ({
   isLoading,
+  dayDataNotesByMonth,
   setIsLoading,
   monthSelected,
   yearSelected,
   data,
-  monthDays
+  monthDays,
+  isAdmin
 }) => {
   useEffect(() => {
     setTimeout(() => {
@@ -70,11 +72,62 @@ const TablesMonthPlanning = ({
                     <div>
                       {data[dayNumber.toString()] ? (
                         <>
-                          <p
-                            className={`${styles['monthly-planner__days__day--date']} ${styles['monthly-planner__days__day--no-bets']}`}
+                          <div
+                            className={`${
+                              styles['monthly-planner__days__day__container']
+                            } ${
+                              isAdmin && dayDataNotesByMonth.length &&
+                              dayDataNotesByMonth.find(
+                                (elm) => elm.day === dayNumber
+                              )
+                                ? styles[
+                                    'monthly-planner__days__day__container--space'
+                                  ]
+                                : styles[
+                                    'monthly-planner__days__day__container--right'
+                                  ]
+                            }`}
                           >
-                            {dayNumber > 0 && dayNumber}
-                          </p>
+                            {isAdmin && dayDataNotesByMonth.length > 0 &&
+                              dayDataNotesByMonth.map((elm) => {
+                                if (elm.day === dayNumber) {
+                                  return (
+                                    <p key={elm._id}>
+                                      <span
+                                        className={
+                                          elm.notes ? 'text-win' : 'text-loss'
+                                        }
+                                      >
+                                        A
+                                      </span>
+                                      <span> </span>
+                                      <span
+                                        className={
+                                          elm.saved ? 'text-win' : 'text-loss'
+                                        }
+                                      >
+                                        P
+                                      </span>
+                                      <span> </span>
+                                      <span
+                                        className={
+                                          elm.corrections
+                                            ? 'text-win'
+                                            : 'text-loss'
+                                        }
+                                      >
+                                        C
+                                      </span>
+                                    </p>
+                                  );
+                                }
+                              })}
+                            <p
+                              className={`${styles['monthly-planner__days__day--date']} ${styles['monthly-planner__days__day--no-bets']}`}
+                            >
+                              {dayNumber > 0 && dayNumber}
+                            </p>
+                          </div>
                           <div>
                             <p
                               className={
@@ -85,10 +138,12 @@ const TablesMonthPlanning = ({
                             </p>
                             <Link
                               href={{
-                                pathname: `/detalle-cuadrante/${yearSelected}-${monthSelected}-${dayNumber < 10 ? `0${dayNumber}` : dayNumber}`,
+                                pathname: `/detalle-cuadrante/${yearSelected}-${monthSelected}-${
+                                  dayNumber < 10 ? `0${dayNumber}` : dayNumber
+                                }`,
                                 query: { numb: Math.random() * 100 }
                               }}
-                              onClick={() =>  setIsLoading(true)}
+                              onClick={() => setIsLoading(true)}
                             >
                               <span className="card-link">Ver Tablas</span>
                             </Link>

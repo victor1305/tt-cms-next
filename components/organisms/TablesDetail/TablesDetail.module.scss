@@ -1,5 +1,25 @@
+@import '@/styles/principals/_colors.scss';
+
 .tables-detail {
+  &__control-box {
+    padding-left: 50px;
+    
+    div {
+      padding-bottom: 12px;
+      color: $color-neutral-00;
+      font-size: 16px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+
+      input {
+        margin-right: 8px;
+        cursor: pointer;
+      }
+    }
+  }
   &__tables {
     padding-top: 50px;
+    margin: 0 auto;
   }
 }

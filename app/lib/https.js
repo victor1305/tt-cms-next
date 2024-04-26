@@ -112,6 +112,22 @@ export const getTablesByDay = async ({ month, year, day }) => {
   return data;
 };
 
+export const getDayNotesByDay = async ({ month, year, day }) => {
+  const url = `${apiRacesUrl}cargar-estados-por-dia/${year}-${month}-${day}`;
+  const res = await fetch(url, { next: { revalidate: 0 } });
+  const data  = await res.json();
+
+  return data;
+};
+
+export const getDayNotesByMonth = async ({ month, year }) => {
+  const url = `${apiRacesUrl}cargar-estados-por-mes/${year}/${month}`;
+  const res = await fetch(url, { next: { revalidate: 0 } });
+  const data  = await res.json();
+
+  return data;
+};
+
 export const getPaymentsListByMonth = async ({ year, month }) => {
   const url = `${apiClientsUrl}lista-pagos/${year}/${month}`;
   const res = await fetch(url, { next: { revalidate: 0 } });

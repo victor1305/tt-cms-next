@@ -5,6 +5,7 @@ import { getNumberOfRacesByMonth } from '@/lib/https';
 import { Tables } from '@/components/organisms';
 
 import { getUserData } from '../api/user';
+import { getDayNotesByMonth } from '../lib/https';
 
 export default async function Page() {
   const data = await getUserData();
@@ -19,5 +20,10 @@ export default async function Page() {
     month: monthNumber
   });
 
-  return <Tables {...{  numberOfRacesByMonth, token }} />;
+  const dayDataNotesByMonth = await getDayNotesByMonth({
+    year,
+    month: monthNumber
+  });
+
+  return <Tables {...{ numberOfRacesByMonth, token, dayDataNotesByMonth, isAdmin: data.data.role === 'admin' }} />;
 }

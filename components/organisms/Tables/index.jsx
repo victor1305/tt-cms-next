@@ -19,7 +19,7 @@ import {
 import 'react-datepicker/dist/react-datepicker.css';
 import styles from './Tables.module.scss';
 
-const Tables = ({ numberOfRacesByMonth, token }) => {
+const Tables = ({ numberOfRacesByMonth, token, dayDataNotesByMonth, isAdmin }) => {
   const [startDate, setStartDate] = useState(new Date());
   const [isModalQuadrantOpen, setIsModalQuadrantOpen] = useState(false);
   const [data, setData] = useState(numberOfRacesByMonth);
@@ -85,7 +85,9 @@ const Tables = ({ numberOfRacesByMonth, token }) => {
               setIsLoading,
               isLoading,
               monthSelected: getMonthFormatted(startDate.getMonth()),
-              yearSelected: year
+              yearSelected: year,
+              dayDataNotesByMonth,
+              isAdmin
             }}
           />
         </ProfileBox>
