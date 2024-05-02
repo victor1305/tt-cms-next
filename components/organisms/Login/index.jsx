@@ -25,8 +25,10 @@ const Login = () => {
       const data = await loginUser(userState);
       document.cookie = `token=${data.token};path=/`; 
       router.push('/'); 
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
       updateErrorMsg(
         error.response && error.response.data && error.response.data.error
           ? error.response.data.error

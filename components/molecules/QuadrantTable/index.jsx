@@ -630,7 +630,11 @@ const QuadrantTable = ({ dataRaces, token }) => {
                   </span>
                 )}
               </td>
-              <td>
+              <td
+                style={{
+                  fontWeight: elm.thisRaceData.isBoldDrive ? '900' : '400'
+                }}
+              >
                 {elm.thisRaceData.driveRest?.toLowerCase().includes('deb')
                   ? 'Deb'
                   : elm.thisRaceData.driveRest || ''}

@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
 import { NextResponse } from 'next/server';
 
@@ -15,9 +16,9 @@ export function middleware(request) {
       try {
         const tokenData = jwtDecode(token.value);
         if (tokenData.exp < Date.now() / 1000) {
+          Cookies.remove('token');
           url.pathname = '/login';
           const response = NextResponse.redirect(url);
-          response.cookies.delete('token');
           return response;
         }
 
@@ -29,9 +30,9 @@ export function middleware(request) {
           return NextResponse.redirect(url);
         }
       } catch (error) {
+        Cookies.remove('token');
         url.pathname = '/login';
         const response = NextResponse.redirect(url);
-        response.cookies.delete('token');
         return response;
       }
     } else {

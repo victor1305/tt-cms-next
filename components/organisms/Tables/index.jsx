@@ -9,6 +9,8 @@ import {
   numberToMonth
 } from '@/lib/utils';
 
+import { getDayNotesByMonth } from '@/app/lib/https';
+
 import { TablesMonthPlanning } from '@/components/atoms';
 import {
   BtnsBox,
@@ -19,10 +21,16 @@ import {
 import 'react-datepicker/dist/react-datepicker.css';
 import styles from './Tables.module.scss';
 
-const Tables = ({ numberOfRacesByMonth, token, dayDataNotesByMonth, isAdmin }) => {
+const Tables = ({
+  numberOfRacesByMonth,
+  token,
+  dayDataNotesByMonth,
+  isAdmin
+}) => {
   const [startDate, setStartDate] = useState(new Date());
   const [isModalQuadrantOpen, setIsModalQuadrantOpen] = useState(false);
   const [data, setData] = useState(numberOfRacesByMonth);
+  const [dayDataNotes, setDayDataNotes] = useState(dayDataNotesByMonth);
   const [monthDays, setMonthDays] = useState(
     calculateNumberDaysOnMonthForTable(startDate)
   );
@@ -53,6 +61,14 @@ const Tables = ({ numberOfRacesByMonth, token, dayDataNotesByMonth, isAdmin }) =
     if (res) {
       setData(res);
       setMonthDays(calculateNumberDaysOnMonthForTable(startDate));
+    }
+    const resDayNotes = await getDayNotesByMonth({
+      year,
+      month: startDate.getMonth()
+    });
+
+    if (resDayNotes) {
+      setDayDataNotes(resDayNotes);
     }
     setIsLoading(false);
   }, [startDate, year]);
@@ -86,7 +102,7 @@ const Tables = ({ numberOfRacesByMonth, token, dayDataNotesByMonth, isAdmin }) =
               isLoading,
               monthSelected: getMonthFormatted(startDate.getMonth()),
               yearSelected: year,
-              dayDataNotesByMonth,
+              dayDataNotesByMonth: dayDataNotes,
               isAdmin
             }}
           />

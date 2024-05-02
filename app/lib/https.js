@@ -121,9 +121,9 @@ export const getDayNotesByDay = async ({ month, year, day }) => {
 };
 
 export const getDayNotesByMonth = async ({ month, year }) => {
-  const url = `${apiRacesUrl}cargar-estados-por-mes/${year}/${month}`;
+  const url = `${apiRacesUrl}cargar-estados-por-mes/${year}/${month + 1}`;
   const res = await fetch(url, { next: { revalidate: 0 } });
-  const data  = await res.json();
+  const data = await res.json();
 
   return data;
 };
