@@ -43,7 +43,11 @@ const TablesDetail = ({ tablesData, date, token, dayData }) => {
 
   const updateActions = async (actionType) => {
     setIsLoading(true);
-    const data = await editDayNote({ parameter: actionType, token, id: dayData._id });
+    const data = await editDayNote({
+      parameter: actionType,
+      token,
+      id: dayData._id
+    });
     setDayDataNotes(data.data);
     setIsLoading(false);
   };
@@ -86,7 +90,9 @@ const TablesDetail = ({ tablesData, date, token, dayData }) => {
           </div>
         </div>
       )}
-      <BtnsBox {...{ btnsList, justify: 'flex-end', width: '1100px' }} />
+      {!dayDataNotes.saved && (
+        <BtnsBox {...{ btnsList, justify: 'flex-end', width: '1100px' }} />
+      )}
       {!isLoading ? (
         <div className={styles['tables-detail__tables']}>
           {racecoursesCodes.map((elm) =>

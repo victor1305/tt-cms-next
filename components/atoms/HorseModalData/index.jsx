@@ -21,6 +21,7 @@ const HorseModalData = ({ horseData }) => (
             <th className={styles['horse-data-table--td-name']}>Fecha</th>
             <th className={styles['horse-data-table--td-name']}>Hipódromo</th>
             <th>Dist</th>
+            <th>Comp</th>
             <th>D</th>
             <th>Jockey</th>
             <th>Terreno</th>
@@ -42,10 +43,24 @@ const HorseModalData = ({ horseData }) => (
                 <td className={styles['horse-data-table--td-name']}>
                   {formatName(elm.racecourse)}
                 </td>
-                <td>{elm.distance}</td>{console.log(elm)}
+                <td>{elm.distance}</td>
+                <td>
+                  {`${elm.complements} ${elm.bonnet ? 'TAP' : ''} ${
+                    elm.attacheLangue ? 'L.A.' : ''
+                  }`
+                    .split(' ')
+                    .join(' - ')}
+                </td>
                 <td>{getCorde(elm.corde)}</td>
                 <td>{formatName(elm.jockey)}</td>
-                <td style={{color: setTerrainColor(getTerrainType(elm)), fontWeight: 'bold'}}>{getTerrainType(elm)}</td>
+                <td
+                  style={{
+                    color: setTerrainColor(getTerrainType(elm)),
+                    fontWeight: 'bold'
+                  }}
+                >
+                  {getTerrainType(elm)}
+                </td>
                 <td>{getRaceType(elm.raceType)}</td>
                 <td>{elm.position}</td>
                 <td>

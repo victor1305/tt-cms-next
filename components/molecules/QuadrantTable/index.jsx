@@ -449,7 +449,13 @@ const QuadrantTable = ({ dataRaces, token }) => {
                   <span className={styles['quadrant-table--suppl']}>Suppl</span>
                 )}
               </td>
-              <td>{elm.thisRaceData.complements}</td>
+              <td>
+                {`${elm.thisRaceData.complements} ${
+                  elm.thisRaceData.bonnet ? 'TAP' : ''
+                } ${elm.thisRaceData.attacheLangue ? 'L.A.' : ''}`
+                  .split(' ')
+                  .join(' - ')}
+              </td>
               <td>{elm.thisRaceData.box}</td>
               <td>{new Date().getFullYear() - elm.year}</td>
               <td>{elm.thisRaceData.weight}</td>

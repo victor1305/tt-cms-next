@@ -25,5 +25,14 @@ export default async function Page() {
     month: monthNumber
   });
 
-  return <Tables {...{ numberOfRacesByMonth, token, dayDataNotesByMonth, isAdmin: data.data.role === 'admin' }} />;
+  return (
+    <Tables
+      {...{
+        numberOfRacesByMonth,
+        token,
+        dayDataNotesByMonth,
+        isAdmin: data.data.role === 'admin'
+      }}
+    />
+  );
 }

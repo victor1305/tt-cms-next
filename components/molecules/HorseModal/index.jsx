@@ -49,7 +49,7 @@ const HorseModal = ({
 
   return (
     <BasicModal
-      {...{ show, handleClose: closeModal, hasXToClose: true, width: '700px' }}
+      {...{ show, handleClose: closeModal, hasXToClose: true, width: '900px' }}
     >
       <div className={styles['horse-modal']}>
         <div className={styles['horse-modal__title']}>
