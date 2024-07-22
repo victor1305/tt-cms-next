@@ -49,6 +49,7 @@ const HorseModalData = ({ horseData }) => (
                     elm.attacheLangue ? 'L.A.' : ''
                   }`
                     .split(' ')
+                    .filter(elm => elm !== '')
                     .join(' - ')}
                 </td>
                 <td>{getCorde(elm.corde)}</td>
