@@ -452,7 +452,7 @@ const QuadrantTable = ({ dataRaces, token }) => {
               <td>
                 {`${elm.thisRaceData.complements} ${
                   elm.thisRaceData.bonnet ? 'TAP' : ''
-                } ${elm.thisRaceData.attacheLangue ? 'L.A.' : ''}`
+                }`
                   .split(' ')
                   .filter(elm => elm !== '')
                   .join(' - ')}

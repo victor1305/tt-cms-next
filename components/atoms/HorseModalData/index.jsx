@@ -45,9 +45,7 @@ const HorseModalData = ({ horseData }) => (
                 </td>
                 <td>{elm.distance}</td>
                 <td>
-                  {`${elm.complements} ${elm.bonnet ? 'TAP' : ''} ${
-                    elm.attacheLangue ? 'L.A.' : ''
-                  }`
+                  {`${elm.complements || ''} ${elm.bonnet ? 'TAP' : ''}`
                     .split(' ')
                     .filter(elm => elm !== '')
                     .join(' - ')}
