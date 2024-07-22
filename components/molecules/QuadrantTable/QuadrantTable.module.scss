@@ -4,7 +4,7 @@
   margin: 0 auto 60px;
   align-items: center;
   max-width: 1700px;
-  width:100vw;
+  width: 100vw;
   padding-bottom: 15px;
   overflow-x: auto;
 
@@ -17,7 +17,7 @@
     background: $color-primary-60;
     border-radius: 20px;
   }
-  
+
   &::-webkit-scrollbar-track {
     background: $color-primary-05;
     border-radius: 20px;
@@ -89,6 +89,16 @@
   }
   &--e {
     width: 30px;
+  }
+  &--icons {
+    span {
+      margin-right: 5px;
+      margin-top: 15px;
+      color: $color-gold;
+    }
+    :last-of-type {
+      margin-right: 0;
+    }
   }
   &--jockey {
     width: 120px;

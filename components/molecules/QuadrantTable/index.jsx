@@ -1,7 +1,9 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { BiSolidDownArrow, BiSolidUpArrow } from 'react-icons/bi';
+import { BiSolidDownArrow, BiSolidUpArrow, BiPopsicle } from 'react-icons/bi';
+import { FaRegCircleXmark, FaRegCirclePause } from 'react-icons/fa6';
+import { TbCone } from 'react-icons/tb';
 
 import { HorseModal, ValueDetailModal } from '@/components/molecules';
 
@@ -324,7 +326,7 @@ const QuadrantTable = ({ dataRaces, token }) => {
             >
               Caballo
             </th>
-            <th className={styles['quadrant-table--e']}>E</th>
+            <th className={styles['quadrant-table--eIcons']}>E</th>
             <th className={styles['quadrant-table--e']}>Box</th>
             <th className={styles['quadrant-table--e']}>Edad</th>
             <th className={styles['quadrant-table--e']}>Peso</th>
@@ -449,13 +451,29 @@ const QuadrantTable = ({ dataRaces, token }) => {
                   <span className={styles['quadrant-table--suppl']}>Suppl</span>
                 )}
               </td>
-              <td>
-                {`${elm.thisRaceData.complements} ${
-                  elm.thisRaceData.bonnet ? 'TAP' : ''
-                }`
-                  .split(' ')
-                  .filter(elm => elm !== '')
-                  .join(' - ')}
+              <td className={styles['quadrant-table--icons']}>
+                {elm.thisRaceData.complements &&
+                  elm.thisRaceData.complements === 'CA' && (
+                    <span>
+                      <FaRegCirclePause />
+                    </span>
+                  )}
+                {elm.thisRaceData.complements &&
+                  elm.thisRaceData.complements === 'BR' && (
+                    <span>
+                      <FaRegCircleXmark />
+                    </span>
+                  )}
+                {elm.thisRaceData.bonnet && (
+                  <span>
+                    <TbCone />
+                  </span>
+                )}
+                {elm.thisRaceData.attacheLangue && (
+                  <span>
+                    <BiPopsicle />
+                  </span>
+                )}
               </td>
               <td>{elm.thisRaceData.box}</td>
               <td>{new Date().getFullYear() - elm.year}</td>

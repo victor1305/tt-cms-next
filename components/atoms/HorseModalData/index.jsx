@@ -1,5 +1,9 @@
 'use client';
 
+import { BiPopsicle } from 'react-icons/bi';
+import { FaRegCircleXmark, FaRegCirclePause } from 'react-icons/fa6';
+import { TbCone } from 'react-icons/tb';
+
 import {
   formatName,
   getCorde,
@@ -44,11 +48,29 @@ const HorseModalData = ({ horseData }) => (
                   {formatName(elm.racecourse)}
                 </td>
                 <td>{elm.distance}</td>
-                <td>
-                  {`${elm.complements || ''} ${elm.bonnet ? 'TAP' : ''}`
-                    .split(' ')
-                    .filter(elm => elm !== '')
-                    .join(' - ')}
+                <td className={styles['horse-data-table--icons']}>
+                {elm.complements &&
+                  elm.complements === 'CA' && (
+                    <span>
+                      <FaRegCirclePause />
+                    </span>
+                  )}
+                {elm.complements &&
+                  elm.complements === 'BR' && (
+                    <span>
+                      <FaRegCircleXmark />
+                    </span>
+                  )}
+                {elm.bonnet && (
+                  <span>
+                    <TbCone />
+                  </span>
+                )}
+                {elm.attacheLangue && (
+                  <span>
+                    <BiPopsicle />
+                  </span>
+                )}
                 </td>
                 <td>{getCorde(elm.corde)}</td>
                 <td>{formatName(elm.jockey)}</td>

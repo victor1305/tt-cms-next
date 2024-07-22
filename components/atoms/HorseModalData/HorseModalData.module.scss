@@ -17,6 +17,17 @@
     padding-left: 5px !important;
   }
 
+  &--icons {
+    span {
+      margin-right: 5px;
+      margin-top: 15px;
+      color: $color-primary-100;
+    }
+    :last-of-type {
+      margin-right: 0;
+    }
+  }
+
   td {
     border: 1px solid $color-secondary-80;
   }
@@ -46,4 +57,3 @@
     }
   }
 }
-
