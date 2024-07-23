@@ -2,7 +2,8 @@
 
 .horse-modal {
   padding: 10px;
-  height: 90vh;
+  height: 100%;
+  max-height: 90%;
   overflow-y: auto;
 
   h4 {

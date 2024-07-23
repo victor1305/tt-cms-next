@@ -1,0 +1,29 @@
+@import '@/styles/principals/_colors.scss';
+
+.horses-searcher-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  label {
+    font-size: 20px;
+    font-weight: 500;
+    color: $color-neutral-00;
+    margin-right: 10px;
+  }
+
+  > div {
+    margin-right: 30px;
+  }
+
+  input,
+  select {
+    padding: 5px;
+    margin: 5px 0;
+    font-size: 15px;
+    background-color: $color-neutral-00;
+    border: 1px solid $color-secondary-60;
+    color: $color-secondary-60;
+    border-radius: 3px;
+  }
+}

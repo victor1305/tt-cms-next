@@ -1,0 +1,18 @@
+@import '@/styles/principals/_colors.scss';
+
+.horses-searcher {
+  height: calc(100vh - 75px);
+
+  &__search {
+    margin: 60px 30px 20px;
+  }
+
+  &__search-results {
+    margin: 60px 30px 0px;
+    color: $color-neutral-00;
+
+    > p {
+      text-align: center;
+    }
+  }
+}

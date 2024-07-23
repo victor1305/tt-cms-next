@@ -21,7 +21,16 @@
 
   &__multi-group {
     display: flex;
-    justify-content: space-between;
+    
+    > div {
+      margin-right: 80px;
+
+      &:last-of-type {
+        margin-right: 0;
+      }
+    }
+
+
   }
   
   &__form-box {

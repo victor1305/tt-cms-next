@@ -6,6 +6,8 @@ import ConfirmModal from './ConfirmModal';
 import CreateQuadrantModal from './CreateQuadrantModal';
 import Header from './Header';
 import HorseModal from './HorseModal';
+import HorsesSearcherForm from './HorsesSearcherForm';
+import HorsesSearcherResults from './HorsesSearcherResults';
 import ParameterModal from './ParameterModal';
 import PaymentModal from './PaymentModal';
 import PaymentsBox from './PaymentsBox';
@@ -25,6 +27,8 @@ export {
   CreateQuadrantModal,
   Header,
   HorseModal,
+  HorsesSearcherForm,
+  HorsesSearcherResults,
   ParameterModal,
   PaymentModal,
   PaymentsBox,

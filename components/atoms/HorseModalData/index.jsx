@@ -49,28 +49,26 @@ const HorseModalData = ({ horseData }) => (
                 </td>
                 <td>{elm.distance}</td>
                 <td className={styles['horse-data-table--icons']}>
-                {elm.complements &&
-                  elm.complements === 'CA' && (
+                  {elm.complements && elm.complements === 'CA' && (
                     <span>
                       <FaRegCirclePause />
                     </span>
                   )}
-                {elm.complements &&
-                  elm.complements === 'BR' && (
+                  {elm.complements && elm.complements === 'BR' && (
                     <span>
                       <FaRegCircleXmark />
                     </span>
                   )}
-                {elm.bonnet && (
-                  <span>
-                    <TbCone />
-                  </span>
-                )}
-                {elm.attacheLangue && (
-                  <span>
-                    <BiPopsicle />
-                  </span>
-                )}
+                  {elm.bonnet && (
+                    <span>
+                      <TbCone />
+                    </span>
+                  )}
+                  {elm.attacheLangue && (
+                    <span>
+                      <BiPopsicle />
+                    </span>
+                  )}
                 </td>
                 <td>{getCorde(elm.corde)}</td>
                 <td>{formatName(elm.jockey)}</td>
@@ -80,7 +78,7 @@ const HorseModalData = ({ horseData }) => (
                     fontWeight: 'bold'
                   }}
                 >
-                  {getTerrainType(elm)}
+                  {formatName(getTerrainType(elm))}
                 </td>
                 <td>{getRaceType(elm.raceType)}</td>
                 <td>{elm.position}</td>

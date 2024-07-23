@@ -55,20 +55,23 @@ const HorseModal = ({
         <div className={styles['horse-modal__title']}>
           <div>
             <h4 className={styles['horse-modal__title--principal']}>
-              {horseData.thisRaceData.race}
-              {String(horseData.thisRaceData.number.toString()).padStart(
-                2,
-                '0'
-              )}{' '}
-              {formatName(horseData.name)} - {horseData.thisRaceData.weight}Kg -
-              Cajón {horseData.thisRaceData.box}
+              {horseData.thisRaceData ? horseData.thisRaceData.race : ''}
+              {horseData.thisRaceData
+                ? String(horseData.thisRaceData.number.toString()).padStart(
+                    2,
+                    '0'
+                  )
+                : ''}{' '}
+              {formatName(horseData.name)}{' '}
+              {horseData.thisRaceData
+                ? ` - ${horseData.thisRaceData.weight}Kg -
+              Cajón ${horseData.thisRaceData.box}`
+                : ''}
             </h4>
             <p className={styles['horse-modal__title--subtitle']}>
               {horseData.genre && <span>{traductGenre(horseData.genre)}</span>}
               <span>
-                {` ${
-                  new Date().getFullYear() - (horseData.year || 0)
-                } años `}
+                {` ${new Date().getFullYear() - (horseData.year || 0)} años `}
               </span>
               {horseData.father &&
                 horseData.mother &&
@@ -81,13 +84,18 @@ const HorseModal = ({
                   </span>
                 )}
             </p>
-            <p>
-              Jockey: <span>{formatName(horseData.thisRaceData.jockey)}</span>
-            </p>
-            <p>
-              Preparador:{' '}
-              <span>{formatName(horseData.thisRaceData.trainer)}</span>
-            </p>
+            {horseData.thisRaceData && (
+              <>
+                <p>
+                  Jockey:{' '}
+                  <span>{formatName(horseData.thisRaceData.jockey)}</span>
+                </p>
+                <p>
+                  Preparador:{' '}
+                  <span>{formatName(horseData.thisRaceData.trainer)}</span>
+                </p>
+              </>
+            )}
           </div>
           <div>
             <button
