@@ -1,8 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import DatePicker from 'react-datepicker';
 import { TbEdit } from 'react-icons/tb';
+import 'react-datepicker/dist/react-datepicker.css';
 
+import { configDatePicker } from '@/lib/datePickerConfig';
 import { editValue } from '@/lib/https';
 
 import { BasicModal } from '@/components/atoms';
@@ -17,15 +20,35 @@ const ValueDetailModal = ({
   formSubmitted
 }) => {
   const [isEditMode, setIsEditMode] = useState(false);
-  const [value, setValue] = useState(data.value);
+  const [horseData, setHorseData] = useState(data);
+  const [field, setField] = useState(null);
+
+  const dataFields = {
+    value: 'valor',
+    distance: 'distancia',
+    racecourse: 'hipódromo',
+    jockey: 'jockey',
+    trainer: 'preparación',
+    mud: 'barro',
+    measurement: 'medición',
+    surface: 'superficie',
+    box: 'cajón',
+    position: 'posición final',
+    complements: 'complementos',
+    corde: 'cuerda',
+    raceType: 'tipo de carrera',
+    date: 'fecha'
+  };
 
   const closeModal = () => {
     setIsEditMode(false);
+    setField(null);
+    setHorseData({});
     handleClose();
   };
 
   const showDateFormatted = () => {
-    const date = new Date(data.date);
+    const date = new Date(horseData.date);
     const year = date.getFullYear();
 
     if (year >= 2000) {
@@ -42,30 +65,141 @@ const ValueDetailModal = ({
   };
 
   const saveData = async () => {
-    if (value.length) {
-      const res = await editValue({ value, token, id: data._id });
-      formSubmitted(value, res._id);
-      closeModal();
-    }
+    const res = await editValue({
+      value: horseData[field],
+      field,
+      token,
+      id: horseData._id
+    });
+    formSubmitted(horseData, res._id);
+    closeModal();
   };
 
   useEffect(() => {
-    setValue(data.value);
-  }, [data.value]);
+    setHorseData(data);
+  }, [data]);
 
   return (
     <BasicModal {...{ show, handleClose: closeModal, hasXToClose: true }}>
       {isEditMode ? (
         <div className={styles['value-detail-modal']}>
-          <h4>Detalle de valor</h4>
+          <h4>Editar {dataFields[field]}</h4>
           <div className={styles['value-detail-modal__form-box']}>
-            <label>Valor: *</label>
-            <input
-              type="text"
-              name="value"
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-            />
+            {(field === 'value' ||
+              field === 'racecourse' ||
+              field === 'jockey' ||
+              field === 'trainer') && (
+              <>
+                <label>{dataFields[field]}: *</label>
+                <input
+                  type="text"
+                  name={dataFields[field]}
+                  value={horseData[field]}
+                  onChange={(e) =>
+                    setHorseData({ ...horseData, [field]: e.target.value })
+                  }
+                />
+              </>
+            )}
+            {(field === 'distance' ||
+              field === 'box' ||
+              field === 'position') && (
+              <>
+                <label>{dataFields[field]}: *</label>
+                <input
+                  type="number"
+                  name={dataFields[field]}
+                  value={horseData[field]}
+                  onChange={(e) =>
+                    setHorseData({ ...horseData, [field]: e.target.value })
+                  }
+                />
+              </>
+            )}
+            {field === 'mud' && (
+              <select
+                onChange={(e) =>
+                  setHorseData({ ...horseData, mud: e.target.value })
+                }
+              >
+                <option value={false}>No</option>
+                <option value={true}>Sí</option>
+              </select>
+            )}
+            {field === 'surface' && (
+              <select
+                onChange={(e) =>
+                  setHorseData({ ...horseData, surface: e.target.value })
+                }
+              >
+                <option>PSF</option>
+                <option>Hierba</option>
+              </select>
+            )}
+            {field === 'measurement' && (
+              <select
+                onChange={(e) =>
+                  setHorseData({ ...horseData, measurement: e.target.value })
+                }
+              >
+                <option value={''}>--- Selecciona la medición ---</option>
+                <option>Leger</option>
+                <option>Bon leger</option>
+                <option>Bon</option>
+                <option>Bon souple</option>
+                <option>Souple</option>
+                <option>Tres souple</option>
+                <option>Collant</option>
+                <option>Lourd</option>
+                <option>Tres lourd</option>
+              </select>
+            )}
+            {field === 'raceType' && (
+              <select
+                onChange={(e) =>
+                  setHorseData({ ...horseData, raceType: e.target.value })
+                }
+              >
+                <option value={''}>--- Selecciona un Tipo ---</option>
+                <option>Condición</option>
+                <option>Handicap</option>
+                <option>Reclamar</option>
+              </select>
+            )}
+            {field === 'corde' && (
+              <select
+                onChange={(e) =>
+                  setHorseData({ ...horseData, corde: e.target.value })
+                }
+              >
+                <option value={''}>--- Selecciona una Dirección ---</option>
+                <option>Mano derecha</option>
+                <option>Mano izquierda</option>
+                <option>Linea recta</option>
+              </select>
+            )}
+            {field === 'complements' && (
+              <select
+                onChange={(e) =>
+                  setHorseData({ ...horseData, complements: e.target.value })
+                }
+              >
+                <option value={''}>--- Selecciona un Accesorio ---</option>
+                <option>BR</option>
+                <option>CA</option>
+              </select>
+            )}
+            {field === 'date' && (
+              <DatePicker
+                {...configDatePicker}
+                className="date-input"
+                selected={Date.parse(horseData.date)}
+                onChange={(e) =>
+                  setHorseData({ ...horseData, date: e || new Date() })
+                }
+                showPopperArrow={false}
+              />
+            )}
           </div>
           <div className={styles['value-detail-modal__btn-box']}>
             <button className="form-btn form-btn--primary" onClick={saveData}>
@@ -76,70 +210,159 @@ const ValueDetailModal = ({
       ) : (
         <div className={styles['value-detail-modal']}>
           <h4>Detalle de valor</h4>
-          {data.racecourse && (
             <p>
-              Hipodrómo: <span>{data.racecourse}</span>
+              Hipodrómo: <span>{data.racecourse}</span>{' '}
+              <button
+                onClick={() => {
+                  setField('racecourse');
+                  setIsEditMode(true);
+                }}
+              >
+                <TbEdit color="#ffc107" size={18} />
+              </button>
             </p>
-          )}
-          {data.distance && (
             <p>
-              Distancia: <span>{data.distance}</span>
+              Distancia: <span>{data.distance}</span>{' '}
+              <button
+                onClick={() => {
+                  setField('distance');
+                  setIsEditMode(true);
+                }}
+              >
+                <TbEdit color="#ffc107" size={18} />
+              </button>
             </p>
-          )}
-          {data.jockey && (
             <p>
-              Jockey: <span>{data.jockey}</span>
+              Jockey: <span>{data.jockey}</span>{' '}
+              <button
+                onClick={() => {
+                  setField('jockey');
+                  setIsEditMode(true);
+                }}
+              >
+                <TbEdit color="#ffc107" size={18} />
+              </button>
             </p>
-          )}
-          {data.trainer && (
             <p>
-              Preparación: <span>{data.trainer}</span>
+              Preparación: <span>{data.trainer}</span>{' '}
+              <button
+                onClick={() => {
+                  setField('trainer');
+                  setIsEditMode(true);
+                }}
+              >
+                <TbEdit color="#ffc107" size={18} />
+              </button>
             </p>
-          )}
           <p>
-            Barro / Pista lenta: <span>{data.mud ? 'Sí' : 'No'}</span>
-          </p>
-          {data.measurement && (
-            <p>
-              Medición: <span>{data.measurement}</span>
-            </p>
-          )}
-          <p>
-            Superficie: <span>{data.surface}</span>
-          </p>
-          <p className={styles['value-detail-modal--value']}>
-            Valor: <span>{data.value}</span>{' '}
-            <button onClick={() => setIsEditMode(true)}>
+            Barro / Pista lenta: <span>{data.mud ? 'Sí' : 'No'}</span>{' '}
+            <button
+              onClick={() => {
+                setField('mud');
+                setIsEditMode(true);
+              }}
+            >
               <TbEdit color="#ffc107" size={18} />
             </button>
           </p>
-          {data.position && (
             <p>
-              Posición: <span>{data.position}</span>
+              Medición: <span>{data.measurement}</span>{' '}
+              <button
+                onClick={() => {
+                  setField('measurement');
+                  setIsEditMode(true);
+                }}
+              >
+                <TbEdit color="#ffc107" size={18} />
+              </button>
             </p>
-          )}
-          {data.box && (
-            <p>
-              Cajón: <span>{data.box}</span>
-            </p>
-          )}
-          {data.complements && (
-            <p>
-              Complementos: <span>{data.complements}</span>
-            </p>
-          )}
-          {data.corde && (
-            <p>
-              Cuerda: <span>{data.corde}</span>
-            </p>
-          )}
-          {data.raceType && (
-            <p>
-              Tipo carrera: <span>{data.raceType}</span>
-            </p>
-          )}
           <p>
-            Fecha: <span>{showDateFormatted()}</span>
+            Superficie: <span>{data.surface}</span>{' '}
+            <button
+              onClick={() => {
+                setField('surface');
+                setIsEditMode(true);
+              }}
+            >
+              <TbEdit color="#ffc107" size={18} />
+            </button>
+          </p>
+          <p className={styles['value-detail-modal--value']}>
+            Valor: <span>{data.value}</span>{' '}
+            <button
+              onClick={() => {
+                setField('value');
+                setIsEditMode(true);
+              }}
+            >
+              <TbEdit color="#ffc107" size={18} />
+            </button>
+          </p>
+            <p>
+              Posición: <span>{data.position}</span>{' '}
+              <button
+                onClick={() => {
+                  setField('position');
+                  setIsEditMode(true);
+                }}
+              >
+                <TbEdit color="#ffc107" size={18} />
+              </button>
+            </p>
+            <p>
+              Cajón: <span>{data.box}</span>{' '}
+              <button
+                onClick={() => {
+                  setField('box');
+                  setIsEditMode(true);
+                }}
+              >
+                <TbEdit color="#ffc107" size={18} />
+              </button>
+            </p>
+          <p>
+            Complementos: <span>{data.complements}</span>{' '}
+            <button
+              onClick={() => {
+                setField('complements');
+                setIsEditMode(true);
+              }}
+            >
+              <TbEdit color="#ffc107" size={18} />
+            </button>
+          </p>
+            <p>
+              Cuerda: <span>{data.corde}</span>{' '}
+              <button
+                onClick={() => {
+                  setField('corde');
+                  setIsEditMode(true);
+                }}
+              >
+                <TbEdit color="#ffc107" size={18} />
+              </button>
+            </p>
+            <p>
+              Tipo carrera: <span>{data.raceType}</span>{' '}
+              <button
+                onClick={() => {
+                  setField('raceType');
+                  setIsEditMode(true);
+                }}
+              >
+                <TbEdit color="#ffc107" size={18} />
+              </button>
+            </p>
+          <p>
+            Fecha: <span>{showDateFormatted()}</span>{' '}
+            <button
+              onClick={() => {
+                setField('date');
+                setIsEditMode(true);
+              }}
+            >
+              <TbEdit color="#ffc107" size={18} />
+            </button>
           </p>
         </div>
       )}

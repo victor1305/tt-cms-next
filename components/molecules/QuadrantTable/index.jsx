@@ -106,7 +106,7 @@ const QuadrantTable = ({ dataRaces, token }) => {
     newData.horses = newData.horses.map((horse) => ({
       ...horse,
       values: horse.values.map((race) =>
-        race._id === id ? { ...race, value: newValue } : race
+        race._id === id ? { ...newValue } : race
       )
     }));
     setData(newData);
