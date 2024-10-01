@@ -6,7 +6,8 @@ import { TbEdit } from 'react-icons/tb';
 import 'react-datepicker/dist/react-datepicker.css';
 
 import { configDatePicker } from '@/lib/datePickerConfig';
-import { editValue } from '@/lib/https';
+import { editValue, removeValue } from '@/lib/https';
+import { isoDatetoddmmyyyy } from '@/lib/utils';
 
 import { BasicModal } from '@/components/atoms';
 
@@ -17,9 +18,11 @@ const ValueDetailModal = ({
   handleClose,
   show,
   token,
-  formSubmitted
+  formSubmitted,
+  removeValueFromData
 }) => {
   const [isEditMode, setIsEditMode] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
   const [horseData, setHorseData] = useState(data);
   const [field, setField] = useState(null);
 
@@ -75,6 +78,17 @@ const ValueDetailModal = ({
     closeModal();
   };
 
+  const removeRace = async () => {
+    await removeValue({
+      horseId: horseData.horse,
+      token,
+      valueId: horseData._id
+    });
+    removeValueFromData(horseData._id);
+    closeModal();
+    setIsDelete(false);
+  };
+
   useEffect(() => {
     setHorseData(data);
   }, [data]);
@@ -83,7 +97,7 @@ const ValueDetailModal = ({
     <BasicModal {...{ show, handleClose: closeModal, hasXToClose: true }}>
       {isEditMode ? (
         <div className={styles['value-detail-modal']}>
-          <h4>Editar {dataFields[field]}</h4>
+          <h4 className={styles['value-detail-modal--h4-edit']}>Editar {dataFields[field]}</h4>
           <div className={styles['value-detail-modal__form-box']}>
             {(field === 'value' ||
               field === 'racecourse' ||
@@ -209,161 +223,190 @@ const ValueDetailModal = ({
         </div>
       ) : (
         <div className={styles['value-detail-modal']}>
-          <h4>Detalle de valor</h4>
-            <p>
-              Hipodrómo: <span>{data.racecourse}</span>{' '}
-              <button
-                onClick={() => {
-                  setField('racecourse');
-                  setIsEditMode(true);
-                }}
-              >
-                <TbEdit color="#ffc107" size={18} />
-              </button>
-            </p>
-            <p>
-              Distancia: <span>{data.distance}</span>{' '}
-              <button
-                onClick={() => {
-                  setField('distance');
-                  setIsEditMode(true);
-                }}
-              >
-                <TbEdit color="#ffc107" size={18} />
-              </button>
-            </p>
-            <p>
-              Jockey: <span>{data.jockey}</span>{' '}
-              <button
-                onClick={() => {
-                  setField('jockey');
-                  setIsEditMode(true);
-                }}
-              >
-                <TbEdit color="#ffc107" size={18} />
-              </button>
-            </p>
-            <p>
-              Preparación: <span>{data.trainer}</span>{' '}
-              <button
-                onClick={() => {
-                  setField('trainer');
-                  setIsEditMode(true);
-                }}
-              >
-                <TbEdit color="#ffc107" size={18} />
-              </button>
-            </p>
-          <p>
-            Barro / Pista lenta: <span>{data.mud ? 'Sí' : 'No'}</span>{' '}
+          <div className={styles['value-detail-modal--title']}>
+            <h4>Detalle de valor</h4>
             <button
-              onClick={() => {
-                setField('mud');
-                setIsEditMode(true);
-              }}
+              onClick={() => setIsDelete(!isDelete)}
+              className={`form-btn ${
+                isDelete ? 'form-btn--primary' : 'form-btn--danger'
+              }`}
             >
-              <TbEdit color="#ffc107" size={18} />
+              {isDelete ? 'Ver detalle' : 'Eliminar valor'}
             </button>
-          </p>
-            <p>
-              Medición: <span>{data.measurement}</span>{' '}
+          </div>
+          {isDelete ? (
+            <div className={styles['value-detail-modal--remove-section']}>
+              <h6>
+                ¿Quieres borrar la carrera del {isoDatetoddmmyyyy(horseData.date)} con
+                valor: {data.value}?
+              </h6>
+              <div>
               <button
-                onClick={() => {
-                  setField('measurement');
-                  setIsEditMode(true);
-                }}
+                className="form-btn form-btn--danger"
+                onClick={removeRace}
               >
-                <TbEdit color="#ffc107" size={18} />
+                Borrar
               </button>
-            </p>
-          <p>
-            Superficie: <span>{data.surface}</span>{' '}
-            <button
-              onClick={() => {
-                setField('surface');
-                setIsEditMode(true);
-              }}
-            >
-              <TbEdit color="#ffc107" size={18} />
-            </button>
-          </p>
-          <p className={styles['value-detail-modal--value']}>
-            Valor: <span>{data.value}</span>{' '}
-            <button
-              onClick={() => {
-                setField('value');
-                setIsEditMode(true);
-              }}
-            >
-              <TbEdit color="#ffc107" size={18} />
-            </button>
-          </p>
-            <p>
-              Posición: <span>{data.position}</span>{' '}
-              <button
-                onClick={() => {
-                  setField('position');
-                  setIsEditMode(true);
-                }}
-              >
-                <TbEdit color="#ffc107" size={18} />
-              </button>
-            </p>
-            <p>
-              Cajón: <span>{data.box}</span>{' '}
-              <button
-                onClick={() => {
-                  setField('box');
-                  setIsEditMode(true);
-                }}
-              >
-                <TbEdit color="#ffc107" size={18} />
-              </button>
-            </p>
-          <p>
-            Complementos: <span>{data.complements}</span>{' '}
-            <button
-              onClick={() => {
-                setField('complements');
-                setIsEditMode(true);
-              }}
-            >
-              <TbEdit color="#ffc107" size={18} />
-            </button>
-          </p>
-            <p>
-              Cuerda: <span>{data.corde}</span>{' '}
-              <button
-                onClick={() => {
-                  setField('corde');
-                  setIsEditMode(true);
-                }}
-              >
-                <TbEdit color="#ffc107" size={18} />
-              </button>
-            </p>
-            <p>
-              Tipo carrera: <span>{data.raceType}</span>{' '}
-              <button
-                onClick={() => {
-                  setField('raceType');
-                  setIsEditMode(true);
-                }}
-              >
-                <TbEdit color="#ffc107" size={18} />
-              </button>
-            </p>
-          <p>
-            Fecha: <span>{showDateFormatted()}</span>{' '}
-            <button
-              onClick={() => {
-                setField('date');
-                setIsEditMode(true);
-              }}
-            >
-              <TbEdit color="#ffc107" size={18} />
-            </button>
-          </p>
+              </div>
+            </div>
+          ) : (
+            <>
+              <p>
+                Hipodrómo: <span>{data.racecourse}</span>{' '}
+                <button
+                  onClick={() => {
+                    setField('racecourse');
+                    setIsEditMode(true);
+                  }}
+                >
+                  <TbEdit color="#ffc107" size={18} />
+                </button>
+              </p>
+              <p>
+                Distancia: <span>{data.distance}</span>{' '}
+                <button
+                  onClick={() => {
+                    setField('distance');
+                    setIsEditMode(true);
+                  }}
+                >
+                  <TbEdit color="#ffc107" size={18} />
+                </button>
+              </p>
+              <p>
+                Jockey: <span>{data.jockey}</span>{' '}
+                <button
+                  onClick={() => {
+                    setField('jockey');
+                    setIsEditMode(true);
+                  }}
+                >
+                  <TbEdit color="#ffc107" size={18} />
+                </button>
+              </p>
+              <p>
+                Preparación: <span>{data.trainer}</span>{' '}
+                <button
+                  onClick={() => {
+                    setField('trainer');
+                    setIsEditMode(true);
+                  }}
+                >
+                  <TbEdit color="#ffc107" size={18} />
+                </button>
+              </p>
+              <p>
+                Barro / Pista lenta: <span>{data.mud ? 'Sí' : 'No'}</span>{' '}
+                <button
+                  onClick={() => {
+                    setField('mud');
+                    setIsEditMode(true);
+                  }}
+                >
+                  <TbEdit color="#ffc107" size={18} />
+                </button>
+              </p>
+              <p>
+                Medición: <span>{data.measurement}</span>{' '}
+                <button
+                  onClick={() => {
+                    setField('measurement');
+                    setIsEditMode(true);
+                  }}
+                >
+                  <TbEdit color="#ffc107" size={18} />
+                </button>
+              </p>
+              <p>
+                Superficie: <span>{data.surface}</span>{' '}
+                <button
+                  onClick={() => {
+                    setField('surface');
+                    setIsEditMode(true);
+                  }}
+                >
+                  <TbEdit color="#ffc107" size={18} />
+                </button>
+              </p>
+              <p className={styles['value-detail-modal--value']}>
+                Valor: <span>{data.value}</span>{' '}
+                <button
+                  onClick={() => {
+                    setField('value');
+                    setIsEditMode(true);
+                  }}
+                >
+                  <TbEdit color="#ffc107" size={18} />
+                </button>
+              </p>
+              <p>
+                Posición: <span>{data.position}</span>{' '}
+                <button
+                  onClick={() => {
+                    setField('position');
+                    setIsEditMode(true);
+                  }}
+                >
+                  <TbEdit color="#ffc107" size={18} />
+                </button>
+              </p>
+              <p>
+                Cajón: <span>{data.box}</span>{' '}
+                <button
+                  onClick={() => {
+                    setField('box');
+                    setIsEditMode(true);
+                  }}
+                >
+                  <TbEdit color="#ffc107" size={18} />
+                </button>
+              </p>
+              <p>
+                Complementos: <span>{data.complements}</span>{' '}
+                <button
+                  onClick={() => {
+                    setField('complements');
+                    setIsEditMode(true);
+                  }}
+                >
+                  <TbEdit color="#ffc107" size={18} />
+                </button>
+              </p>
+              <p>
+                Cuerda: <span>{data.corde}</span>{' '}
+                <button
+                  onClick={() => {
+                    setField('corde');
+                    setIsEditMode(true);
+                  }}
+                >
+                  <TbEdit color="#ffc107" size={18} />
+                </button>
+              </p>
+              <p>
+                Tipo carrera: <span>{data.raceType}</span>{' '}
+                <button
+                  onClick={() => {
+                    setField('raceType');
+                    setIsEditMode(true);
+                  }}
+                >
+                  <TbEdit color="#ffc107" size={18} />
+                </button>
+              </p>
+              <p>
+                Fecha: <span>{showDateFormatted()}</span>{' '}
+                <button
+                  onClick={() => {
+                    setField('date');
+                    setIsEditMode(true);
+                  }}
+                >
+                  <TbEdit color="#ffc107" size={18} />
+                </button>
+              </p>
+            </>
+          )}
         </div>
       )}
     </BasicModal>

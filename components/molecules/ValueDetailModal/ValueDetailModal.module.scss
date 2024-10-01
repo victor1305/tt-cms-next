@@ -3,7 +3,41 @@
 .value-detail-modal {
   padding: 10px;
 
-  h4 {
+  &--title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid $color-secondary-60;
+    margin-bottom: 20px;
+    margin-top: 0;
+
+    h4 {
+      font-size: 20px;
+      font-weight: 700;
+      color: $color-primary-100;
+      margin: 0;
+    }
+
+    button {
+      width: 130px;
+    }
+  }
+
+  &--remove-section {
+    h6 {
+      font-size: 16px;
+      font-weight: 300;
+      text-align: center;
+    }
+
+    > div {
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  &--h4-edit {
     font-size: 20px;
     font-weight: 700;
     padding-bottom: 20px;

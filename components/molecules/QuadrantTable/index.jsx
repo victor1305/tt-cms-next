@@ -112,6 +112,17 @@ const QuadrantTable = ({ dataRaces, token }) => {
     setData(newData);
   };
 
+  const removeValue = (id) => {
+  const newData = {
+    ...data,
+    horses: data.horses.map((horse) => ({
+      ...horse,
+      values: horse.values.filter((race) => race._id !== id)
+    }))
+  };
+  setData(newData);
+};
+
   const horseSubmitted = (newRace) => {
     const updatedHorses = data.horses.map((horse) => {
       if (horse._id === horseData._id) {
@@ -687,7 +698,8 @@ const QuadrantTable = ({ dataRaces, token }) => {
             token,
             show: valueDetailModalOppened,
             data: valueDetailData,
-            formSubmitted
+            formSubmitted,
+            removeValueFromData: removeValue
           }}
         />
       )}

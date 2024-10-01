@@ -199,7 +199,7 @@ const HorseModalForm = ({ raceData, setRaceData, isInvalidForm, saveData }) => (
     </div>
     {isInvalidForm && (
       <p className={styles['horse-modal-form__form-error']}>
-        Los campos valor, barro y superfice son obligatorios
+        Los campos valor, fecha, barro y superfice son obligatorios
       </p>
     )}
     <div className={styles['horse-modal-form__btn-box']}>

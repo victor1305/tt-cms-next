@@ -20,17 +20,17 @@
 
   &__logo {
     text-decoration: none;
-    margin-left: 100px;
+    margin-left: 60px;
     font-family: var(--font-allura);
     font-size: 44px;
   }
 
   &__links {
     display: grid;
-    grid-template-columns: repeat(8, auto);
+    grid-template-columns: repeat(4, auto);
     grid-gap: 20px;
     list-style: none;
-    margin-right: 100px;
+    margin-right: 60px;
   }
 
   &__link {

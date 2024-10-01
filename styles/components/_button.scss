@@ -40,6 +40,15 @@
       background-color: $color-primary-80;
     }
   }
+
+  &--danger {
+    background-color: $color-error;
+    color: $color-neutral-00;
+
+    &:hover {
+      background-color: $color-loss;
+    }
+  }
 }
 
 .card-btn {
