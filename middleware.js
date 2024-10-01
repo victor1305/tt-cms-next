@@ -8,6 +8,14 @@ export function middleware(request) {
 
   if (url.pathname.startsWith('/login')) {
     if (token) {
+      const tokenData = jwtDecode(token.value);
+      if (tokenData.exp < Date.now() / 1000) {
+        Cookies.remove('token');
+        url.pathname = '/login';
+        const response = NextResponse.redirect(url);
+        return response;
+      }
+
       url.pathname = '/';
       return NextResponse.redirect(url);
     }
@@ -60,6 +68,8 @@ export const config = {
     '/perfil',
     '/perfil/(.*)',
     '/stats',
-    '/stats/(.*)'
+    '/stats/(.*)',
+    '/cuadrantes',
+    '/detalle-cuadrante/(.*)'
   ]
 };
