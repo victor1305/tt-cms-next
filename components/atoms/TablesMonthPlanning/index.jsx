@@ -103,7 +103,7 @@ const TablesMonthPlanning = ({
                                       <span> </span>
                                       <span
                                         className={
-                                          elm.saved ? 'text-win' : 'text-loss'
+                                          elm?.saved ? 'text-win' : 'text-loss'
                                         }
                                       >
                                         P

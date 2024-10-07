@@ -90,7 +90,7 @@ const TablesDetail = ({ tablesData, date, token, dayData }) => {
           </div>
         </div>
       )}
-      {!dayDataNotes.saved && (
+      {!dayDataNotes?.saved && (
         <BtnsBox {...{ btnsList, justify: 'flex-end', width: '1100px' }} />
       )}
       {!isLoading ? (
