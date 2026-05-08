@@ -148,11 +148,14 @@ const QuadrantTable = ({ dataRaces, token }) => {
     });
   };
 
-  const formatName = (name) =>
-    name
+  const formatName = (name) => {
+    if (!name) return '';
+
+    return name
       .toLowerCase()
       .replace(/(^\w)|([-\s]\w)/g, (match) => match.toUpperCase())
       .replace(/(^|\. *)([a-z])/g, (match) => match.toUpperCase());
+  };
 
   const getBestValue = (values, preferredSurface) => {
     const matchingSurfaceValues = values.filter(
